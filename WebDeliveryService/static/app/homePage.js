@@ -5,7 +5,7 @@ Vue.component("home-page", {
 		    }
 	},
 	template: ` 
-	   <div id="home">
+	    <div id="home">
 
 <div class="jumbotron">
   <div class="container text-center">
@@ -33,7 +33,7 @@ Vue.component("home-page", {
         <li><a href="#">Contact</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-       <li><a href="#/login"><span class="glyphicon glyphicon-user"></span> Prijavite se/Registrujte se</a></li>
+        <li v-on:click="login"><span class="glyphicon glyphicon-user"></span> Prijavite se/Registrujte se</a></li>
       </ul>
     </div>
   </div>
@@ -91,6 +91,24 @@ Vue.component("home-page", {
   </div>
 </div><br><br>
 
+
+<div class="bg-modal">
+  <div class="modal-content">
+    <div class="login-title">
+      <h3 style="color: rgb(161, 89, 21); font-weight: bolder;"> PRISTUPITE VAŠEM NALOGU </h3>
+    </div>
+    <div v-on:click="loginClose" class="close">+</div>
+    <div class = "form-div">
+      <form>
+        <input type="text" class="login-inputs" placeholder="korisničko ime"><br/>
+        <input type="password" class="login-inputs" placeholder="lozinka"> <br/><br/>
+
+        <button class="button" style="background-color: rgb(224, 142, 64); color: white;"> Prijavite se</button>
+      </form>
+    </div>
+  </div>
+</div>
+
 <footer class="container-fluid text-center">
   <p>Online Food Delivery Copyright</p>  
 </footer>
@@ -103,6 +121,14 @@ Vue.component("home-page", {
 			.post('rest/proizvodi/add', {"id":''+product.id, "count":parseInt(product.count)})
 			.then(response => (toast('Product ' + product.name + " added to the Shopping Cart")))
 		}*/
+		
+		login : function (event) {
+			document.querySelector('.bg-modal').style.display = 'flex';
+		},
+		
+		loginClose: function (event) {
+			document.querySelector('.bg-modal').style.display = 'none';
+		}
 	},
 	mounted () {
      /*   axios
