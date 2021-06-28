@@ -27,5 +27,6 @@
 	<classpathentry kind="lib" path="lib/websocket-common-9.3.6.v20151106.jar"/>
 	<classpathentry kind="lib" path="lib/websocket-server-9.3.6.v20151106.jar"/>
 	<classpathentry kind="lib" path="lib/websocket-servlet-9.3.6.v20151106.jar"/>
+	<classpathentry kind="lib" path="lib/javax.ws.rs-api-2.0.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

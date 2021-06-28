@@ -1,7 +1,14 @@
 Vue.component("home-page", {
 	data: function () {
 		    return {
-		      restaurants: null
+		      restaurants: null,
+		      usernameRegister: '',
+		      passwordRegister: '',
+		      nameRegister: '',
+			  surnameRegister: '',
+			  genderRegister:'',
+		      dateOfBirthRegister: '',
+		      roleRegister : ''
 		    }
 	},
 	template: ` 
@@ -118,18 +125,18 @@ Vue.component("home-page", {
         <div v-on:click="registrationClose" class="close">+</div>
         <div class = "form-div" style="margin-top: 20px;">
           <form>
-            <input type="text" class="login-inputs" style="margin-top: 9px;" placeholder="korisničko ime">
-            <input type="password" class="login-inputs" style="margin-top: 9px;" placeholder="lozinka"> 
-            <input type="text" class="login-inputs" style="margin-top: 9px;" placeholder="ime">
-            <input type="text" class="login-inputs" style="margin-top: 9px;" placeholder="prezime">
-            <select class="login-inputs" style="margin-top: 9px;">
+            <input v-model="usernameRegister" type="text" class="login-inputs" style="margin-top: 9px;" placeholder="korisničko ime">
+            <input v-model="passwordRegister" type="password" class="login-inputs" style="margin-top: 9px;" placeholder="lozinka"> 
+            <input v-model="nameRegister" type="text" class="login-inputs" style="margin-top: 9px;" placeholder="ime">
+            <input v-model="surnameRegister" type="text" class="login-inputs" style="margin-top: 9px;" placeholder="prezime">
+            <select v-model="genderRegister" class="login-inputs" style="margin-top: 9px;">
                <option disabled selected>pol</option>
                 <option>MUŠKO</option>
                 <option>ŽENSKO</option>
             </select>
             <label>Datum rođenja:</label>
 	          <input type="date" class="login-inputs" style="margin-top: 9px;">
-            <button class="button" style="background-color: rgb(224, 142, 64); color: white;"> Potvrdi</button>
+            <button v-on:click="registerUser" class="button" style="background-color: rgb(224, 142, 64); color: white;"> Potvrdi</button>
           </form>
         </div>
       </div>
@@ -158,6 +165,37 @@ Vue.component("home-page", {
 		register : function (event) {
 			document.querySelector('.registracija').style.display = 'flex';
 		},
+		registerUser : function (event) {
+		
+				let genderReg;
+				if (this.genderRegister == 'MUŠKO') {
+					genderReg = 'MALE';
+				} else if(this.genderRegister == 'ŽENSKO'){
+					genderReg = 'FEMALE';
+				} 
+		
+				let newUser = {
+					username : this.usernameRegister,
+					password : this.passwordRegister,
+    				name : this.nameRegister,
+    				surname : this.surnameRegister,
+    				gender : genderReg,
+    				dateOfBirth : '01.01.1970.',
+    				role : 'CUSTOMER'				
+    			}
+				axios 
+    			.post('/users/register', JSON.stringify(newUser))
+    			.then(response => {
+    				if (response.data == null) {
+    					window.location.href = "/";
+    				} else {
+						window.location.href = "/";
+    				}
+    			})
+    			.catch(error => {
+				    console.log(error.response)
+				});
+		},		
 		registrationClose: function (event) {
 			document.querySelector('.registracija').style.display = 'none';
 		}
