@@ -7,6 +7,7 @@ import spark.Session;
 import javax.ws.rs.core.Response;
 import com.google.gson.Gson;
 
+import beans.Gender;
 import beans.User;
 import services.UsersService;
 
@@ -29,7 +30,7 @@ public class UsersController {
 				User loggedUser = session.attribute("user");
 				if(loggedUser == null)
 					session.attribute("user", newUser);
-								
+							
 				return gson.toJson(newUser);
 				
 			} catch(Exception e) {

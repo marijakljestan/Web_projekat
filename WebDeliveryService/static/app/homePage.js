@@ -135,7 +135,7 @@ Vue.component("home-page", {
                 <option>ŽENSKO</option>
             </select>
             <label>Datum rođenja:</label>
-	          <input type="date" class="login-inputs" style="margin-top: 9px;">
+	          <input type="date" class="login-inputs" style="margin-top: 9px;" id="date_input">
             <button v-on:click="registerUser" class="button" style="background-color: rgb(224, 142, 64); color: white;"> Potvrdi</button>
           </form>
         </div>
@@ -172,15 +172,17 @@ Vue.component("home-page", {
 					genderReg = 'MALE';
 				} else if(this.genderRegister == 'ŽENSKO'){
 					genderReg = 'FEMALE';
-				} 
-		
+				}
+				var dates = document.getElementById("date_input").value;
+       			var d=new Date(dates);
+				
 				let newUser = {
 					username : this.usernameRegister,
 					password : this.passwordRegister,
     				name : this.nameRegister,
     				surname : this.surnameRegister,
     				gender : genderReg,
-    				dateOfBirth : '01.01.1970.',
+    				dateOfBirth : d,
     				role : 'CUSTOMER'				
     			}
 				axios 
