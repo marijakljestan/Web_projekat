@@ -24,6 +24,14 @@ public class UsersController {
 			
 			try {
 				User newUser = gson.fromJson(req.body(), User.class);
+				
+				for (User user : usersService.getAllUsers()) {
+					if(user.getUsername().equals(newUser.getUsername())) {
+						//System.out.println("Vec postoji");
+						return "";
+					}
+				}
+				
 				usersService.register(newUser);
 				Session session = req.session(true);
 				

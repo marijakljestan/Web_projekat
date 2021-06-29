@@ -118,24 +118,29 @@ Vue.component("home-page", {
     </div>
 
     <div class="registracija">
-      <div class="modal-content">
+      <div class="modal-content-reg">
         <div class="login-title">
           <h3 style="color: rgb(161, 89, 21); font-weight: bolder;"> KREIRAJTE VAŠ NALOG </h3>
         </div>
         <div v-on:click="registrationClose" class="close">+</div>
         <div class = "form-div" style="margin-top: 20px;">
           <form>
-            <input v-model="usernameRegister" type="text" class="login-inputs" style="margin-top: 9px;" placeholder="korisničko ime">
-            <input v-model="passwordRegister" type="password" class="login-inputs" style="margin-top: 9px;" placeholder="lozinka"> 
-            <input v-model="nameRegister" type="text" class="login-inputs" style="margin-top: 9px;" placeholder="ime">
-            <input v-model="surnameRegister" type="text" class="login-inputs" style="margin-top: 9px;" placeholder="prezime">
-            <select v-model="genderRegister" class="login-inputs" style="margin-top: 9px;">
-               <option disabled selected>pol</option>
+            <input v-model="usernameRegister" type="text"  class="login-inputs" style="margin-top: 0px;" placeholder="korisničko ime" id = "userNameReg">
+            <label style="color : red;" id="usernameLabel" name = "labels" display="hidden"> </label>
+            <input v-model="passwordRegister" type="password" class="login-inputs" style="margin-top: 0px;" placeholder="lozinka"> 
+            <label style="color : red;" id="passwordLabel" name = "labels" display="hidden"> </label>
+            <input v-model="nameRegister" type="text" class="login-inputs" style="margin-top: 0px;" placeholder="ime">
+            <label style="color : red;" id="nameLabel" name = "labels" display="hidden"> </label>
+            <input v-model="surnameRegister" type="text" class="login-inputs" style="margin-top: 0px;" placeholder="prezime">
+            <label style="color : red;" id="surnameLabel" name = "labels" display="hidden"> </label>
+            <select v-model="genderRegister" class="login-inputs" style="margin-top: 0px;">
                 <option>MUŠKO</option>
                 <option>ŽENSKO</option>
             </select>
+            <label style="color : red;" id="genderLabel" name = "labels" display="hidden"> </label>
             <label>Datum rođenja:</label>
-	          <input type="date" class="login-inputs" style="margin-top: 9px;" id="date_input">
+	        <input type="date" class="login-inputs" style="margin-top: 1px;" id="date_input">
+          	<label style="color : red;" id="dateLabel" name = "labels" display="hidden"> </label>  
             <button v-on:click="registerUser" class="button" style="background-color: rgb(224, 142, 64); color: white;"> Potvrdi</button>
           </form>
         </div>
@@ -175,21 +180,56 @@ Vue.component("home-page", {
 				}
 				var dates = document.getElementById("date_input").value;
        			var d=new Date(dates);
-				
-				let newUser = {
-					username : this.usernameRegister,
-					password : this.passwordRegister,
-    				name : this.nameRegister,
-    				surname : this.surnameRegister,
-    				gender : genderReg,
-    				dateOfBirth : d,
-    				role : 'CUSTOMER'				
+       			
+       			var valid = true;
+       			     		      			
+       			 if(!this.usernameRegister){
+			        document.getElementById('usernameLabel').innerHTML = "Morate uneti korisnicko ime!";
+					document.getElementById('usernameLabel').style.display = 'block';
+					valid = false;
+			    }
+			     else if(!this.passwordRegister){
+			       document.getElementById('passwordLabel').innerHTML = "Morate uneti lozinku!";
+				   document.getElementById('passwordLabel').style.display = 'block';
+				   valid = false;
+			    }
+			    else if(this.nameRegister[0] < 'A' || this.nameRegister[0] > 'Z' || !this.nameRegister){
+			        document.getElementById('nameLabel').innerHTML = "Morate uneti ime koje pocinje velikim slovom!";
+					document.getElementById('nameLabel').style.display = 'block';
+					valid = false;
+			    }
+			    else if(this.surnameRegister[0] < 'A' || this.surnameRegister[0] > 'Z' || !this.surnameRegister){
+			        document.getElementById('surnameLabel').innerHTML = "Morate uneti prezime koje pocinje velikim slovom!";
+					document.getElementById('surnameLabel').style.display = 'block';
+					valid = false;
+			    }
+			    else if(!genderReg){
+			    	document.getElementById('genderLabel').innerHTML = "Morate izabrati pol!";
+					document.getElementById('genderLabel').style.display = 'block';
+					valid = false;
+			    }
+			    else if(!dates){
+			    	document.getElementById('dateLabel').innerHTML = "Morate izabrati datum rodjenja!";
+					document.getElementById('dateLabel').style.display = 'block';
+					valid = false;
+			    }
+			    
+			    if(valid == true){
+			    	let newUser = {
+						username : this.usernameRegister,
+						password : this.passwordRegister,
+	    				name : this.nameRegister,
+	    				surname : this.surnameRegister,
+	    				gender : genderReg,
+	    				dateOfBirth : d,
+	    				role : 'CUSTOMER'				
     			}
 				axios 
     			.post('/users/register', JSON.stringify(newUser))
     			.then(response => {
-    				if (response.data == null) {
-    					window.location.href = "/";
+    				if (response.data == "") {
+						document.getElementById('usernameLabel').innerHTML = "Vec postoji uneto korisnicko ime!";
+						document.getElementById('usernameLabel').style.display = 'block';
     				} else {
 						window.location.href = "/";
     				}
@@ -197,9 +237,19 @@ Vue.component("home-page", {
     			.catch(error => {
 				    console.log(error.response)
 				});
+			    }
+			
 		},		
 		registrationClose: function (event) {
-			document.querySelector('.registracija').style.display = 'none';
+			 this.usernameRegister = '';
+		     this.passwordRegister = '';
+		     this.nameRegister = '';
+			 this.surnameRegister = '';
+			 for (element of document.getElementsByName('labels')){
+			 	element.innerHTML = '';
+			 	element.style.display = 'hidden';
+			 }
+			 document.querySelector('.registracija').style.display = 'none';
 		}
 	},
 	mounted () {

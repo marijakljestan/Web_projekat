@@ -1,6 +1,7 @@
 package services;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import com.google.gson.JsonSyntaxException;
 
@@ -17,6 +18,10 @@ public class UsersService {
 	
 	public void register(User user) throws JsonSyntaxException, IOException {
 		usersDAO.create(user);
+	}
+	
+	public ArrayList<User> getAllUsers() throws JsonSyntaxException, IOException{
+		return usersDAO.getAll();
 	}
 
 }

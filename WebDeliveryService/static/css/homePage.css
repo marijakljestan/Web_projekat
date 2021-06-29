@@ -85,6 +85,16 @@
       padding: 20px;
       position: relative;
     }
+    
+     .modal-content-reg{
+      width: 500px;
+      height: 700px;
+      background:linear-gradient(rgba(255,255,255,.5), rgba(255,255,255,.5)), url(https://blog.dineout-cdn.co.in/blog/wp-content/uploads/2019/10/Blog-10-1030x538.jpg) no-repeat center ;
+      border-radius: 10px;
+      text-align: center;
+      padding: 20px;
+      position: relative;
+    }
 
 
     .login-inputs{
@@ -130,3 +140,4 @@
       text-align: center;
       font-size: 15px;
       font-weight: bold;
+    }
