@@ -110,12 +110,10 @@ Vue.component("home-page", {
         </div>
         <div v-on:click="loginClose" class="close">+</div>
         <div class = "form-div">
-          <form>
             <input v-model="usernameLog" type="text" class="login-inputs" placeholder="korisničko ime"><br/>
             <input v-model="passwordLog" type="password" class="login-inputs" placeholder="lozinka"> <br/><br/>
     		<p style="color:red;text-transform:none;">{{errorMessage}}</p>
             <button v-on:click="loginUser" class="button" style="background-color: rgb(224, 142, 64); color: white;"> Prijavite se</button>
-          </form>
         </div>
       </div>
     </div>
@@ -216,7 +214,7 @@ Vue.component("home-page", {
     				username : this.usernameLog,
     				password : this.passwordLog
     			}
-    		
+    			
 	    		axios 
 	    			.post('/user/login', JSON.stringify(loginParameters))
 	    			.then(response => {
