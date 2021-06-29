@@ -8,7 +8,10 @@ Vue.component("home-page", {
 			  surnameRegister: '',
 			  genderRegister:'',
 		      dateOfBirthRegister: '',
-		      roleRegister : ''
+		      roleRegister : '',
+		      usernameLog: '',
+		      passwordLog: '',
+		      errorMessage: ''
 		    }
 	},
 	template: ` 
@@ -108,10 +111,10 @@ Vue.component("home-page", {
         <div v-on:click="loginClose" class="close">+</div>
         <div class = "form-div">
           <form>
-            <input type="text" class="login-inputs" placeholder="korisničko ime"><br/>
-            <input type="password" class="login-inputs" placeholder="lozinka"> <br/><br/>
-    
-            <button class="button" style="background-color: rgb(224, 142, 64); color: white;"> Prijavite se</button>
+            <input v-model="usernameLog" type="text" class="login-inputs" placeholder="korisničko ime"><br/>
+            <input v-model="passwordLog" type="password" class="login-inputs" placeholder="lozinka"> <br/><br/>
+    		<p style="color:red;text-transform:none;">{{errorMessage}}</p>
+            <button v-on:click="loginUser" class="button" style="background-color: rgb(224, 142, 64); color: white;"> Prijavite se</button>
           </form>
         </div>
       </div>
@@ -200,11 +203,49 @@ Vue.component("home-page", {
 		},		
 		registrationClose: function (event) {
 			document.querySelector('.registracija').style.display = 'none';
-		}
-	},
-	mounted () {
-     /*   axios
-          .get('rest/proizvodi/getJustProducts')
-          .then(response => (this.products = response.data))*/
+		},
+		loginUser: function(event) {
+			if(this.usernameLog=='' || this.passwordLog=='')
+			{
+				this.errorMessage="Morate popuniti sva polja.";
+			}
+			else
+			{
+
+				let loginParameters = {
+    				username : this.usernameLog,
+    				password : this.passwordLog
+    			}
+    		
+	    		axios 
+	    			.post('/user/login', JSON.stringify(loginParameters))
+	    			.then(response => {
+	    				if (response.data == "") {
+							this.errorMessage="Neispravno korisničko ime ili lozinka.";
+						}
+						else {
+							if(response.data.role == "CUSTOMER"){
+								window.location.href = "#/customer";
+							} else if (response.data.role == "MANAGER"){
+								window.location.href = "#/manager";
+							} else if (response.data.role == "DELIVERER") {
+								window.location.href = "#/deliverer";
+							} else if (response.data.role == "ADMIN") {
+								window.location.href = "#/admin";
+							} else {
+								this.errorMessage="Neispravno korisničko ime ili lozinka.";
+							}
+	    				}
+					})
+					.catch(error => {
+				    console.log(error.response)
+				});
+			}
+    }, 
+		mounted () {
+     	/*   axios
+          		.get('rest/proizvodi/getJustProducts')
+          		.then(response => (this.products = response.data))*/
     }
+  }
 });

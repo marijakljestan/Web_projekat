@@ -47,8 +47,18 @@ public class UsersDAO implements IDao<User, String>{
 
 	@Override
 	public User getByID(String id) throws JsonSyntaxException, IOException {
-		// TODO Auto-generated method stub
-		return null;
+		User wantedUser = null;
+		ArrayList<User> users = (ArrayList<User>) getAll();
+		if(users.size()!=0)
+		{
+			for(User user : users) {
+				if(user.getUsername().equals(id)) {
+					wantedUser = user;
+					break;
+				}
+			}
+		}
+		return wantedUser;
 	}
 
 	@Override
