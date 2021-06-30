@@ -172,7 +172,9 @@ Vue.component("home-page", {
 			document.querySelector('.registracija').style.display = 'flex';
 		},
 		registerUser : function (event) {
-		
+				
+				event.preventDefault();
+				
 				let genderReg;
 				if (this.genderRegister == 'MUŠKO') {
 					genderReg = 'MALE';
