@@ -5,7 +5,11 @@ const router = new VueRouter({
 	  mode: 'hash',
 	  routes: [
 	    { path: '/', component: HomePage},
-	    { path: '/login', component: LoginPage }
+	    { path: '/login', component: LoginPage },
+	    { path: '/manager', component: LoginPage },
+	    { path: '/customer', component: LoginPage },
+	    { path: '/deliverer', component: LoginPage },
+	    { path: '/admin', component: LoginPage }
 	  ]
 });
 
