@@ -31,10 +31,6 @@ Vue.component("restaurant-page", {
             <li><a href="#">Komentari</a></li>
       
           </ul>
-          <ul class="nav navbar-nav navbar-right">
-            <li><a href="#/login"><span class="glyphicon glyphicon-user"></span> Prijavite se  </a></li>
-            <li><a href="#/login"><span class="glyphicon glyphicon-user"></span> Registrujte se</a></li>
-          </ul>
         </div>
       </div>
     </nav>

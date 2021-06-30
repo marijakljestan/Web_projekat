@@ -86,32 +86,32 @@ Vue.component("home-page", {
               <div class="panel-footer">Bulevar oslobodjenja 50</div>
             </div>    
         
-            <div class="panel panel-primary">
+            <div class="panel panel-primary" v-on:click="showRestaurant">
               <div class="panel-heading">KFC</div>
               <div class="panel-body"><img src="https://indiaeducationdiary.in/wp-content/uploads/2020/10/IMG-20201024-WA0014.jpg" class="img-responsive" style="style='height: 100%; width: 100%; object-fit: contain'" alt="Image"></div>
               <div class="panel-footer">Promenada</div>
             </div>
         
         
-            <div class="panel panel-primary">
+            <div class="panel panel-primary" v-on:click="showRestaurant">
               <div class="panel-heading">JOKER</div>
               <div class="panel-body"><img src="https://i.pinimg.com/564x/98/25/9f/98259fcd873f22730e10112a9cf568e2.jpg" class="img-responsive" style="style='height: 100%; width: 100%; object-fit: contain'" alt="Image"></div>
               <div class="panel-footer">Zeleznicka 55</div>
             </div>
 
-            <div class="panel panel-primary">
+            <div class="panel panel-primary" v-on:click="showRestaurant">
               <div class="panel-heading">GYROS MASTER</div>
-              <div class="panel-body"><img src="https://lh3.googleusercontent.com/proxy/Zxq-zT3FBtYf-uas7DL5C34OHko-ZeFgWLExyOGrYesw1x6PYxCU3fvpFJDCn6q-48GoqARGJFRqpA" class="img-responsive" style="width:100%" alt="Image"></div>
+              <div class="panel-body"><img src="https://pronadjiusrbiji.rs/wp-content/uploads/2018/03/1521743677_brhrrngyrmastns_logo.jpg" class="img-responsive" style="width:100%" alt="Image"></div>
               <div class="panel-footer">Buy 50 mobiles and get a gift card</div>
             </div>
 
-            <div class="panel panel-primary">
+            <div class="panel panel-primary" v-on:click="showRestaurant">
               <div class="panel-heading">FOODY</div>
               <div class="panel-body"><img src="https://promenadanovisad.rs/wp-content/uploads/2018/10/Foody-logo.jpg" class="img-responsive" style="width:100%" alt="Image"></div>
               <div class="panel-footer">Buy 50 mobiles and get a gift card</div>
             </div>
 
-            <div class="panel panel-primary">
+            <div class="panel panel-primary" v-on:click="showRestaurant">
               <div class="panel-heading">MILKY</div>
               <div class="panel-body"><img src="https://www.biznisgroup.com/wp-content/uploads/2018/11/46655053_303621933816462_2332955887917858816_n-600x600.jpg" class="img-responsive" style="width:100%" alt="Image"></div>
               <div class="panel-footer">Buy 50 mobiles and get a gift card</div>
