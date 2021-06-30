@@ -1,5 +1,4 @@
 @charset "utf-8";
-  /* Remove the navbar's default rounded borders and increase the bottom margin */ 
     .navbar {
       margin-bottom: 50px;
       border-radius: 0;
@@ -10,11 +9,8 @@
     /* Remove the jumbotron's default bottom margin */ 
      .jumbotron {
          height: 35%;
-      margin-bottom: 0;
-      background-color : hsl(206, 77%, 76%);
-      /*background-image: url("https://i.pinimg.com/564x/2f/54/ff/2f54ff7607ed4039911ab8b92ea6b5b4.jpg");
-      background-repeat: no-repeat;
-      align-items: center;*/
+         margin-bottom: 0;
+         background:linear-gradient(rgba(255,255,255,.5), rgba(255,255,255,.5)), url(https://media.istockphoto.com/photos/top-view-table-full-of-food-picture-id1220017909?k=6&m=1220017909&s=170667a&w=0&h=Zy_NqTbEluSW0T667IHW7DVlpQih70V45k-rgeFt6Oo=)  center ;
     }
 
     .panel-heading{
@@ -65,43 +61,6 @@
       align-items: center;
     }
 
-    .registracija{
-      width: 100%;
-      height: 100%;
-      background-color: rbg(0,0,0, 0.7);
-      position: fixed;
-      top:0;
-      display: none;
-      justify-content: center;
-      align-items: center;
-    }
-
-    .modal-content{
-      width: 500px;
-      height: 600px;
-      background:linear-gradient(rgba(255,255,255,.5), rgba(255,255,255,.5)), url(https://blog.dineout-cdn.co.in/blog/wp-content/uploads/2019/10/Blog-10-1030x538.jpg) no-repeat center ;
-      border-radius: 10px;
-      text-align: center;
-      padding: 20px;
-      position: relative;
-    }
-    
-     .modal-content-reg{
-      width: 500px;
-      height: 700px;
-      background:linear-gradient(rgba(255,255,255,.5), rgba(255,255,255,.5)), url(https://blog.dineout-cdn.co.in/blog/wp-content/uploads/2019/10/Blog-10-1030x538.jpg) no-repeat center ;
-      border-radius: 10px;
-      text-align: center;
-      padding: 20px;
-      position: relative;
-    }
-
-
-    .login-inputs{
-      width: 50%;
-      display: block;
-      margin: 20px auto;
-    }
 
     .form-div{
       margin-top: 100px;
@@ -141,37 +100,42 @@
       font-size: 15px;
       font-weight: bold;
     }
-    
-     .search{
-      position: absolute;
-      top: 38%;
-      left: 20%;
+
+    .menu-group{
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5em;
+        padding: 1.5em 0;
     }
 
-    .search-input{
-      background-color: cornsilk;
-      border: none;
-      outline: none;
-      height: 35px;
-      border-radius: 25px;
-      padding: 0 25px;
-      border-color: rgb(102, 102, 167);
-      border-width: 1px;
+    .menu-item{
+        display: flex;
     }
 
-    .search-submit{
-      border-radius: 15px;
-      height: 35px;
-      border-color: rgb(149, 203, 224);
-      background-color: rgb(149, 203, 224);
-      text-align: center;
-      font-size: 15px;
-      font-weight: bold;
+    .menu-item-image{
+        width: 125px;
+        height: 125px;
+        flex-shrink: 0;
+        object-fit: cover;
+        margin-right: 1.5em;
     }
-    
-      .menu-group{
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 1.5em;
-      padding: 1.5em 0;
+
+    .menu-item-text{
+        flex-grow: 1;
     }
+
+    .menu-item-heading{
+        display: flex;
+        justify-content: space-between;
+        margin: 0;
+    }
+
+    .menu-item-name{
+        margin-right: 1.5em;
+    }
+
+    .menu-item-description{
+        margin-top: 7px;
+        line-height: 1.6;
+    }
+
