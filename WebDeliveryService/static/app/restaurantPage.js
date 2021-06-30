@@ -5,7 +5,7 @@ Vue.component("restaurant-page", {
 		    }
 	},
 	template: ` 
- <div id="home">
+ <div id="home" style="background:#fff">
 
     <div class="jumbotron">
       <div class="container text-center">
@@ -109,8 +109,8 @@ Vue.component("restaurant-page", {
                      </p>
                     </div> 
                 </div>  
-                <div class="menu-item">
-                    <img class="menu-item-image" src="https://images.immediate.co.uk/production/volatile/sites/30/2020/08/processed-food700-350-e6d0f0f.jpg?quality=90&resize=385%2C350 alt="Food">
+                     <div class="menu-item">
+                    <img class="menu-item-image" src="https://images.immediate.co.uk/production/volatile/sites/30/2020/08/processed-food700-350-e6d0f0f.jpg?quality=90&resize=385%2C350" alt="Food">
                     <div class="menu-item-text">
                         <h3 class="menu-item-heading">
                             <span class="menu-item-name"> Hot dog</span>
@@ -120,8 +120,7 @@ Vue.component("restaurant-page", {
                          Lorem ipsum dolor.Lorem ipsum dolor.Lorem ipsum dolor.Lorem ipsum dolor.Lorem ipsum dolor.Lorem ipsum dolor.
                      </p>
                     </div> 
-                </div>              
-            </div>
+                </div>                         
            </div>
           </div>
         </div>
