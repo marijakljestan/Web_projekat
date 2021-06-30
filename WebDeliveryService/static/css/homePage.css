@@ -1,0 +1,143 @@
+@charset "utf-8";
+  /* Remove the navbar's default rounded borders and increase the bottom margin */ 
+    .navbar {
+      margin-bottom: 50px;
+      border-radius: 0;
+      background: rgb(221, 153, 98);
+      color: white;
+    }
+    
+    /* Remove the jumbotron's default bottom margin */ 
+     .jumbotron {
+         height: 35%;
+      margin-bottom: 0;
+      background-color : hsl(206, 77%, 76%);
+      /*background-image: url("https://i.pinimg.com/564x/2f/54/ff/2f54ff7607ed4039911ab8b92ea6b5b4.jpg");
+      background-repeat: no-repeat;
+      align-items: center;*/
+    }
+
+    .panel-heading{
+        text-align: center;
+        background-color: rgb(220, 235, 240);
+        background: rgb(227, 240, 245);
+    }
+
+    .panel-footer{
+        text-align: center;
+        background-color: rgb(220, 235, 240);
+    }
+
+    .panel-body{
+       width: 350px;
+       height: 300px;
+       background-size: cover;
+       background-repeat: no-repeat;
+       background-position: center;
+       justify-content: center;
+    }
+
+    .img-responsive{
+        object-fit: 'cover';
+        float: inherit;
+        max-width: 100%;
+        max-height: 100%;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+    }
+  
+    /* Add a gray background color and some padding to the footer */
+    footer {
+      background-color:#b9daee;;
+      padding: 25px;
+      height: 10%;
+    }
+
+    .bg-modal{
+      width: 100%;
+      height: 100%;
+      background-color: rbg(0,0,0, 0.7);
+      position: fixed;
+      top:0;
+      display: none;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .registracija{
+      width: 100%;
+      height: 100%;
+      background-color: rbg(0,0,0, 0.7);
+      position: fixed;
+      top:0;
+      display: none;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal-content{
+      width: 500px;
+      height: 600px;
+      background:linear-gradient(rgba(255,255,255,.5), rgba(255,255,255,.5)), url(https://blog.dineout-cdn.co.in/blog/wp-content/uploads/2019/10/Blog-10-1030x538.jpg) no-repeat center ;
+      border-radius: 10px;
+      text-align: center;
+      padding: 20px;
+      position: relative;
+    }
+    
+     .modal-content-reg{
+      width: 500px;
+      height: 700px;
+      background:linear-gradient(rgba(255,255,255,.5), rgba(255,255,255,.5)), url(https://blog.dineout-cdn.co.in/blog/wp-content/uploads/2019/10/Blog-10-1030x538.jpg) no-repeat center ;
+      border-radius: 10px;
+      text-align: center;
+      padding: 20px;
+      position: relative;
+    }
+
+
+    .login-inputs{
+      width: 50%;
+      display: block;
+      margin: 20px auto;
+    }
+
+    .form-div{
+      margin-top: 100px;
+    }
+
+    .login-title{
+      margin-top: 50px;
+      font-weight: bold;
+      align-self: center;
+      align-items: center;
+    }
+
+    .close{
+      position: absolute;
+      top:0;
+      right: 15px;
+      font-size: 40px;
+      transform: rotate(45deg);
+      cursor: pointer;
+    }
+
+   .login-inputs{
+      width: 70%;
+      border:none;
+      padding:15px 20px;
+      border-radius:25px;
+      background:rgb(255,255,255);
+    }
+
+    .button{
+      border-radius: 15px;
+      width: 30%;
+      height: 7%;
+      border-color: rgb(149, 203, 224);
+      background-color: rgb(149, 203, 224);
+      text-align: center;
+      font-size: 15px;
+      font-weight: bold;
+    }
