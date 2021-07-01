@@ -58,7 +58,7 @@ Vue.component("administrator-page", {
     </div>
     
    <div class="col-sm-2 sidenav" style="position: absolute; left: 1%; top: 38%;">
-        <button class="add-restaurant">+ Novi restoran</button>
+        <button class="add-restaurant" v-on:click="addNewRestaurant">+ Novi restoran</button>
       </div>
     
     <div class="container" style="top:43%">    
@@ -121,6 +121,9 @@ Vue.component("administrator-page", {
 			.post('rest/proizvodi/add', {"id":''+product.id, "count":parseInt(product.count)})
 			.then(response => (toast('Product ' + product.name + " added to the Shopping Cart")))
 		}*/
+		addNewRestaurant : function (){
+			window.location.href = "#/addNewRestaurant";
+		}
 	},
 	mounted () {
      /*   axios
