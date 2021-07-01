@@ -1,5 +1,4 @@
 @charset "utf-8";
-  /* Remove the navbar's default rounded borders and increase the bottom margin */ 
     .navbar {
       margin-bottom: 50px;
       border-radius: 0;
@@ -168,7 +167,17 @@
     
       .menu-group{
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
+      grid-template-columns: repeat(3, 1fr);
       gap: 1.5em;
       padding: 1.5em 0;
+    }
+    
+        .add-restaurant{
+        border-radius: 25px;
+        color:whitesmoke;
+        font-weight: bold; 
+        background-color: rgb(107, 190, 190); 
+        border: thick; 
+        width: 140px; 
+        height: 33px;
     }
