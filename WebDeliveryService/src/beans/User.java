@@ -12,6 +12,7 @@ public class User implements Serializable{
    private Gender gender;
    private String dateOfBirth;
    private Role role;
+   private boolean isDeleted;
      
 	public User() {
 		super();
@@ -28,6 +29,7 @@ public class User implements Serializable{
 		this.gender = gender;
 		this.dateOfBirth = dateOfBirth;
 		this.role = role;
+		this.isDeleted = false;
 	}
 
 
@@ -73,5 +75,13 @@ public class User implements Serializable{
 	public void setRole(Role role) {
 		this.role = role;
 	}
-   
+
+	public boolean isDeleted() {
+		return isDeleted;
+	}
+
+	public void setDeleted(boolean isDeleted) {
+		this.isDeleted = isDeleted;
+	}
+ 
 }

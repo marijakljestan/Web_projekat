@@ -13,6 +13,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
 
+import beans.Restaurant;
 import beans.User;
 
 public class UsersDAO implements IDao<User, String>{
@@ -42,7 +43,14 @@ public class UsersDAO implements IDao<User, String>{
 	@Override
 	public ArrayList<User> getAllNonDeleted() throws JsonSyntaxException, IOException {
 		// TODO Auto-generated method stub
-		return null;
+		ArrayList<User> allUsers = getAll();
+		ArrayList<User> nonDeleted = new ArrayList<User>();
+		
+		for (User user : allUsers) 
+			if(!user.isDeleted())
+				nonDeleted.add(user);
+		
+		return nonDeleted;
 	}
 
 	@Override
@@ -94,8 +102,7 @@ public class UsersDAO implements IDao<User, String>{
 		PrintWriter writer = new PrintWriter(path);
 		String allEntities = new Gson().toJson(entities, new TypeToken<List<User>>(){}.getType());
 		writer.println(allEntities);
-		writer.close();
-		
+		writer.close();		
 	}
 
 }
