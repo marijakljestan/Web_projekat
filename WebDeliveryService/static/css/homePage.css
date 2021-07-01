@@ -8,13 +8,10 @@
     }
     
     /* Remove the jumbotron's default bottom margin */ 
-     .jumbotron {
-         height: 35%;
+     .jumbotron {      
       margin-bottom: 0;
       background-color : hsl(206, 77%, 76%);
-      /*background-image: url("https://i.pinimg.com/564x/2f/54/ff/2f54ff7607ed4039911ab8b92ea6b5b4.jpg");
-      background-repeat: no-repeat;
-      align-items: center;*/
+      height: 210px;
     }
 
     .panel-heading{
@@ -144,7 +141,7 @@
     
      .search{
       position: absolute;
-      top: 38%;
+      top: 40%;
       left: 20%;
     }
 

@@ -8,8 +8,8 @@
     
     /* Remove the jumbotron's default bottom margin */ 
      .jumbotron {
-         height: 35%;
          margin-bottom: 0;
+         height: 280px;
          background:linear-gradient(rgba(255,255,255,.5), rgba(255,255,255,.5)), url(https://media.istockphoto.com/photos/top-view-table-full-of-food-picture-id1220017909?k=6&m=1220017909&s=170667a&w=0&h=Zy_NqTbEluSW0T667IHW7DVlpQih70V45k-rgeFt6Oo=)  center ;
     }
 
@@ -101,6 +101,15 @@
       font-weight: bold;
     }
 
+    .restaurant-logo{
+      width: 125px;
+      height: 125px;
+      flex-shrink: 0;
+      position: absolute;
+      left: 5%;
+      top: 15%;
+    }
+
     .menu-group{
         display: grid;
         grid-template-columns: repeat(2, 1fr);
@@ -137,5 +146,32 @@
     .menu-item-description{
         margin-top: 7px;
         line-height: 1.6;
+    }
+
+    .search{
+      position: absolute;
+      top: 45%;
+      left: 20%;
+    }
+
+    .search-input{
+      background-color: cornsilk;
+      border: none;
+      outline: none;
+      height: 35px;
+      border-radius: 25px;
+      padding: 0 25px;
+      border-color: rgb(102, 102, 167);
+      border-width: 1px;
+    }
+
+    .search-submit{
+      border-radius: 15px;
+      height: 35px;
+      border-color: rgb(149, 203, 224);
+      background-color: rgb(149, 203, 224);
+      text-align: center;
+      font-size: 15px;
+      font-weight: bold;
     }
 

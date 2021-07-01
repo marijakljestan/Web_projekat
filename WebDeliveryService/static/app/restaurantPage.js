@@ -5,12 +5,16 @@ Vue.component("restaurant-page", {
 		    }
 	},
 	template: ` 
- <div id="home" style="background:#fff">
+ <div id="home">
 
     <div class="jumbotron">
-      <div class="container text-center">
-        <h1>donesi.com</h1>      
-        <p>Najbolja dostava u gradu</p>
+      <div class="restaurant-info" style="background-color:cornsilk; border-radius: 25px; position: absolute; width: 50%; left: 25%; top:5%; height: 200px; text-align: center; display: block;">
+        <img src="https://promenadanovisad.rs/wp-content/uploads/2018/10/TortillaCasa-logo.jpg" alt="" class="restaurant-logo">
+        <h1>Tortilla cassa</h1> 
+        <span style="position: absolute; top: 15%; right: 10%;"><label style="font-size: 14px; font-weight: lighte; color:silver">OTVORENO</label></span>  
+        <span><label style="font-size: 16px; font-weight: lighter; font-family: sans-serif;">Meksicki restoran</label></span>
+        <span style="position: absolute; top: 35%; right: 14%;"><label style="font-size: 16px; font-weight: lighte; color:silver">4.6</label></span>  <br/><br/>    
+        <span><label style="font-size: 16px; font-weight: lighter; font-family: sans-serif;">Bulevar oslobodjenja 55</label></span>
       </div>
     </div>
     
@@ -28,8 +32,7 @@ Vue.component("restaurant-page", {
             <li><a href="#">Pocetna</a></li>
             <li class="active"><a href="#">Meni</a></li>
             <li><a href="#">Moje porudzbine</a></li>
-            <li><a href="#">Komentari</a></li>
-      
+            <li><a href="#">Komentari</a></li>     
           </ul>
         </div>
       </div>
@@ -105,8 +108,8 @@ Vue.component("restaurant-page", {
                      </p>
                     </div> 
                 </div>  
-                     <div class="menu-item">
-                    <img class="menu-item-image" src="https://images.immediate.co.uk/production/volatile/sites/30/2020/08/processed-food700-350-e6d0f0f.jpg?quality=90&resize=385%2C350" alt="Food">
+                <div class="menu-item">
+                    <img class="menu-item-image" src="https://images.immediate.co.uk/production/volatile/sites/30/2020/08/processed-food700-350-e6d0f0f.jpg?quality=90&resize=385%2C350">
                     <div class="menu-item-text">
                         <h3 class="menu-item-heading">
                             <span class="menu-item-name"> Hot dog</span>
@@ -116,12 +119,12 @@ Vue.component("restaurant-page", {
                          Lorem ipsum dolor.Lorem ipsum dolor.Lorem ipsum dolor.Lorem ipsum dolor.Lorem ipsum dolor.Lorem ipsum dolor.
                      </p>
                     </div> 
-                </div>                         
+                </div>              
+            </div>
            </div>
           </div>
-        </div>
-      </div>
-        
+        </div> 
+    
     <footer class="container-fluid text-center">
       <p>Online Food Delivery Copyright</p>  
     </footer>
