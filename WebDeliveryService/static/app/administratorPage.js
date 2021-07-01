@@ -21,12 +21,12 @@ Vue.component("administrator-page", {
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>                        
-          </button>
-          <a class="navbar-brand" href="#">Logo</a>
+          </button>       
         </div>
         <div class="collapse navbar-collapse" id="myNavbar">
           <ul class="nav navbar-nav">
-            <li class="active"><a href="#">Početna</a></li>
+            <li class="active"><a href="#/admin">Početna</a></li>
+            <li><a href="#/userProfile">Moj Profil</a></li>
             <li><a href="#">Korisnici</a></li>
             <li><a href="#">Komentari</a></li>
           </ul>

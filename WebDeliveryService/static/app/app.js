@@ -3,6 +3,7 @@ const LoginPage = { template: '<login-page></login-page>' }
 const RestaurantPage = { template: '<restaurant-page></restaurant-page>' }
 const AdministratorPage = { template: '<administrator-page></administrator-page>' }
 const AddNewRestaurant = { template: '<addNewRestaurant-page></addNewRestaurant-page>' }
+const UserProfile = { template: '<user-profile-page></user-profile-page>' }
 
 const router = new VueRouter({
 	  mode: 'hash',
@@ -15,6 +16,7 @@ const router = new VueRouter({
 	    { path: '/admin', component: AdministratorPage },
 	    { path: '/restaurant', component: RestaurantPage },
 	    { path: '/addNewRestaurant', component: AddNewRestaurant },
+	    { path: '/userProfile', component: UserProfile },
 	  ]
 });
 

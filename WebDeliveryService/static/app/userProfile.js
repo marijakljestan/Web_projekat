@@ -1,4 +1,4 @@
-Vue.component("addNewRestaurant-page", {
+Vue.component("user-profile-page", {
 	data: function () {
 		    return {
 		      restaurants: null,
@@ -15,7 +15,7 @@ Vue.component("addNewRestaurant-page", {
 		    }
 	},
 	template: ` 
-  <div id="home" style="background : #fff">
+   <div id="home" style="background : #fff">
 
     <div class="jumbotron">
       <div class="container text-center">
@@ -32,7 +32,6 @@ Vue.component("addNewRestaurant-page", {
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>                        
           </button>
-   
         </div>
         <div class="collapse navbar-collapse" id="myNavbar">
           <ul class="nav navbar-nav">
@@ -42,54 +41,43 @@ Vue.component("addNewRestaurant-page", {
             <li><a href="#">Komentari</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
-            <li v-on:click="logout"><span class="glyphicon glyphicon-user"></span> Odjavite se </li>
+            <li v-on:click="login"><span class="glyphicon glyphicon-user"></span> Odjavite se </li>
           </ul>
         </div>
       </div>
     </nav>
 
-    <div class="forma-restaurant">
+    <div class="forma-profile">
 
-        <h1 style="position: absolute; margin-top: 20px; margin-left: 550px; font-weight: bolder; color: rgb(30, 31, 104);">UNOS NOVOG RESTORANA</h1>
+        <h1 style="position: absolute; margin-top: 20px; margin-left: 650px; font-weight: bolder; color: rgb(30, 31, 104);">MOJ PROFIL</h1>
   
         <div  class="col-lg-12"> 
         
-            <div class="col-lg-6" style="margin-left: 120px; margin-top: 95px;">
-                <input type="text" class="input-fields" placeholder="Naziv restorana"><br/><br/>
-                <input type="text" class="input-fields" placeholder="Tip restorana"><br/><br/>
-                <label style="color: rgb(30, 31, 104);">Logo:</label><br/>
-                <input type="file" style="margin-left: 190px;" id="img" name="img" accept="image/*"><br/>
-                <label style="color: rgb(30, 31, 104);">Menadzer:</label><br/>
-                
-                <select class="input-selection">
-                   <option>Mika Mikic</option>
-                   <option>Jova Jovic</option>
-                </select>
-                             
+            <div class="col-lg-6" style="margin-left: 120px; margin-top: 190px;">
+            
+                <input type="text" class="input-fields" placeholder="Ime"><br/><br/>
+                <input type="text" class="input-fields" placeholder="Prezime"><br/><br/>
+                <input type="text" class="input-fields" placeholder="korisničko ime"><br/><br/>                
             </div>
-			<button v-on:click="registerNewManager" class="add-manager" style="text-align: center; align-items:center; position: absolute; top: 322px; left: 336px; width: 50px;">+</button>
-			<!--button v-on:click="registerNewManager" class="add-manager" style="position: absolute; top: 336px; left: 690px; width: 50px;">+</button-->
 
-            <div class="col-lg-6" style="margin-left: 560px; margin-top: -260px;">
-                <input type="text" class="input-fields" placeholder="Ulica i broj"><br/><br/>
-                <input type="text" class="input-fields" placeholder="Grad"><br/><br/>
-                <input type="text" class="input-fields" placeholder="Država"><br/><br/>
-                <input type="text" class="input-fields" placeholder="Geografska širina"><br/><br/>
-                <input type="text" class="input-fields" placeholder="Geografska dužina"><br/><br/>
+
+            <div class="col-lg-6" style="margin-left: 560px; margin-top: -250px;">        
+                <label style="color: rgb(30, 31, 104);">Datum rođenja:</label><br/>
+                <input type="date"  class="input-fields" style="margin-left: 0px;"><br/><br/>
+                <input type="text" class="input-fields" placeholder="Pol"><br/><br/> 
+                <input type="password" class="input-fields" placeholder="Lozinka"><br/><br/> 
             </div>                
         </div>  
         
-        <button class="accept-cancel" style="background-color: lightblue;">POTVRDI</button>
-        <button v-on:click="goBack" class="accept-cancel" style="background-color: cornsilk;">ODUSTANI</button><br/>
-
+        <button class="edit-profile" v-on:click="editProfile" style="position: absolute; top: 450px; left: 630px; width: 250px;">Izmeni podatke</button>
     </div>
   
     <div class="registracija">
         <div class="modal-content-reg">
           <div class="login-title">
-            <h3 style="color: rgb(161, 89, 21); font-weight: bolder;"> NOVI MENADŽER </h3>
+            <h3 style="color: rgb(69, 131, 201); font-weight: bolder;"> IZMENI PODATKE </h3>
           </div>
-          <div v-on:click="registrationClose" class="close">+</div>
+          <div v-on:click="editProfileClose" class="close">+</div>
           <div class = "form-div" style="margin-top: 20px;">
             <form>
               <input v-model="usernameRegister" type="text"  class="login-inputs" style="margin-top: 0px;" placeholder="korisničko ime" id = "userNameReg">
@@ -105,10 +93,10 @@ Vue.component("addNewRestaurant-page", {
                   <option>ŽENSKO</option>
               </select>
               <label style="color : red;" id="genderLabel" name = "labels" display="hidden"> </label>
-              <label>Datum rođenja:</label>
+              <label style="color: rgb(69, 131, 201);">Datum rođenja:</label>
               <input type="date" class="login-inputs" style="margin-top: 1px;" id="date_input">
                 <label style="color : red;" id="dateLabel" name = "labels" display="hidden"> </label>  
-              <button v-on:click="registerUser" class="button" style="background-color: rgb(224, 142, 64); color: white;"> Potvrdi</button>
+              <button v-on:click="acceptChanges" class="button" style="background-color: rgb(69, 131, 201); color: white;"> Potvrdi</button>
             </form>
           </div>
         </div>
@@ -126,15 +114,12 @@ Vue.component("addNewRestaurant-page", {
 			.post('rest/proizvodi/add', {"id":''+product.id, "count":parseInt(product.count)})
 			.then(response => (toast('Product ' + product.name + " added to the Shopping Cart")))
 		}*/
-		goBack : function() {
-			window.location.href = "#/admin";
-		},
 		
-		registerNewManager : function (event) {
+		editProfile : function (event) {
 			document.querySelector('.registracija').style.display = 'flex';
 		},
 				
-		registerUser : function (event) {
+		acceptChanges : function (event) {
 				
 				event.preventDefault();
 				
@@ -206,7 +191,7 @@ Vue.component("addNewRestaurant-page", {
 			    }
 			
 		},		
-		registrationClose: function (event) {
+		editProfileClose: function (event) {
 			 this.usernameRegister = '';
 		     this.passwordRegister = '';
 		     this.nameRegister = '';
