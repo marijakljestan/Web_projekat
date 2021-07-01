@@ -159,6 +159,8 @@
       padding: 0 25px;
       border-color: rgb(102, 102, 167);
       border-width: 1px;
+      position: absolute;
+      left:270px;
       width: 40%;
       
     }

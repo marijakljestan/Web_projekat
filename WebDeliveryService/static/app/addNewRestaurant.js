@@ -1,7 +1,17 @@
 Vue.component("addNewRestaurant-page", {
 	data: function () {
 		    return {
-		      restaurants: null
+		      restaurants: null,
+			  usernameRegister: '',
+		      passwordRegister: '',
+		      nameRegister: '',
+			  surnameRegister: '',
+			  genderRegister:'',
+		      dateOfBirthRegister: '',
+		      roleRegister : '',
+		      usernameLog: '',
+		      passwordLog: '',
+		      errorMessage: ''
 		    }
 	},
 	template: ` 
@@ -31,7 +41,7 @@ Vue.component("addNewRestaurant-page", {
             <li><a href="#">Komentari</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
-            <li v-on:click="login"><span class="glyphicon glyphicon-user"></span> Odjavite se </li>
+            <li v-on:click="logout><span class="glyphicon glyphicon-user"></span> Odjavite se </li>
           </ul>
         </div>
       </div>
@@ -43,22 +53,23 @@ Vue.component("addNewRestaurant-page", {
   
         <div  class="col-lg-12"> 
         
-            <div class="col-lg-6" style="margin-left: 120px; margin-top: 110px;">
+            <div class="col-lg-6" style="margin-left: 120px; margin-top: 95px;">
                 <input type="text" class="input-fields" placeholder="Naziv restorana"><br/><br/>
                 <input type="text" class="input-fields" placeholder="Tip restorana"><br/><br/>
                 <label style="color: rgb(30, 31, 104);">Logo:</label><br/>
                 <input type="file" style="margin-left: 190px;" id="img" name="img" accept="image/*"><br/>
                 <label style="color: rgb(30, 31, 104);">Menadzer:</label><br/>
-                <span>
-                    <select class="input-selection">
-                        <option>Mika Mikic</option>
-                        <option>Jova Jovic</option>
-                    </select>
-                    <button class="add-manager">+</button>
-                </span>
+                
+                <select class="input-selection">
+                   <option>Mika Mikic</option>
+                   <option>Jova Jovic</option>
+                </select>
+                             
             </div>
+			<button v-on:click="registerNewManager" class="add-manager" style="text-align: center; align-items:center; position: absolute; top: 322px; left: 336px; width: 50px;">+</button>
+			<!--button v-on:click="registerNewManager" class="add-manager" style="position: absolute; top: 336px; left: 690px; width: 50px;">+</button-->
 
-            <div class="col-lg-6" style="margin-left: 560px; margin-top: -295px;">
+            <div class="col-lg-6" style="margin-left: 560px; margin-top: -260px;">
                 <input type="text" class="input-fields" placeholder="Ulica i broj"><br/><br/>
                 <input type="text" class="input-fields" placeholder="Grad"><br/><br/>
                 <input type="text" class="input-fields" placeholder="Država"><br/><br/>
@@ -75,7 +86,7 @@ Vue.component("addNewRestaurant-page", {
     <div class="registracija">
         <div class="modal-content-reg">
           <div class="login-title">
-            <h3 style="color: rgb(161, 89, 21); font-weight: bolder;"> NOVI RESTORAJ </h3>
+            <h3 style="color: rgb(161, 89, 21); font-weight: bolder;"> NOVI MENADŽER </h3>
           </div>
           <div v-on:click="registrationClose" class="close">+</div>
           <div class = "form-div" style="margin-top: 20px;">
@@ -116,6 +127,98 @@ Vue.component("addNewRestaurant-page", {
 		}*/
 		goBack : function() {
 			window.location.href = "#/admin";
+		},
+		
+		registerNewManager : function (event) {
+			document.querySelector('.registracija').style.display = 'flex';
+		},
+				
+		registerUser : function (event) {
+				
+				event.preventDefault();
+				
+				let genderReg;
+				if (this.genderRegister == 'MUŠKO') {
+					genderReg = 'MALE';
+				} else if(this.genderRegister == 'ŽENSKO'){
+					genderReg = 'FEMALE';
+				}
+				var dates = document.getElementById("date_input").value;
+       			var d=new Date(dates);
+       			
+       			var valid = true;
+       			     		      			
+       			 if(!this.usernameRegister){
+			        document.getElementById('usernameLabel').innerHTML = "Morate uneti korisnicko ime!";
+					document.getElementById('usernameLabel').style.display = 'block';
+					valid = false;
+			    }
+			     else if(!this.passwordRegister){
+			       document.getElementById('passwordLabel').innerHTML = "Morate uneti lozinku!";
+				   document.getElementById('passwordLabel').style.display = 'block';
+				   valid = false;
+			    }
+			    else if(this.nameRegister[0] < 'A' || this.nameRegister[0] > 'Z' || !this.nameRegister){
+			        document.getElementById('nameLabel').innerHTML = "Morate uneti ime koje pocinje velikim slovom!";
+					document.getElementById('nameLabel').style.display = 'block';
+					valid = false;
+			    }
+			    else if(this.surnameRegister[0] < 'A' || this.surnameRegister[0] > 'Z' || !this.surnameRegister){
+			        document.getElementById('surnameLabel').innerHTML = "Morate uneti prezime koje pocinje velikim slovom!";
+					document.getElementById('surnameLabel').style.display = 'block';
+					valid = false;
+			    }
+			    else if(!genderReg){
+			    	document.getElementById('genderLabel').innerHTML = "Morate izabrati pol!";
+					document.getElementById('genderLabel').style.display = 'block';
+					valid = false;
+			    }
+			    else if(!dates){
+			    	document.getElementById('dateLabel').innerHTML = "Morate izabrati datum rodjenja!";
+					document.getElementById('dateLabel').style.display = 'block';
+					valid = false;
+			    }
+			    
+			    if(valid == true){
+			    	let newUser = {
+						username : this.usernameRegister,
+						password : this.passwordRegister,
+	    				name : this.nameRegister,
+	    				surname : this.surnameRegister,
+	    				gender : genderReg,
+	    				dateOfBirth : d,
+	    				role : 'CUSTOMER'				
+    			}
+				axios 
+    			.post('/users/register', JSON.stringify(newUser))
+    			.then(response => {
+    				if (response.data == "") {
+						document.getElementById('usernameLabel').innerHTML = "Vec postoji uneto korisnicko ime!";
+						document.getElementById('usernameLabel').style.display = 'block';
+    				} else {
+						window.location.href = "/";
+    				}
+    			})
+    			.catch(error => {
+				    console.log(error.response)
+				});
+			    }
+			
+		},		
+		registrationClose: function (event) {
+			 this.usernameRegister = '';
+		     this.passwordRegister = '';
+		     this.nameRegister = '';
+			 this.surnameRegister = '';
+			 for (element of document.getElementsByName('labels')){
+			 	element.innerHTML = '';
+			 	element.style.display = 'hidden';
+			 }
+			 document.querySelector('.registracija').style.display = 'none';
+		},
+		
+		logout : function (event) {
+			
 		}
 		
 	},
