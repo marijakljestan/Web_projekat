@@ -4,42 +4,14 @@
       background: rgb(192, 236, 241);
       color: white;
     }
-   
+    
+    /* Remove the jumbotron's default bottom margin */ 
      .jumbotron {      
       margin-bottom: 0;
       background-color : hsl(206, 77%, 76%);
       height: 210px;
     }
 
-    .panel-heading{
-        text-align: center;
-        background-color: rgb(220, 235, 240);
-        background: rgb(227, 240, 245);
-    }
-
-    .panel-footer{
-        text-align: center;
-        background-color: rgb(220, 235, 240);
-    }
-
-    .panel-body{
-       width: 350px;
-       height: 300px;
-       background-size: cover;
-       background-repeat: no-repeat;
-       background-position: center;
-       justify-content: center;
-    }
-
-    .img-responsive{
-        object-fit: 'cover';
-        float: inherit;
-        max-width: 100%;
-        max-height: 100%;
-        display: block;
-        margin-left: auto;
-        margin-right: auto;
-    }
   
     /* Add a gray background color and some padding to the footer */
     footer {
@@ -48,7 +20,7 @@
       height: 10%;
     }
 
-    .edit-profile-container{
+    .registration-manager-deliverer{
       width: 100%;
       height: 100%;
       background-color: rbg(0,0,0, 0.7);
@@ -59,11 +31,10 @@
       align-items: center;
     }
 
-    
-     .modal-content-reg{
+     .new-manager-deliverer-reg-form{
       width: 500px;
       height: 700px;
-      background:linear-gradient(rgba(255,255,255,.5), rgba(255,255,255,.5)), url(https://i.pinimg.com/originals/ed/e2/00/ede20002b127fcaec84a5e231c868759.jpg) no-repeat center ;
+      background:linear-gradient(rgba(255,255,255,.5), rgba(255,255,255,.5)), url(https://i.pinimg.com/originals/5b/c6/47/5bc647d3a8a7d52925959ab2b2c6f58f.png) no-repeat center ;
       border-radius: 10px;
       text-align: center;
       padding: 20px;
@@ -129,46 +100,64 @@
       
     }
 
-	.edit-profile{
-      background-color: rgb(245, 233, 169);
-      border: none;
-      outline: none;
-      height: 40px;
-      border-radius: 25px;
-      padding: 0 25px;
-      border-color: rgb(102, 102, 167);
-      border-width: 1px;
-      width: 8%;
-      font-size: 16px;
-    }
-
-    .forma-profile{
-        background:linear-gradient(rgba(255,255,255,.5), rgba(255,255,255,.5)), url(https://www.eagle.mu/sites/default/files/contact-us/contact_us.jpg) center ;
+    .registered-users{
+        background:linear-gradient(rgba(255,255,255,.5), rgba(255,255,255,.5)), url(https://i.pinimg.com/736x/02/44/29/0244297b435f4e33d0b7a3a7169ba90e.jpg) center ;
         min-height: auto;
         background-size: inherit;
-        position:relative;
-       height: 700px;
-        width: 1600px;
+        position:absolute;
+        height: 800px;
+        width: 100%;
         padding-right: 0px;
         padding-left: 0px;
         padding-top: 0px;
         margin-top: 0;
     }
 
-    .col-lg-6{
-        position: relative;
-        text-align: center;
-        align-content: center;
+    .users-panel{
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
         gap: 1.5em;
-        padding: 1.5em 0;       
-    }
-	
-
-    .col-lg-6{
-        position: relative;
-        text-align: center;
-        align-content: center;
-        gap: 1.5em;
-        padding: 1.5em 0;       
+        padding: 1.5em 0;
     }
 
+    .user-card{
+        display: flex;
+        background-color: rgb(202, 213, 233);
+        border-radius: 25px;
+        height: 150px;
+        width: 300px;
+    }
+
+    .block-user-button{
+        width: 100px; 
+        height: 30px; 
+        background-color: rgb(250, 241, 190); 
+        position: absolute; 
+        margin-top: 25px; 
+        margin-left: 180px; 
+        border: none; 
+        border-radius: 25px;
+    }
+
+    .show-suspect-users{
+        position: absolute;
+        margin-top: 190px;
+        margin-left: 20px;
+        font-size: 16px;
+        font-family: sans-serif;
+    }
+
+    .new-users-button{
+        position: absolute;
+        margin-top: 230px;
+        margin-left: 20px;
+        font-size: 16px;
+        font-family: sans-serif;
+        width: 180px; 
+        height: 50px; 
+        background-color: rgb(149, 163, 190);
+        color: whitesmoke;
+        font-weight: bolder;
+        border: none; 
+        border-radius: 25px;
+    }

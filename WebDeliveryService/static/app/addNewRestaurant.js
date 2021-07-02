@@ -38,8 +38,8 @@ Vue.component("addNewRestaurant-page", {
           <ul class="nav navbar-nav">
             <li class="active"><a href="#/admin">Početna</a></li>
             <li><a href="#/userProfile">Moj Profil</a></li>
-            <li><a href="#">Korisnici</a></li>
-            <li><a href="#">Komentari</a></li>
+            <li><a href="#/userProfilesView">Korisnici</a></li>
+            <li><a href="#/comments">Komentari</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
             <li v-on:click="logout"><span class="glyphicon glyphicon-user"></span> Odjavite se </li>
@@ -84,7 +84,7 @@ Vue.component("addNewRestaurant-page", {
 
     </div>
   
-    <div class="registracija">
+    <div class="add-restaurant-popup">
         <div class="modal-content-reg">
           <div class="login-title">
             <h3 style="color: rgb(161, 89, 21); font-weight: bolder;"> NOVI MENADŽER </h3>
@@ -131,7 +131,7 @@ Vue.component("addNewRestaurant-page", {
 		},
 		
 		registerNewManager : function (event) {
-			document.querySelector('.registracija').style.display = 'flex';
+			document.querySelector('.add-restaurant-popup').style.display = 'flex';
 		},
 				
 		registerUser : function (event) {
@@ -215,7 +215,7 @@ Vue.component("addNewRestaurant-page", {
 			 	element.innerHTML = '';
 			 	element.style.display = 'hidden';
 			 }
-			 document.querySelector('.registracija').style.display = 'none';
+			 document.querySelector('.add-restaurant-popup').style.display = 'none';
 		},
 		
 		logout : function (event) {

@@ -32,15 +32,10 @@ Vue.component("home-page", {
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>                        
           </button>
-          <a class="navbar-brand" href="#">Logo</a>
         </div>
         <div class="collapse navbar-collapse" id="myNavbar">
           <ul class="nav navbar-nav">
-            <li class="active"><a href="#">Home</a></li>
-            <li><a href="#">Products</a></li>
-            <li><a href="#">Deals</a></li>
-            <li><a href="#">Stores</a></li>
-            <li><a href="#">Contact</a></li>
+            <li class="active"><a href="#">Restorani</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
             <li v-on:click="login"><span class="glyphicon glyphicon-user"></span> Prijavite se </li>
@@ -70,14 +65,14 @@ Vue.component("home-page", {
 
     </div>
     
-    <div class="container" style="top:43%">    
+    <div class="container" style="position:relative; left:-100px">    
       <div class="row">
         <div class="col-sm-2 sidenav">
           <p><a href="#">Link</a></p>
           <p><a href="#">Link</a></p>
           <p><a href="#">Link</a></p>
         </div>
-        <div class="col-lg-8"> 
+        <div class="col-lg-8" > 
           <div class="menu-group">
           
             <div class="panel panel-primary" v-on:click="showRestaurant">

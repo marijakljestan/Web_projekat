@@ -37,8 +37,8 @@ Vue.component("user-profile-page", {
           <ul class="nav navbar-nav">
             <li class="active"><a href="#/admin">Početna</a></li>
             <li><a href="#/userProfile">Moj Profil</a></li>
-            <li><a href="#">Korisnici</a></li>
-            <li><a href="#">Komentari</a></li>
+            <li><a href="#/userProfilesView">Korisnici</a></li>
+            <li><a href="#/comments">Komentari</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
             <li v-on:click="login"><span class="glyphicon glyphicon-user"></span> Odjavite se </li>
@@ -72,7 +72,7 @@ Vue.component("user-profile-page", {
         <button class="edit-profile" v-on:click="editProfile" style="position: absolute; top: 450px; left: 630px; width: 250px;">Izmeni podatke</button>
     </div>
   
-    <div class="registracija">
+    <div class="edit-profile-container">
         <div class="modal-content-reg">
           <div class="login-title">
             <h3 style="color: rgb(69, 131, 201); font-weight: bolder;"> IZMENI PODATKE </h3>
@@ -116,7 +116,7 @@ Vue.component("user-profile-page", {
 		}*/
 		
 		editProfile : function (event) {
-			document.querySelector('.registracija').style.display = 'flex';
+			document.querySelector('.edit-profile-container').style.display = 'flex';
 		},
 				
 		acceptChanges : function (event) {
@@ -200,7 +200,7 @@ Vue.component("user-profile-page", {
 			 	element.innerHTML = '';
 			 	element.style.display = 'hidden';
 			 }
-			 document.querySelector('.registracija').style.display = 'none';
+			 document.querySelector('.edit-profile-container').style.display = 'none';
 		},
 		
 		logout : function (event) {
