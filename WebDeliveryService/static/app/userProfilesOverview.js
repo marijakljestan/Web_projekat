@@ -1,7 +1,16 @@
 Vue.component("user-profiles-page", {
 	data: function () {
 		    return {
-		      restaurants: null
+		      restaurants: null,
+		      usernameRegister: '',
+		      passwordRegister: '',
+		      nameRegister: '',
+			  surnameRegister: '',
+			  genderRegister:'',
+		      dateOfBirthRegister: '',
+		      roleRegister : '',
+		      usernameLog: '',
+		      passwordLog: ''
 		    }
 	},
 	template: ` 
@@ -31,7 +40,7 @@ Vue.component("user-profiles-page", {
             <li><a href="#/comments">Komentari</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
-            <li v-on:click="login"><span class="glyphicon glyphicon-user"></span> Odjavite se </li>
+            <li v-on:click="logout"><span class="glyphicon glyphicon-user"></span> Odjavite se </li>
           </ul>
         </div>
       </div>
@@ -47,8 +56,8 @@ Vue.component("user-profiles-page", {
         </div>
 
         <div class="new-users">
-            <button class="new-users-button">NOVI MENADŽER</button><br/><br/><br/><br/>
-            <button class="new-users-button">NOVI DOSTAVLJAČ</button>
+            <button v-on:click="registerManager" class="new-users-button">NOVI MENADŽER</button><br/><br/><br/><br/>
+            <button v-on:click="registerDeliverer" class="new-users-button">NOVI DOSTAVLJAČ</button>
         </div>
   
         <div class="container-fluid text-center" style="position: absolute; left: 300px; top: 100px;">    
@@ -144,7 +153,7 @@ Vue.component("user-profiles-page", {
           <div class="login-title">
             <h3 style="color: rgb(199, 200, 201); font-weight: bolder;"> NOVI KORISNIK </h3>
           </div>
-          <div v-on:click="registrationClose" class="close">+</div>
+          <div v-on:click="addManagerDelivererClose" class="close">+</div>
           <div class = "form-div" style="margin-top: 20px;">
             <form>
               <input v-model="usernameRegister" type="text"  class="login-inputs" style="margin-top: 0px;" placeholder="korisničko ime" id = "userNameReg">
@@ -163,7 +172,7 @@ Vue.component("user-profiles-page", {
               <label style="color: rgb(69, 131, 201);">Datum rođenja:</label>
               <input type="date" class="login-inputs" style="margin-top: 1px;" id="date_input">
                 <label style="color : red;" id="dateLabel" name = "labels" display="hidden"> </label>  
-              <button v-on:click="registerUser" class="button" style="background-color: rgb(69, 131, 201); color: white;"> Potvrdi</button>
+              <button v-on:click="registerManagerDelivererConfirm" class="button" style="background-color: rgb(69, 131, 201); color: white;"> Potvrdi</button>
             </form>
           </div>
         </div>
@@ -176,6 +185,103 @@ Vue.component("user-profiles-page", {
 			.post('rest/proizvodi/add', {"id":''+product.id, "count":parseInt(product.count)})
 			.then(response => (toast('Product ' + product.name + " added to the Shopping Cart")))
 		}*/
+		registerManager : function (event) {
+			//this.role = MANAGER;
+			document.querySelector('.registration-manager-deliverer').style.display = 'flex';
+		},
+		
+		registerDeliverer : function (event) {
+			//this.role = DELIVERER;
+			document.querySelector('.registration-manager-deliverer').style.display = 'flex';			
+		},
+				
+		registerManagerDelivererConfirm : function (event) {
+				
+				event.preventDefault();
+				
+				let genderReg;
+				if (this.genderRegister == 'MUŠKO') {
+					genderReg = 'MALE';
+				} else if(this.genderRegister == 'ŽENSKO'){
+					genderReg = 'FEMALE';
+				}
+				var dates = document.getElementById("date_input").value;
+       			var d=new Date(dates);
+       			
+       			var valid = true;
+       			     		      			
+       			 if(!this.usernameRegister){
+			        document.getElementById('usernameLabel').innerHTML = "Morate uneti korisnicko ime!";
+					document.getElementById('usernameLabel').style.display = 'block';
+					valid = false;
+			    }
+			     else if(!this.passwordRegister){
+			       document.getElementById('passwordLabel').innerHTML = "Morate uneti lozinku!";
+				   document.getElementById('passwordLabel').style.display = 'block';
+				   valid = false;
+			    }
+			    else if(this.nameRegister[0] < 'A' || this.nameRegister[0] > 'Z' || !this.nameRegister){
+			        document.getElementById('nameLabel').innerHTML = "Morate uneti ime koje pocinje velikim slovom!";
+					document.getElementById('nameLabel').style.display = 'block';
+					valid = false;
+			    }
+			    else if(this.surnameRegister[0] < 'A' || this.surnameRegister[0] > 'Z' || !this.surnameRegister){
+			        document.getElementById('surnameLabel').innerHTML = "Morate uneti prezime koje pocinje velikim slovom!";
+					document.getElementById('surnameLabel').style.display = 'block';
+					valid = false;
+			    }
+			    else if(!genderReg){
+			    	document.getElementById('genderLabel').innerHTML = "Morate izabrati pol!";
+					document.getElementById('genderLabel').style.display = 'block';
+					valid = false;
+			    }
+			    else if(!dates){
+			    	document.getElementById('dateLabel').innerHTML = "Morate izabrati datum rodjenja!";
+					document.getElementById('dateLabel').style.display = 'block';
+					valid = false;
+			    }
+			    
+			    if(valid == true){
+			    	let newUser = {
+						username : this.usernameRegister,
+						password : this.passwordRegister,
+	    				name : this.nameRegister,
+	    				surname : this.surnameRegister,
+	    				gender : genderReg,
+	    				dateOfBirth : d,
+	    				role : 'CUSTOMER'				
+    			}
+				axios 
+    			.post('/users/register', JSON.stringify(newUser))
+    			.then(response => {
+    				if (response.data == "") {
+						document.getElementById('usernameLabel').innerHTML = "Vec postoji uneto korisnicko ime!";
+						document.getElementById('usernameLabel').style.display = 'block';
+    				} else {
+						window.location.href = "/";
+    				}
+    			})
+    			.catch(error => {
+				    console.log(error.response)
+				});
+			    }
+			
+		},		
+		addManagerDelivererClose: function (event) {
+			 this.usernameRegister = '';
+		     this.passwordRegister = '';
+		     this.nameRegister = '';
+			 this.surnameRegister = '';
+			 for (element of document.getElementsByName('labels')){
+			 	element.innerHTML = '';
+			 	element.style.display = 'hidden';
+			 }
+			 document.querySelector('.registration-manager-deliverer').style.display = 'none';
+		},
+		
+		logout : function (event) {
+			
+		}
 	},
 	mounted () {
      /*   axios
