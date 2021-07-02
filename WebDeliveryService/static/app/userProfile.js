@@ -38,7 +38,7 @@ Vue.component("user-profile-page", {
             <li class="active"><a href="#/admin">Početna</a></li>
             <li><a href="#/userProfile">Moj Profil</a></li>
             <li><a href="#/userProfilesView">Korisnici</a></li>
-            <li><a href="#/comments">Komentari</a></li>
+            <li><a href="#/commentsAdmin">Komentari</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
             <li v-on:click="login"><span class="glyphicon glyphicon-user"></span> Odjavite se </li>

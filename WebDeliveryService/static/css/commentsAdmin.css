@@ -1,0 +1,75 @@
+@charset "utf-8";
+ .navbar {
+      margin-bottom: 50px;
+      border-radius: 0;
+      background: rgb(192, 236, 241);
+      color: white;
+    }
+    
+    /* Remove the jumbotron's default bottom margin */ 
+     .jumbotron {      
+      margin-bottom: 0;
+      background-color : hsl(206, 77%, 76%);
+      height: 210px;
+    }
+ 
+    /* Add a gray background color and some padding to the footer */
+    footer {
+      background-color:#b9daee;;
+      padding: 25px;
+      height: 10%;
+    }
+
+    .input-fields{
+      background-color: rgb(247, 240, 213);
+      border: none;
+      outline: none;
+      height: 40px;
+      border-radius: 25px;
+      padding: 0 25px;
+      border-color: rgb(102, 102, 167);
+      border-width: 1px;
+      width: 50%;
+      
+    }
+
+    .comments-admin{
+        background:linear-gradient(rgba(255,255,255,.5), rgba(255,255,255,.5)), url(https://i.ytimg.com/vi/6LhWBCL80Ro/maxresdefault.jpg) no-repeat center ;
+        min-height: auto;
+        background-size: inherit;
+        position:absolute;
+        height: 100%;
+        width: 100%;
+        padding-right: 0px;
+        padding-left: 0px;
+        padding-top: 0px;
+        margin-top: 0;
+    }
+
+    .comments-panel{
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.5em;
+        padding: 1.5em 0;
+    }
+
+    .comment-panel{
+        display: flex;
+        background-color: rgb(202, 213, 233);
+        border-radius: 25px;
+        height: 180px;
+        width: 340px;
+    }
+
+    .filter-comments-checkboxes{
+        position: absolute;
+        margin-top: 190px;
+        margin-left: 20px;
+        font-size: 16px;
+        font-family: sans-serif;
+    }
+
+    .comment-text{
+        margin-top: 7px;
+        line-height: 1.6;
+    }
