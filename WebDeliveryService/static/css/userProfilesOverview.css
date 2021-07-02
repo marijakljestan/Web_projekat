@@ -161,3 +161,30 @@
         border: none; 
         border-radius: 25px;
     }
+    
+     .search{
+      position: absolute;
+      top: 9%;
+      left: 25%;
+    }
+
+    .search-input{
+      background-color: cornsilk;
+      border: none;
+      outline: none;
+      height: 35px;
+      border-radius: 25px;
+      padding: 0 25px;
+      border-color: rgb(102, 102, 167);
+      border-width: 1px;
+    }
+
+    .search-submit{
+      border-radius: 15px;
+      height: 35px;
+      border-color: rgb(149, 203, 224);
+      background-color: rgb(149, 203, 224);
+      text-align: center;
+      font-size: 15px;
+      font-weight: bold;
+    }

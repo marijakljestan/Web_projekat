@@ -59,6 +59,15 @@ Vue.component("user-profiles-page", {
             <button v-on:click="registerManager" class="new-users-button">NOVI MENADŽER</button><br/><br/><br/><br/>
             <button v-on:click="registerDeliverer" class="new-users-button">NOVI DOSTAVLJAČ</button>
         </div>
+        
+      <div class="search">
+	        <input type="text" class="search-input" placeholder="Ime ">
+	        <input type="text" class="search-input" placeholder="Prezime ">
+	        <input type="text" class="search-input" placeholder="Korisničko ime">
+	  
+	        <input type="submit" class="search-submit" value="Pretrazi">
+
+     </div>
   
         <div class="container-fluid text-center" style="position: absolute; left: 300px; top: 100px;">    
             <div class="row content">
