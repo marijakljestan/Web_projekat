@@ -8,6 +8,7 @@ const UserProfilesView = {template: '<user-profiles-page></user-profiles-page>'}
 const CommentsViewAdmin = {template: '<comments-admin></comments-admin>'}
 const ManagerPage = { template: '<manager-page></manager-page>' }
 const ManagerProfile = { template: '<manager-profile></manager-profile>' }
+const CommentsManager = {template: '<comments-manager></comments-manager>'}
 
 const router = new VueRouter({
 	  mode: 'hash',
@@ -24,6 +25,7 @@ const router = new VueRouter({
 	    { path: '/userProfilesView', component: UserProfilesView },
 	    { path: '/commentsAdmin', component: CommentsViewAdmin },
 	    { path: '/managerProfile', component: ManagerProfile },
+	    { path: '/commentsManager', component: CommentsManager },
 	  ]
 });
 
