@@ -45,14 +45,17 @@ Vue.component("restaurant-page-manager", {
     </nav>
     
     
-    <div class="container-fluid text-center" style="background:white; position:relative; margin:0px">    
+    <div class="container-fluid text-center" style="background:white; position:relative; margin:0px"> 
+   
         <div class="row content">
-          <div class="col-sm-2 sidenav" style="position: absolute; margin-left: -20px">
-            <p><button class="side-button" style="margin-top:20px;">Novi artikal</button></p>
-            <p><button class="side-button">Izmeni artikal</button></p>
+
+          <div class="col-sm-2 sidenav" style="position:relative; margin-left: -20px; gap: 1.5em; padding: 1.5em 0;">
+            <button v-on:click="addItemOpenForm" class="side-button" style="margin-top:20px;">Novi artikal</button><br/>
+            <button v-on:click="editItemOpenForm" class="side-button">Izmeni artikal</button>
           </div>
+
           <div class="col-lg-8"> 
-           <div class="menu-group" style="position: relative; margin-left:200px">
+           <div class="menu-group" style="position: relative; margin-left: -35px">
                <div class="menu-item">
                    <img class="menu-item-image" src="https://media-cdn.tripadvisor.com/media/photo-s/18/6d/ac/19/variety-pack-original.jpg" alt="Food">
                    <div class="menu-item-text">
@@ -130,6 +133,42 @@ Vue.component("restaurant-page-manager", {
            </div>
           </div>
         </div> 
+
+	   <div class="add-new-item">
+            <div class="add-new-item-form">
+              <div class="login-title">
+                <h3 style="color: rgb(58, 43, 194); font-weight: bolder;"> ARTIKAL </h3>
+              </div>
+              <div v-on:click="closeForm" class="close">+</div>
+              <div class = "form-div" style="margin-top: 20px;">
+                <form>
+                  <input v-model="itemName" type="text"  class="login-inputs" style="margin-top: 0px;" placeholder="Naziv artikla" id = "itemName">
+                  <label style="color : red;" id="itemNameLabel" name = "labels" display="hidden"> </label>
+                  <input v-model="itemPrice" type="number" class="login-inputs" style="margin-top: 0px;" placeholder="Cena"> 
+                  <label style="color : red;" id="itemPriceLabel" name = "labels" display="hidden"> </label>
+
+                  <label class="food-item-label">Tip:</label>
+                  <select v-model="itemType" class="login-inputs" style="margin-top: 0px;">
+                    <option>HRANA</option>
+                    <option>PIĆE</option>
+                 </select>
+                 <label style="color : red;" id="itemTypeLabel" name = "labels" display="hidden"> </label>
+
+                 <label class="food-item-label">Slika:</label>
+                 <input type="file" style="margin-left: 100px;" id="img" name="img" accept="image/*"><br/>
+                  <label style="color : red;" id="itemImageLabel" name = "labels" display="hidden"> </label>
+
+                  <label class="food-item-label">Opis:</label>
+                  <textarea v-model="itemDescription" type="text" class="login-inputs" style="margin-top: 0px;" placeholder="Opis">
+                  </textarea>
+
+                  <input type="number" class="login-inputs" style="margin-top: 1px;" id="itemQuantity" placeholder="Količina">
+
+                  <button v-on:click="addNewItem" class="button" style="background-color: rgb(64, 88, 224); color: white;"> Potvrdi</button>
+                </form>
+              </div>
+            </div>
+          </div> 
     
     <footer class="container-fluid text-center">
       <p>Online Food Delivery Copyright</p>  
@@ -143,6 +182,25 @@ Vue.component("restaurant-page-manager", {
 			.post('rest/proizvodi/add', {"id":''+product.id, "count":parseInt(product.count)})
 			.then(response => (toast('Product ' + product.name + " added to the Shopping Cart")))
 		}*/
+		
+		addItemOpenForm : function(event){
+			//selectedItem = null; v-model : selectedItem.price...
+			document.querySelector('.add-new-item').style.display = 'flex';
+		},
+		
+		editItemOpenForm : function(event){
+			document.querySelector('.add-new-item').style.display = 'flex';
+		},
+		
+		addNewItem : function(event){
+			//fleg za add/edit
+			event.preventDefault();
+		},
+		
+		closeForm : function(event){
+			document.querySelector('.add-new-item').style.display = 'none';
+		},
+		
 		logout : function (){
 			window.location.href = "#/";
 		}
