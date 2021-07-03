@@ -34,7 +34,7 @@ Vue.component("comments-manager", {
 	            <li><a href="#/commentsManager">Komentari</a></li>
 	          </ul>
 	          <ul class="nav navbar-nav navbar-right">
-	            <li v-on:click="logot"><span class="glyphicon glyphicon-user"></span> Odjavite se </li>
+	            <li v-on:click="logout"><span class="glyphicon glyphicon-user"></span> Odjavite se </li>
 	          </ul>
 	        </div>
 	      </div>
