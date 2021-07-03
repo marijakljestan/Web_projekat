@@ -34,13 +34,13 @@ Vue.component("user-profiles-page", {
         </div>
         <div class="collapse navbar-collapse" id="myNavbar">
           <ul class="nav navbar-nav">
-            <li class="active"><a href="#/admin">Početna</a></li>
-            <li><a href="#/userProfile">Moj Profil</a></li>
-            <li><a href="#/userProfilesView">Korisnici</a></li>
-            <li><a href="#/commentsAdmin">Komentari</a></li>
+            <li class="active"><a href="#/admin"><span class="glyphicon glyphicon-home"></span> Početna</a></li>
+            <li><a href="#/userProfile"><span class="glyphicon glyphicon-user"></span> Moj Profil</a></li>
+            <li><a href="#/userProfilesView"><span class="glyphicon glyphicon-folder-open"></span> Korisnici</a></li>
+            <li><a href="#/commentsAdmin"><span class="glyphicon glyphicon-comment"></span> Komentari</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
-            <li v-on:click="logout"><span class="glyphicon glyphicon-user"></span> Odjavite se </li>
+            <li> <a href="#/"><span class="glyphicon glyphicon-log-out"></span> Odjavite se</a> </li>
           </ul>
         </div>
       </div>

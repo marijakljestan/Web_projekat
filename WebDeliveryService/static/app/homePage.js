@@ -35,10 +35,10 @@ Vue.component("home-page", {
         </div>
         <div class="collapse navbar-collapse" id="myNavbar">
           <ul class="nav navbar-nav">
-            <li class="active"><a href="#">Restorani</a></li>
+            <li class="active"><a href="#"><span class="glyphicon glyphicon-home"></span>  Restorani</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
-            <li v-on:click="login"><span class="glyphicon glyphicon-user"></span> Prijavite se </li>
+            <li v-on:click="login"><span class="glyphicon glyphicon-log-in"></span> Prijavite se </li>
             <li v-on:click="register"><span class="glyphicon glyphicon-user"></span> Registrujte se</li>
           </ul>
         </div>

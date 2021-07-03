@@ -25,16 +25,16 @@ Vue.component("manager-page", {
             </div>
             <div class="collapse navbar-collapse" id="myNavbar">
               <ul class="nav navbar-nav">
-                <li class="active"><a href="#/manager">Početna</a></li>
-                <li><a href="#/managerProfile">Moj Profil</a></li>
-                <li><a href="#/restaurantManager">Moj restoran</a></li>
-                <li><a href="#/ordersManager">Porudžbine</a></li>
-                <li><a href="#/customersManger">Kupci</a></li>
-                <li><a href="#/commentsManager">Komentari</a></li>
-              </ul>
-              <ul class="nav navbar-nav navbar-right">
-                <li v-on:click="logout"><span class="glyphicon glyphicon-user"></span> Odjavite se </li>
-              </ul>
+	            <li class="active"><a href="#/manager"><span class="glyphicon glyphicon-home"></span> Početna</a></li>
+	            <li><a href="#/managerProfile"><span class="glyphicon glyphicon-user"></span> Moj Profil</a></li>
+	            <li><a href="#/restaurantManager"><span class="glyphicon glyphicon-tasks"></span> Moj restoran</a></li>
+	            <li><a href="#/ordersManager"><span class="glyphicon glyphicon-cutlery"></span> Porudžbine</a></li>
+	            <li><a href="#/customersManger"><span class="glyphicon glyphicon-globe"></span> Kupci</a></li>
+	            <li><a href="#/commentsManager"><span class="glyphicon glyphicon-comment"></span> Komentari</a></li>
+          	 </ul>
+	          <ul class="nav navbar-nav navbar-right">
+	            <li><a href="#/"><span class="glyphicon glyphicon-log-out"></span> Odjavite se</a></li>
+	          </ul>
             </div>
           </div>
         </nav>

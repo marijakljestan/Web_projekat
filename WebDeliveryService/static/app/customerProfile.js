@@ -35,14 +35,14 @@ Vue.component("customer-profile", {
         </div>
         <div class="collapse navbar-collapse" id="myNavbar">
           <ul class="nav navbar-nav">
-           		<li class="active"><a href="#/customer">Početna</a></li>
-                <li><a href="#/customerProfile">Moj Profil</a></li>
-                <li><a href="#/ordersCustomer">Moje porudžbine</a></li>
-               <li><a href="#/customerComments">Komentari</a></li>
+           		<li class="active"><a href="#/customer"><span class="glyphicon glyphicon-home"></span> Početna</a></li>
+                <li><a href="#/customerProfile"><span class="glyphicon glyphicon-user"></span> Moj Profil</a></li>
+                <li><a href="#/ordersCustomer"><span class="glyphicon glyphicon-cutlery"></span> Moje porudžbine</a></li>
+                <li><a href="#/customerComments"><span class="glyphicon glyphicon-comment"></span> Komentari</a></li>   
           </ul>
           <ul class="nav navbar-nav navbar-right">
-            <li v-on:click="logout"><span class="glyphicon glyphicon-user"></span> Odjavite se </li>
-          </ul>
+            <li><a href="#/"><span class="glyphicon glyphicon-shopping-cart"></span> Korpa</a></li>
+            <li><a href="#/"><span class="glyphicon glyphicon-log-out"></span> Odjavite se</a></li>
         </div>
       </div>
     </nav>
