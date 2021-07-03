@@ -1,4 +1,9 @@
 @charset "utf-8";
+
+	body{
+		background:#fff;
+	}
+	
     .navbar {
       margin-bottom: 50px;
       border-radius: 0;
@@ -182,5 +187,20 @@
       padding:15px 20px;
       border-radius:25px;
       background:rgb(255,255,255);
+    }
+    
+   .add-to-cart-button{
+        width: 90px;
+        height:35px;
+        align-content: center;
+        border-radius: 25px;
+        position: relative;
+        margin-right: 1%;
+        margin-left: 10px;
+        margin-top: 19%;
+        font-size: 16px;
+        border: none;
+        color: #fff;
+        background-color: rgb(140, 186, 230);
     }
 

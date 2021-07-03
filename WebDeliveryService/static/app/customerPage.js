@@ -57,7 +57,7 @@ Vue.component("customer-page", {
     
         </div>
         
-        <div class="container" style="top:43%">    
+        <div class="container" style="top:43%;">    
           <div class="row">
             <div class="col-lg-12"> 
               <div class="menu-group">
@@ -66,7 +66,7 @@ Vue.component("customer-page", {
                   <div class="panel-heading">TORTILLA CASA</div>
                   <div class="panel-body"><img src="https://www.gdecemo.rs/images/company/large/38391402_2229231537361475_218978392190484480_n-N13B.jpg" class="img-responsive" style="style='height: 100%; width: 100%; object-fit: contain'" alt="Image"></div>
                   <div class="panel-footer">Bulevar oslobodjenja 50</div>
-                </div>    
+                </div>   
             
                 <div class="panel panel-primary" v-on:click="showRestaurant">
                   <div class="panel-heading">KFC</div>
@@ -117,6 +117,11 @@ Vue.component("customer-page", {
 			.post('rest/proizvodi/add', {"id":''+product.id, "count":parseInt(product.count)})
 			.then(response => (toast('Product ' + product.name + " added to the Shopping Cart")))
 		}*/
+		
+		showRestaurant : function () {
+			window.location.href = "#/restaurantCustomer";
+		},
+		
 		logout : function (){
 			window.location.href = "#/";
 		}
