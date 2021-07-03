@@ -38,7 +38,7 @@ Vue.component("customer-profile", {
            		<li class="active"><a href="#/customer">Početna</a></li>
                 <li><a href="#/customerProfile">Moj Profil</a></li>
                 <li><a href="#/ordersCustomer">Moje porudžbine</a></li>
-                <li><a href="#/commentsCustomer">Komentari</a></li>
+               <li><a href="#/customerComments">Komentari</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
             <li v-on:click="logout"><span class="glyphicon glyphicon-user"></span> Odjavite se </li>
