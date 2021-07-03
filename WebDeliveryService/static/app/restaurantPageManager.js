@@ -47,12 +47,12 @@ Vue.component("restaurant-page-manager", {
     
     <div class="container-fluid text-center" style="background:white; position:relative; margin:0px">    
         <div class="row content">
-          <div class="col-sm-2 sidenav">
+          <div class="col-sm-2 sidenav" style="position: absolute; margin-left: -20px">
             <p><button class="side-button" style="margin-top:20px;">Novi artikal</button></p>
             <p><button class="side-button">Izmeni artikal</button></p>
           </div>
           <div class="col-lg-8"> 
-           <div class="menu-group">
+           <div class="menu-group" style="position: relative; margin-left:200px">
                <div class="menu-item">
                    <img class="menu-item-image" src="https://media-cdn.tripadvisor.com/media/photo-s/18/6d/ac/19/variety-pack-original.jpg" alt="Food">
                    <div class="menu-item-text">
@@ -60,7 +60,7 @@ Vue.component("restaurant-page-manager", {
                            <span class="menu-item-name"> Burger</span>
                            <span class="menu-item-price"> $9.99</span>
                        </h3>
-                       <p class="menu-item-description">
+                       <p class="menu-item-description" style="width:250px;">
                         Lorem ipsum dolor.Lorem ipsum dolor.Lorem ipsum dolor.Lorem ipsum dolor.Lorem ipsum dolor.Lorem ipsum dolor.
                     </p>
                    </div>               
@@ -72,7 +72,7 @@ Vue.component("restaurant-page-manager", {
                             <span class="menu-item-name"> Pizza</span>
                             <span class="menu-item-price"> $19.99</span>
                         </h3>
-                        <p class="menu-item-description">
+                        <p class="menu-item-description" style="width:250px;">
                         Lorem ipsum dolor.Lorem ipsum dolor.Lorem ipsum dolor.Lorem ipsum dolor.Lorem ipsum dolor.Lorem ipsum dolor.
                     </p>
                     </div> 
@@ -85,7 +85,7 @@ Vue.component("restaurant-page-manager", {
                             <span class="menu-item-name"> American pancakes</span>
                             <span class="menu-item-price"> $5.99</span>
                         </h3>
-                        <p class="menu-item-description">
+                        <p class="menu-item-description" style="width:250px;">
                          Lorem ipsum dolor.Lorem ipsum dolor.Lorem ipsum dolor.Lorem ipsum dolor.Lorem ipsum dolor.Lorem ipsum dolor.
                      </p>
                     </div> 
@@ -97,7 +97,7 @@ Vue.component("restaurant-page-manager", {
                             <span class="menu-item-name"> Pasta</span>
                             <span class="menu-item-price"> $25.99</span>
                         </h3>
-                        <p class="menu-item-description">
+                        <p class="menu-item-description" style="width:250px;">
                          Lorem ipsum dolor.Lorem ipsum dolor.Lorem ipsum dolor.Lorem ipsum dolor.Lorem ipsum dolor.Lorem ipsum dolor.
                      </p>
                     </div> 
@@ -109,7 +109,7 @@ Vue.component("restaurant-page-manager", {
                             <span class="menu-item-name"> Salad</span>
                             <span class="menu-item-price"> $19.99</span>
                         </h3>
-                        <p class="menu-item-description">
+                        <p class="menu-item-description" style="width:250px;">
                          Lorem ipsum dolor.Lorem ipsum dolor.Lorem ipsum dolor.Lorem ipsum dolor.Lorem ipsum dolor.Lorem ipsum dolor.
                      </p>
                     </div> 
@@ -121,7 +121,7 @@ Vue.component("restaurant-page-manager", {
                             <span class="menu-item-name"> Hot dog</span>
                             <span class="menu-item-price"> $6.99</span>
                         </h3>
-                        <p class="menu-item-description">
+                        <p class="menu-item-description" style="width:250px;">
                          Lorem ipsum dolor.Lorem ipsum dolor.Lorem ipsum dolor.Lorem ipsum dolor.Lorem ipsum dolor.Lorem ipsum dolor.
                      </p>
                     </div> 
