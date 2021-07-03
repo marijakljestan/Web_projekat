@@ -26,7 +26,7 @@ Vue.component("manager-page", {
             <div class="collapse navbar-collapse" id="myNavbar">
               <ul class="nav navbar-nav">
                 <li class="active"><a href="#/manager">Početna</a></li>
-                <li><a href="#/userProfile">Moj Profil</a></li>
+                <li><a href="#/managerProfile">Moj Profil</a></li>
                 <li><a href="#/restaurantManager">Moj restoran</a></li>
                 <li><a href="#/ordersManager">Porudžbine</a></li>
                 <li><a href="#/customersManger">Kupci</a></li>
