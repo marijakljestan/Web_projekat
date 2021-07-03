@@ -60,7 +60,7 @@ Vue.component("user-profiles-page", {
             <button v-on:click="registerDeliverer" class="new-users-button">NOVI DOSTAVLJAČ</button>
         </div>
         
-      <div class="search">
+      <div class="search-panel">
 	        <input type="text" class="search-input" placeholder="Ime ">
 	        <input type="text" class="search-input" placeholder="Prezime ">
 	        <input type="text" class="search-input" placeholder="Korisničko ime">
@@ -289,7 +289,7 @@ Vue.component("user-profiles-page", {
 		},
 		
 		logout : function (event) {
-			
+			window.location.href = "#/";
 		}
 	},
 	mounted () {

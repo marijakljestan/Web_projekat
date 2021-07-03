@@ -219,7 +219,7 @@ Vue.component("addNewRestaurant-page", {
 		},
 		
 		logout : function (event) {
-			
+			window.location.href = "#/";
 		}
 		
 	},

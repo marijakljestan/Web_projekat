@@ -6,13 +6,14 @@ const AddNewRestaurant = { template: '<addNewRestaurant-page></addNewRestaurant-
 const UserProfile = { template: '<user-profile-page></user-profile-page>' }
 const UserProfilesView = {template: '<user-profiles-page></user-profiles-page>'}
 const CommentsViewAdmin = {template: '<comments-admin></comments-admin>'}
+const ManagerPage = { template: '<manager-page></manager-page>' }
 
 const router = new VueRouter({
 	  mode: 'hash',
 	  routes: [
 	    { path: '/', component: HomePage},	 
 	    { path: '/login', component: LoginPage },
-	    { path: '/manager', component: LoginPage },
+	    { path: '/manager', component: ManagerPage },
 	    { path: '/customer', component: LoginPage },
 	    { path: '/deliverer', component: LoginPage },
 	    { path: '/admin', component: AdministratorPage },

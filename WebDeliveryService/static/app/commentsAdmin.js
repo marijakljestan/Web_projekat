@@ -31,7 +31,7 @@ Vue.component("comments-admin", {
             <li><a href="#/commentsAdmin">Komentari</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
-            <li v-on:click="login"><span class="glyphicon glyphicon-user"></span> Odjavite se </li>
+            <li v-on:click="logout"><span class="glyphicon glyphicon-user"></span> Odjavite se </li>
           </ul>
         </div>
       </div>
@@ -166,7 +166,7 @@ Vue.component("comments-admin", {
 		}*/
 		
 		logout : function (event) {
-			
+			window.location.href = "#/";
 		}
 	},
 	mounted () {
