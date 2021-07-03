@@ -11,6 +11,8 @@ const ManagerProfile = { template: '<manager-profile></manager-profile>' }
 const CommentsManager = {template: '<comments-manager></comments-manager>'}
 const RestaurantPageManager = { template: '<restaurant-page-manager></restaurant-page-manager>' }
 const CustomersManager = { template: '<customers-page></customers-page>' }
+const CustomerPage = { template: '<customer-page></customer-page>' }
+const CustomerProfile = { template: '<customer-profile></customer-profile>' }
 
 const router = new VueRouter({
 	  mode: 'hash',
@@ -18,7 +20,7 @@ const router = new VueRouter({
 	    { path: '/', component: HomePage},	 
 	    { path: '/login', component: LoginPage },
 	    { path: '/manager', component: ManagerPage },
-	    { path: '/customer', component: LoginPage },
+	    { path: '/customer', component: CustomerPage },
 	    { path: '/deliverer', component: LoginPage },
 	    { path: '/admin', component: AdministratorPage },
 	    { path: '/restaurant', component: RestaurantPage },
@@ -30,6 +32,7 @@ const router = new VueRouter({
 	    { path: '/commentsManager', component: CommentsManager },
 	    { path: '/restaurantManager', component: RestaurantPageManager },
 	    { path: '/customersManger', component: CustomersManager },
+	    { path: '/customerProfile', component: CustomerProfile },
 	  ]
 });
 
