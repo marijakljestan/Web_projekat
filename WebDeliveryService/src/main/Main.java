@@ -8,10 +8,13 @@ import java.io.File;
 
 import com.google.gson.Gson;
 
+import controllers.ProductController;
 import controllers.RestaurantController;
 import controllers.UsersController;
+import dao.ProductDAO;
 import dao.RestaurantDAO;
 import dao.UsersDAO;
+import services.ProductService;
 import services.RestaurantService;
 import services.UsersService;
 
@@ -35,5 +38,9 @@ public class Main {
 		RestaurantDAO restaurantDAO = new RestaurantDAO("./files/restaurants.json");
 		RestaurantService restaurantService = new RestaurantService(restaurantDAO);
 		RestaurantController restaurantController = new RestaurantController(restaurantService);
+		
+		ProductDAO productDAO = new ProductDAO("./files/products.json");
+		ProductService productService = new ProductService(productDAO);
+		ProductController productController = new ProductController(productService);
 	}
 }

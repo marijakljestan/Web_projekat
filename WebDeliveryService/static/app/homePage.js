@@ -75,7 +75,7 @@ Vue.component("home-page", {
         <div class="col-lg-10" > 
           
 	   
-		      <div v-for="restaurant in restaurants" v-on:click="showRestaurant" class="restaurant-info-home-page" style="background-color:cornsilk; border-radius: 25px; height: 200px; text-align: center; display: block;">
+		      <div v-for="restaurant in restaurants" v-on:click="showRestaurant(restaurant)" class="restaurant-info-home-page" style="background-color:cornsilk; border-radius: 25px; height: 200px; text-align: center; display: block;">
 		        <img v-bind:src= "restaurant.logo" alt="" class="restaurant-logo-home-page">
 		        <h1 class="restaurant-name">{{ restaurant.name }}</h1> 
 		        <span class="restaurant-status"><label style="font-size: 18px; font-weight: lighte; color:silver">{{ restaurant.status}}</label></span>  
@@ -163,8 +163,8 @@ Vue.component("home-page", {
 			document.querySelector('.bg-modal').style.display = 'none';
 		},
 		
-		showRestaurant : function () {
-			window.location.href = "#/restaurant";
+		showRestaurant : function (restaurant) {
+			window.location.href = "#/restaurant?id=" + restaurant.name;
 		},
 		
 		register : function (event) {

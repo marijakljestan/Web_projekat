@@ -1,7 +1,7 @@
 Vue.component("restaurant-page", {
 	data: function () {
 		    return {
-		      restaurants: null
+		      products: null
 		    }
 	},
 	template: ` 
@@ -48,30 +48,19 @@ Vue.component("restaurant-page", {
           </div>
           <div class="col-lg-8"> 
            <div class="menu-group">
-               <div class="menu-item">
-                   <img class="menu-item-image" src="https://media-cdn.tripadvisor.com/media/photo-s/18/6d/ac/19/variety-pack-original.jpg" alt="Food">
+               <div v-for="product in products" class="menu-item">
+                   <img class="menu-item-image" v-bind:src= "product.picture" alt="Food">
                    <div class="menu-item-text">
                        <h3 class="menu-item-heading">
-                           <span class="menu-item-name"> Burger</span>
-                           <span class="menu-item-price"> $9.99</span>
+                           <span class="menu-item-name"> {{ product.name }} </span>
+                           <span class="menu-item-price"> $ </span>
+                           <span class="menu-item-price">{{ product.price }}</span>
                        </h3>
                        <p class="menu-item-description">
-                        Lorem ipsum dolor.Lorem ipsum dolor.Lorem ipsum dolor.Lorem ipsum dolor.Lorem ipsum dolor.Lorem ipsum dolor.
+                        {{ product.description }}
                     </p>
                    </div>               
                </div>
-               <div class="menu-item">
-                    <img class="menu-item-image" src="https://post.healthline.com/wp-content/uploads/2020/07/pizza-beer-1200x628-facebook-1200x628.jpg" alt="Food">
-                    <div class="menu-item-text">
-                        <h3 class="menu-item-heading">
-                            <span class="menu-item-name"> Pizza</span>
-                            <span class="menu-item-price"> $19.99</span>
-                        </h3>
-                        <p class="menu-item-description">
-                        Lorem ipsum dolor.Lorem ipsum dolor.Lorem ipsum dolor.Lorem ipsum dolor.Lorem ipsum dolor.Lorem ipsum dolor.
-                    </p>
-                    </div> 
-                </div>      
                 <div class="menu-item">
                     <img class="menu-item-image" src="https://metmunch.com/wp-content/uploads/2021/02/pexels-photo-376464-1.jpeg" alt="Food">
                     <div class="menu-item-text">
@@ -130,17 +119,17 @@ Vue.component("restaurant-page", {
     </footer>
     </div>
 `
-	, 
+	,
+	mounted () {
+		axios
+          .get('restaurant/getJustProducts/' + this.$route.query.id)
+          .then(response => (this.products = response.data))
+    },
 	methods : {
 		/*addToCart : function (product) {
 			axios
 			.post('rest/proizvodi/add', {"id":''+product.id, "count":parseInt(product.count)})
 			.then(response => (toast('Product ' + product.name + " added to the Shopping Cart")))
 		}*/
-	},
-	mounted () {
-     /*   axios
-          .get('rest/proizvodi/getJustProducts')
-          .then(response => (this.products = response.data))*/
-    }
+	}
 });
