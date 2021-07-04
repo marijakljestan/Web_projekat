@@ -1,1 +1,1 @@
-[{ "name": "KFC","type": "Italijanski rest","status": "OPEN","logo":"./images/restaurants/KFC.jpg","location":{"latitude":45,"longitude":25,"address":{"street":"Bulevar oslobodjenja","number":"45","city":"Novi Sad","postalcode":"21000","country":"Srbija"}},"isDeleted": false,"products": []}]
+[{ "name": "KFC","type": "Italijanski restoran","status": "OPEN","logo":"./images/restaurants/KFC.jpg","location":{"latitude":45,"longitude":25,"address":{"street":"Bulevar oslobodjenja 45","city":"Novi Sad","postalcode":"21000","country":"Srbija"}},"isDeleted": false,"products": []}]

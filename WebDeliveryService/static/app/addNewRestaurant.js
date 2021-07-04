@@ -8,10 +8,7 @@ Vue.component("addNewRestaurant-page", {
 			  surnameRegister: '',
 			  genderRegister:'',
 		      dateOfBirthRegister: '',
-		      roleRegister : '',
-		      usernameLog: '',
-		      passwordLog: '',
-		      errorMessage: ''
+		      roleRegister : ''
 		    }
 	},
 	template: ` 
@@ -58,7 +55,7 @@ Vue.component("addNewRestaurant-page", {
                 <input type="text" class="input-fields" placeholder="Naziv restorana"><br/><br/>
                 <input type="text" class="input-fields" placeholder="Tip restorana"><br/><br/>
                 <label style="color: rgb(30, 31, 104);">Logo:</label><br/>
-                <input type="file" style="margin-left: 190px;" id="img" name="img" accept="image/*"><br/>
+                <input type="file" style="margin-left: 230px; color:#fff;" id="img" name="img" accept="image/*"><br/>
                 <label style="color: rgb(30, 31, 104);">Menadzer:</label><br/>
                 
                 <select class="input-selection">
@@ -70,12 +67,13 @@ Vue.component("addNewRestaurant-page", {
 			<button v-on:click="registerNewManager" class="add-manager" style="text-align: center; align-items:center; position: absolute; top: 322px; left: 336px; width: 50px;">+</button>
 			<!--button v-on:click="registerNewManager" class="add-manager" style="position: absolute; top: 336px; left: 690px; width: 50px;">+</button-->
 
-            <div class="col-lg-6" style="margin-left: 560px; margin-top: -260px;">
-                <input type="text" class="input-fields" placeholder="Ulica i broj"><br/><br/>
-                <input type="text" class="input-fields" placeholder="Grad"><br/><br/>
-                <input type="text" class="input-fields" placeholder="Država"><br/><br/>
-                <input type="text" class="input-fields" placeholder="Geografska širina"><br/><br/>
-                <input type="text" class="input-fields" placeholder="Geografska dužina"><br/><br/>
+            <div class="col-lg-6"  style="margin-left: 560px; margin-top: -260px;">
+                <input type="text"   class="input-fields" placeholder="Ulica i broj"><br/><br/>
+                <input type="text"   class="input-fields" style="width:27%" placeholder="Grad">
+                <input type="number" class="input-fields" style="width:23%" placeholder="Poštanski broj"><br/><br/>
+                <input type="text"   class="input-fields" placeholder="Država"><br/><br/>
+                <input type="number" class="input-fields" placeholder="Geografska širina"><br/><br/>
+                <input type="number" class="input-fields" placeholder="Geografska dužina"><br/><br/>
             </div>                
         </div>  
         
@@ -188,7 +186,7 @@ Vue.component("addNewRestaurant-page", {
 	    				surname : this.surnameRegister,
 	    				gender : genderReg,
 	    				dateOfBirth : d,
-	    				role : 'CUSTOMER'				
+	    				role : 'MANAGER'				
     			}
 				axios 
     			.post('/users/register', JSON.stringify(newUser))
