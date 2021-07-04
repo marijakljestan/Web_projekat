@@ -72,47 +72,18 @@ Vue.component("home-page", {
           <p><a href="#">Link</a></p>
           <p><a href="#">Link</a></p>
         </div>
-        <div class="col-lg-8" > 
-          <div class="menu-group">
+        <div class="col-lg-10" > 
           
-            <div class="panel panel-primary" v-on:click="showRestaurant">
-              <div class="panel-heading">TORTILLA CASA</div>
-              <div class="panel-body"><img src="https://www.gdecemo.rs/images/company/large/38391402_2229231537361475_218978392190484480_n-N13B.jpg" class="img-responsive" style="style='height: 100%; width: 100%; object-fit: contain'" alt="Image"></div>
-              <div class="panel-footer">Bulevar oslobodjenja 50</div>
-            </div>    
-        
-            <div class="panel panel-primary" v-on:click="showRestaurant">
-              <div class="panel-heading">KFC</div>
-              <div class="panel-body"><img src="https://indiaeducationdiary.in/wp-content/uploads/2020/10/IMG-20201024-WA0014.jpg" class="img-responsive" style="style='height: 100%; width: 100%; object-fit: contain'" alt="Image"></div>
-              <div class="panel-footer">Promenada</div>
-            </div>
-        
-        
-            <div class="panel panel-primary" v-on:click="showRestaurant">
-              <div class="panel-heading">JOKER</div>
-              <div class="panel-body"><img src="https://i.pinimg.com/564x/98/25/9f/98259fcd873f22730e10112a9cf568e2.jpg" class="img-responsive" style="style='height: 100%; width: 100%; object-fit: contain'" alt="Image"></div>
-              <div class="panel-footer">Zeleznicka 55</div>
-            </div>
-
-            <div class="panel panel-primary" v-on:click="showRestaurant">
-              <div class="panel-heading">GYROS MASTER</div>
-              <div class="panel-body"><img src="https://pronadjiusrbiji.rs/wp-content/uploads/2018/03/1521743677_brhrrngyrmastns_logo.jpg" class="img-responsive" style="width:100%" alt="Image"></div>
-              <div class="panel-footer">Buy 50 mobiles and get a gift card</div>
-            </div>
-
-            <div class="panel panel-primary" v-on:click="showRestaurant">
-              <div class="panel-heading">FOODY</div>
-              <div class="panel-body"><img src="https://promenadanovisad.rs/wp-content/uploads/2018/10/Foody-logo.jpg" class="img-responsive" style="width:100%" alt="Image"></div>
-              <div class="panel-footer">Buy 50 mobiles and get a gift card</div>
-            </div>
-
-            <div class="panel panel-primary" v-on:click="showRestaurant">
-              <div class="panel-heading">MILKY</div>
-              <div class="panel-body"><img src="https://www.biznisgroup.com/wp-content/uploads/2018/11/46655053_303621933816462_2332955887917858816_n-600x600.jpg" class="img-responsive" style="width:100%" alt="Image"></div>
-              <div class="panel-footer">Buy 50 mobiles and get a gift card</div>
-            </div>
-
-          </div>
+	   
+		      <div v-for="restaurant in restaurants" v-on:click="showRestaurant" class="restaurant-info-home-page" style="background-color:cornsilk; border-radius: 25px; height: 200px; text-align: center; display: block;">
+		        <img v-bind:src= "restaurant.logo" alt="" class="restaurant-logo-home-page">
+		        <h1 class="restaurant-name">{{ restaurant.name }}</h1> 
+		        <span class="restaurant-status"><label style="font-size: 18px; font-weight: lighte; color:silver">{{ restaurant.status}}</label></span>  
+		        <span class="restaurant-type"><label style="font-size: 16px; font-weight: lighter; font-family: sans-serif;">{{ restaurant.type }}</label></span>
+		        <span class="restaurant-grade"><label style="font-size: 16px; font-weight: lighte; color:silver">4.6</label></span>  <br/><br/>    
+		        <span class="restaurant-address"><label style="font-size: 16px; font-weight: lighter; font-family: sans-serif;">{{ restaurant.location.address.street }}  {{ restaurant.location.address.number }}</label></span>
+		      </div>
+	    
         </div>
       </div>
     </div><br>
@@ -164,12 +135,19 @@ Vue.component("home-page", {
       </div>
     </div>
     
-    <footer class="container-fluid text-center">
-      <p>Online Food Delivery Copyright</p>  
-    </footer>
-    </div>
 `
 	, 
+	
+	mounted () {
+     	    axios
+          		.get('/restaurants/getAll')
+          		.then(response => {
+				if (response.data != null) {
+					this.restaurants = response.data;
+				}
+			});
+    },
+	
 	methods : {
 		/*addToCart : function (product) {
 			axios
@@ -313,11 +291,6 @@ Vue.component("home-page", {
 				    console.log(error.response)
 				});
 			}
-    }, 
-		mounted () {
-     	/*   axios
-          		.get('rest/proizvodi/getJustProducts')
-          		.then(response => (this.products = response.data))*/
     }
   }
 });
