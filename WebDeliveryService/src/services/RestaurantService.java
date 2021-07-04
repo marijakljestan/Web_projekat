@@ -3,6 +3,7 @@ package services;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import com.google.gson.JsonElement;
 import com.google.gson.JsonSyntaxException;
 
 import beans.Restaurant;
@@ -19,6 +20,10 @@ public class RestaurantService {
 	
 	public ArrayList<Restaurant> getAll() throws JsonSyntaxException, IOException{
 		return restaurantDAO.getAll();
+	}
+
+	public Restaurant getRestaurant(String id) throws JsonSyntaxException, IOException {
+		return restaurantDAO.getByID(id);
 	}
 
 }

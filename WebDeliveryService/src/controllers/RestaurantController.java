@@ -28,6 +28,16 @@ public class RestaurantController {
 				return "";
 			}
 		});
+		
+		get("restaurant/:id", (req, res) -> {
+			res.type("application/json");
+			try {
+				return gson.toJson(restaurantService.getRestaurant(req.params("id")));
+			} catch (Exception e) {
+				e.printStackTrace();
+				return "";
+			}
+		});
 	}
 	
 	
