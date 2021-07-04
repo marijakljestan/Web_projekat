@@ -41,7 +41,7 @@ Vue.component("customer-profile", {
                 <li><a href="#/customerComments"><span class="glyphicon glyphicon-comment"></span> Komentari</a></li>   
           </ul>
           <ul class="nav navbar-nav navbar-right">
-            <li><a href="#/"><span class="glyphicon glyphicon-shopping-cart"></span> Korpa</a></li>
+            <li><a href="#/shoppingCart"><span class="glyphicon glyphicon-shopping-cart"></span> Korpa</a></li>
             <li><a href="#/"><span class="glyphicon glyphicon-log-out"></span> Odjavite se</a></li>
         </div>
       </div>
