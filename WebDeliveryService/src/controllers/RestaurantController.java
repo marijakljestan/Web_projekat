@@ -5,7 +5,8 @@ import static spark.Spark.post;
 
 import com.google.gson.Gson;
 
-import dto.LoginDTO;
+import beans.Restaurant;
+import beans.User;
 import services.RestaurantService;
 import spark.Session;
 
@@ -26,6 +27,30 @@ public class RestaurantController {
 				e.printStackTrace();
 				return "";
 			}
+		});
+		
+		post("/restaurants/addNewRestaurant", (req,res) -> {
+			res.type("application/json");
+			
+			try {
+				Restaurant newRestaurant = gson.fromJson(req.body(), Restaurant.class);
+				
+				for (Restaurant restaurant : restaurantService.getAll()) {
+					if(restaurant.getName().equals(newRestaurant.getName())) {
+						//System.out.println("Vec postoji");
+						return "";
+					}
+				}
+				
+				restaurantService.createRestaurant(newRestaurant);
+							
+				return gson.toJson(newRestaurant);
+				
+			} catch(Exception e) {
+				e.printStackTrace();
+				return null;
+			}
+			
 		});
 	}
 	

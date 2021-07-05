@@ -66,7 +66,7 @@ Vue.component("addNewRestaurant-page", {
                 <input type="text" class="input-fields" v-model="name" placeholder="Naziv restorana"><br/><br/>
                 <input type="text" class="input-fields" v-model="type" placeholder="Tip restorana"><br/><br/>
                 <label style="color: rgb(30, 31, 104);">Logo:</label><br/>
-                <input type="file" style="margin-left: 230px; color:#fff;" id="img" name="img" accept="image/*"><br/>
+                <input type="file" @change="logoAdded" style="margin-left: 230px; color:#fff;" id="img" name="img" accept="image/*"><br/>
                 <label style="color: rgb(30, 31, 104);">Menadzer:</label><br/>
 
                 <select v-model="selectedManager" class="input-selection">
@@ -151,6 +151,23 @@ Vue.component("addNewRestaurant-page", {
 			.then(response => (toast('Product ' + product.name + " added to the Shopping Cart")))
 		}*/
 		
+		logoAdded(e) 
+        {
+            const file = e.target.files[0];
+            this.createBase64Image(file);
+            this.logo = URL.createObjectURL(file);
+        },
+        
+         createBase64Image(file){
+            const reader= new FileReader();
+           
+            reader.onload = (e) =>{
+            	let img = e.target.result;
+            	this.logo = img;
+            }
+            reader.readAsDataURL(file);
+        },
+		
 		createNewRestaurant : function (event) {
 		
 			event.preventDefault();
@@ -173,6 +190,21 @@ Vue.component("addNewRestaurant-page", {
 			      isDeleted : false,
 			      products : []
 			  }
+			  
+				axios 
+	    			.post('/restaurants/addNewRestaurant', JSON.stringify(newRestaurant))
+	    			.then(response => {
+	    				if (response.data == "") {
+							//document.getElementById('usernameLabel').innerHTML = "Već postoji uneto korisničko ime!";
+							//document.getElementById('usernameLabel').style.display = 'block';
+	    				} else {
+	    					alert("Hi");
+							window.location.href = "/admin";
+	    				}
+	    			})
+	    			.catch(error => {
+					    console.log(error.response)
+					});
 			
 		},	
 			
