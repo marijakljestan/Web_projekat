@@ -1,17 +1,25 @@
 Vue.component("addNewRestaurant-page", {
 	data: function () {
 		    return {
-		      restaurants: null,
+		      managers: null,
+		      selectedManager : null,
+		      addBtnDisabled : true,
+		      name : '',
+		      type : '',
+		      logo : '',
+		      latitude : null,
+			  longitude : null,
+			  street : '',
+			  city : '',
+			  postalcode : null,
+			  country : '',
 			  usernameRegister: '',
 		      passwordRegister: '',
 		      nameRegister: '',
 			  surnameRegister: '',
 			  genderRegister:'',
 		      dateOfBirthRegister: '',
-		      roleRegister : '',
-		      usernameLog: '',
-		      passwordLog: '',
-		      errorMessage: ''
+		      roleRegister : ''
 		    }
 	},
 	template: ` 
@@ -55,32 +63,35 @@ Vue.component("addNewRestaurant-page", {
         <div  class="col-lg-12"> 
         
             <div class="col-lg-6" style="margin-left: 120px; margin-top: 95px;">
-                <input type="text" class="input-fields" placeholder="Naziv restorana"><br/><br/>
-                <input type="text" class="input-fields" placeholder="Tip restorana"><br/><br/>
+                <input type="text" class="input-fields" v-model="name" placeholder="Naziv restorana"><br/><br/>
+                <input type="text" class="input-fields" v-model="type" placeholder="Tip restorana"><br/><br/>
                 <label style="color: rgb(30, 31, 104);">Logo:</label><br/>
-                <input type="file" style="margin-left: 190px;" id="img" name="img" accept="image/*"><br/>
+                <input type="file" @change="logoAdded" style="margin-left: 230px; color:#fff;" id="img" name="img" accept="image/*"><br/>
                 <label style="color: rgb(30, 31, 104);">Menadzer:</label><br/>
-                
-                <select class="input-selection">
-                   <option>Mika Mikic</option>
-                   <option>Jova Jovic</option>
-                </select>
+
+                <select v-model="selectedManager" class="input-selection">
+				  <option v-for="manager in managers" v-bind:value="manager">
+				    {{ manager.username }} : {{ manager.name }}  {{ manager.surname }}
+				  </option>
+				</select>
                              
             </div>
-			<button v-on:click="registerNewManager" class="add-manager" style="text-align: center; align-items:center; position: absolute; top: 322px; left: 336px; width: 50px;">+</button>
-			<!--button v-on:click="registerNewManager" class="add-manager" style="position: absolute; top: 336px; left: 690px; width: 50px;">+</button-->
+			<button v-on:click="registerNewManager" class="add-manager" :disabled="addBtnDisabled == true" style="text-align: center; align-items:center; position: absolute; top: 322px; left: 336px; width: 50px;">+</button>
 
-            <div class="col-lg-6" style="margin-left: 560px; margin-top: -260px;">
-                <input type="text" class="input-fields" placeholder="Ulica i broj"><br/><br/>
-                <input type="text" class="input-fields" placeholder="Grad"><br/><br/>
-                <input type="text" class="input-fields" placeholder="Država"><br/><br/>
-                <input type="text" class="input-fields" placeholder="Geografska širina"><br/><br/>
-                <input type="text" class="input-fields" placeholder="Geografska dužina"><br/><br/>
+
+            <div class="col-lg-6"  style="margin-left: 560px; margin-top: -260px;">
+                <input type="text"   class="input-fields" v-model="street" placeholder="Ulica i broj"><br/><br/>
+                <input type="text"   class="input-fields" v-model="city"  style="width:27%" placeholder="Grad">
+                <input type="number" class="input-fields" v-model="postalcode" style="width:23%" placeholder="Poštanski broj"><br/><br/>
+                <input type="text"   class="input-fields" v-model="country"   placeholder="Država"><br/><br/>
+                <input type="number" class="input-fields" v-model="latitude"  placeholder="Geografska širina"><br/><br/>
+                <input type="number" class="input-fields" v-model="longitude" placeholder="Geografska dužina"><br/><br/>
             </div>                
         </div>  
         
-        <button class="accept-cancel" style="background-color: lightblue;">POTVRDI</button>
-        <button v-on:click="goBack" class="accept-cancel" style="background-color: cornsilk;">ODUSTANI</button><br/>
+        <label style="color : red; margin-left: 40%;" id="errorLabel" name = "labels" display="hidden"> </label><br/>
+        <button v-on:click="createNewRestaurant" class="accept-cancel" style="background-color: lightblue; margin-left: 0%;">POTVRDI</button>
+        <button v-on:click="goBack" 			 class="accept-cancel" style="background-color: cornsilk;  margin-left: 1%;">ODUSTANI</button><br/>
 
     </div>
   
@@ -120,12 +131,120 @@ Vue.component("addNewRestaurant-page", {
       </div>
 `
 	, 
+	
+	mounted () {
+        axios
+          .get('/managers/getAllManagersWithoutRestaurant')
+          .then(response => {
+				if (response.data != null) {
+					this.managers = response.data;
+				}
+				else{
+					this.addBtnDisabled = false;
+				}
+			});
+    },
+	
 	methods : {
 		/*addToCart : function (product) {
 			axios
 			.post('rest/proizvodi/add', {"id":''+product.id, "count":parseInt(product.count)})
 			.then(response => (toast('Product ' + product.name + " added to the Shopping Cart")))
 		}*/
+		
+		logoAdded(e) 
+        {
+            const file = e.target.files[0];
+            this.createBase64Image(file);
+            this.logo = URL.createObjectURL(file);
+        },
+        
+         createBase64Image(file){
+            const reader= new FileReader();
+           
+            reader.onload = (e) =>{
+            	let img = e.target.result;
+            	this.logo = img;
+            }
+            reader.readAsDataURL(file);
+        },
+		
+		createNewRestaurant : function (event) {
+		
+			event.preventDefault();
+			
+			let valid = true;
+       			     		      			
+       			 if(!this.name){
+			        document.getElementById('errorLabel').innerHTML = "Morate uneti naziv restorana!";
+					document.getElementById('errorLabel').style.display = 'block';
+					valid = false;
+			    }
+			     else if(!this.type){
+			       document.getElementById('errorLabel').innerHTML = "Morate uneti tip restorana!";
+				   document.getElementById('errorLabel').style.display = 'block';
+				   valid = false;
+			    }
+			    
+			     else if(!this.logo){
+			       document.getElementById('errorLabel').innerHTML = "Morate izabrati logo restorana!";
+				   document.getElementById('errorLabel').style.display = 'block';
+				   valid = false;
+			    }
+			
+			    else if(!this.selectedManager){
+			    	document.getElementById('errorLabel').innerHTML = "Morate izabrati menadžera restorana!";
+					document.getElementById('errorLabel').style.display = 'block';
+					valid = false;
+			    }
+			    
+			   else if(!this.latitude || !this.longitude || !this.street || !this.city || !this.postalcode || !this.country){
+			       document.getElementById('errorLabel').innerHTML = "Morate popuniti sva polja koja se odnose na adresu restorana!";
+				   document.getElementById('errorLabel').style.display = 'block';
+				   valid = false;
+			    }
+			    
+			  if(valid == true){
+			
+					newRestaurant = {
+					      name : this.name,
+					      type : this.type,
+					      status : 'OPEN',
+					      logo : this.logo,
+					      location: {
+					      	  latitude : this.latitude,
+						      longitude : this.longitude,
+						      address : {
+						      	  street : this.street,
+							      city : this.city,
+							      postalcode : this.postalcode,
+							      country : this.country
+							  }
+					      },
+					      isDeleted : false,
+					      products : []
+					  }
+					  
+						axios 
+			    			.post('/restaurants/addNewRestaurant', JSON.stringify(newRestaurant))
+			    			.then(response => {
+			    				if (response.data == "") {
+									document.getElementById('errorLabel').innerHTML = "Već postoji restoran sa unetim nazivom!";
+									document.getElementById('errorLabel').style.display = 'block';
+			    				} else {
+			    					axios
+									.post('/managers/setRestaurantToManager/' + this.selectedManager.username, JSON.stringify(newRestaurant))
+									.then(toast("Uspesno kreiran restoran!"));
+									window.location.href = "#/admin";
+			    				}
+			    			})
+			    			.catch(error => {
+							    console.log(error.response)
+							});
+				}
+			
+		},	
+			
 		goBack : function() {
 			window.location.href = "#/admin";
 		},
@@ -147,10 +266,10 @@ Vue.component("addNewRestaurant-page", {
 				var dates = document.getElementById("date_input").value;
        			var d=new Date(dates);
        			
-       			var valid = true;
+       			let valid = true;
        			     		      			
        			 if(!this.usernameRegister){
-			        document.getElementById('usernameLabel').innerHTML = "Morate uneti korisnicko ime!";
+			        document.getElementById('usernameLabel').innerHTML = "Morate uneti korisničko ime!";
 					document.getElementById('usernameLabel').style.display = 'block';
 					valid = false;
 			    }
@@ -160,12 +279,12 @@ Vue.component("addNewRestaurant-page", {
 				   valid = false;
 			    }
 			    else if(this.nameRegister[0] < 'A' || this.nameRegister[0] > 'Z' || !this.nameRegister){
-			        document.getElementById('nameLabel').innerHTML = "Morate uneti ime koje pocinje velikim slovom!";
+			        document.getElementById('nameLabel').innerHTML = "Morate uneti ime koje počinje velikim slovom!";
 					document.getElementById('nameLabel').style.display = 'block';
 					valid = false;
 			    }
 			    else if(this.surnameRegister[0] < 'A' || this.surnameRegister[0] > 'Z' || !this.surnameRegister){
-			        document.getElementById('surnameLabel').innerHTML = "Morate uneti prezime koje pocinje velikim slovom!";
+			        document.getElementById('surnameLabel').innerHTML = "Morate uneti prezime koje počinje velikim slovom!";
 					document.getElementById('surnameLabel').style.display = 'block';
 					valid = false;
 			    }
@@ -175,12 +294,13 @@ Vue.component("addNewRestaurant-page", {
 					valid = false;
 			    }
 			    else if(!dates){
-			    	document.getElementById('dateLabel').innerHTML = "Morate izabrati datum rodjenja!";
+			    	document.getElementById('dateLabel').innerHTML = "Morate izabrati datum rođenja!";
 					document.getElementById('dateLabel').style.display = 'block';
 					valid = false;
 			    }
 			    
 			    if(valid == true){
+			    	
 			    	let newUser = {
 						username : this.usernameRegister,
 						password : this.passwordRegister,
@@ -188,22 +308,38 @@ Vue.component("addNewRestaurant-page", {
 	    				surname : this.surnameRegister,
 	    				gender : genderReg,
 	    				dateOfBirth : d,
-	    				role : 'CUSTOMER'				
-    			}
-				axios 
-    			.post('/users/register', JSON.stringify(newUser))
-    			.then(response => {
-    				if (response.data == "") {
-						document.getElementById('usernameLabel').innerHTML = "Vec postoji uneto korisnicko ime!";
-						document.getElementById('usernameLabel').style.display = 'block';
-    				} else {
-						window.location.href = "/";
+	    				role : 'MANAGER'			
     				}
-    			})
-    			.catch(error => {
-				    console.log(error.response)
-				});
-			    }
+			    
+			    	let newManager = {
+						username : this.usernameRegister,
+						password : this.passwordRegister,
+	    				name : this.nameRegister,
+	    				surname : this.surnameRegister,
+	    				gender : genderReg,
+	    				dateOfBirth : d,
+	    				role : 'MANAGER',
+	    				restaurant : null				
+    				}
+					axios 
+	    			.post('/users/register', JSON.stringify(newUser))
+	    			.then(response => {
+	    				if (response.data == "") {
+							document.getElementById('usernameLabel').innerHTML = "Već postoji uneto korisničko ime!";
+							document.getElementById('usernameLabel').style.display = 'block';
+	    				} else {
+	    					axios
+							.post('/managers/createManager', JSON.stringify(newManager))
+							.then(response => {
+								this.selectedManager = newManager;
+								document.querySelector('.add-restaurant-popup').style.display = 'none';
+							});
+	    				}
+	    			})
+	    			.catch(error => {
+					    console.log(error.response)
+					});
+				}
 			
 		},		
 		registrationClose: function (event) {
@@ -222,10 +358,6 @@ Vue.component("addNewRestaurant-page", {
 			window.location.href = "#/";
 		}
 		
-	},
-	mounted () {
-     /*   axios
-          .get('rest/proizvodi/getJustProducts')
-          .then(response => (this.products = response.data))*/
-    }
+	}
+
 });

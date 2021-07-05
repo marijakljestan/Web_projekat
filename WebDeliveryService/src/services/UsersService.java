@@ -24,6 +24,7 @@ public class UsersService {
 	public ArrayList<User> getAllUsers() throws JsonSyntaxException, IOException{
 		return usersDAO.getAll();
 	}
+	
 
 	public User login(LoginDTO user) throws JsonSyntaxException, IOException {
 		User loggedUser = null;

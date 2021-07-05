@@ -2,6 +2,7 @@ package services;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonSyntaxException;
@@ -12,6 +13,7 @@ import dao.RestaurantDAO;
 public class RestaurantService {
 	
 	private RestaurantDAO restaurantDAO;
+	private Base64ToImage decoder = new Base64ToImage();
 
 	public RestaurantService(RestaurantDAO restaurantDAO) {
 		super();
@@ -20,6 +22,17 @@ public class RestaurantService {
 	
 	public ArrayList<Restaurant> getAll() throws JsonSyntaxException, IOException{
 		return restaurantDAO.getAll();
+	}
+	
+	public void createRestaurant(Restaurant restaurant) throws JsonSyntaxException, IOException {
+		
+		String convertedImage = new String();
+		String path = "images/restaurants/" + restaurant.getName()  + ".jpg";
+		decoder.Base64DecodeAndSave(restaurant.getLogo(), path);
+		path = "./" + "images/restaurants/" + restaurant.getName()  + ".jpg"; 
+		restaurant.setLogo(path);
+		
+		restaurantDAO.create(restaurant);
 	}
 
 	public Restaurant getRestaurant(String id) throws JsonSyntaxException, IOException {
