@@ -8,7 +8,7 @@ Vue.component("restaurant-page-manager", {
 		      itemType: '',
 		      itemDescription: '',
 		      itemPicture: '',
-		      itemQuantity: '',
+		      itemQuantity: '0',
 		      errorMessage: ''
 		    }
 	},
@@ -150,27 +150,28 @@ Vue.component("restaurant-page-manager", {
               <div v-on:click="closeForm" class="close">+</div>
               <div class = "form-div" style="margin-top: 20px;">
                 <form>
-                  <input v-model="itemName" type="text"  class="login-inputs" style="margin-top: 0px;" placeholder="Naziv artikla" id = "itemName">
+                  <input v-model="itemName" type="text"  class="login-inputs" style="margin-top: 0px;" placeholder="Naziv artikla*" id = "itemName">
                   <label style="color : red;" id="itemNameLabel" name = "labels" display="hidden"> </label>
-                  <input v-model="itemPrice" type="text" class="login-inputs" style="margin-top: 0px;" placeholder="Cena"> 
+                  <input v-model="itemPrice" type="text" class="login-inputs" style="margin-top: 0px;" placeholder="Cena*"> 
                   <label style="color : red;" id="itemPriceLabel" name = "labels" display="hidden"> </label>
 
-                  <label class="food-item-label">Tip:</label>
+                  <label class="food-item-label">Tip*:</label>
                   <select v-model="itemType" class="login-inputs" style="margin-top: 0px;">
                     <option>HRANA</option>
                     <option>PIĆE</option>
                  </select>
                  <label style="color : red;" id="itemTypeLabel" name = "labels" display="hidden"> </label>
 
-                 <label class="food-item-label">Slika:</label>
+                 <label class="food-item-label">Slika*:</label>
                  <input type="file" @change="pictureAdded" style="margin-left: 100px;" id="img" name="img" accept="image/*"><br/>
                   <label style="color : red;" id="itemImageLabel" name = "labels" display="hidden"> </label>
 
                   <label class="food-item-label">Opis:</label>
                   <textarea v-model="itemDescription" type="text" class="login-inputs" style="margin-top: 0px;" placeholder="Opis">
                   </textarea>
-
-                  <input type="text" v-model="itemQuantity" class="login-inputs" style="margin-top: 1px;"  placeholder="Količina">
+				
+				  <label class="food-item-label" style="margin-left: -150px;" >Kolicina u gramima:</label>
+                  <input type="text" v-model="itemQuantity" class="login-inputs" style="margin-top: 1px;">
 				  <p style="color:red;text-transform:none;">{{errorMessage}}</p>
                   <button v-on:click="addNewItem" class="button" style="background-color: rgb(64, 88, 224); color: white;"> Potvrdi</button>
                 </form>
@@ -217,8 +218,8 @@ Vue.component("restaurant-page-manager", {
 			event.preventDefault();
       		document.getElementById('itemPriceLabel').innerHTML = "";
       		document.getElementById('itemNameLabel').innerHTML = "";
-			if(!this.itemName || !this.itemPrice || !this.itemType || !this.itemDescription || !this.itemQuantity) {
-				this.errorMessage="Morate popuniti sva polja.";
+			if(!this.itemName || !this.itemPrice || !this.itemType) {
+				this.errorMessage="Morate popuniti sva obavezna polja.";
 			} else {
 				this.errorMessage="";
 				let valid = true;
