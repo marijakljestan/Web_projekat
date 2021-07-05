@@ -5,6 +5,8 @@ import java.util.ArrayList;
 
 import com.google.gson.JsonSyntaxException;
 
+import beans.Manager;
+import beans.Role;
 import beans.User;
 import dao.UsersDAO;
 import dto.LoginDTO;
@@ -24,6 +26,7 @@ public class UsersService {
 	public ArrayList<User> getAllUsers() throws JsonSyntaxException, IOException{
 		return usersDAO.getAll();
 	}
+	
 
 	public User login(LoginDTO user) throws JsonSyntaxException, IOException {
 		User loggedUser = null;

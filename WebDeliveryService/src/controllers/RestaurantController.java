@@ -5,7 +5,6 @@ import static spark.Spark.post;
 
 import com.google.gson.Gson;
 
-import beans.User;
 import dto.LoginDTO;
 import services.RestaurantService;
 import spark.Session;

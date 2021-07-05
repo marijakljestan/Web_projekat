@@ -83,5 +83,9 @@ public class User implements Serializable{
 	public void setDeleted(boolean isDeleted) {
 		this.isDeleted = isDeleted;
 	}
+	
+	public String toString() {
+		return this.name + this.surname;
+	}
  
 }
