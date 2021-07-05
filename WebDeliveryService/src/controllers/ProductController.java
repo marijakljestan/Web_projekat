@@ -1,9 +1,11 @@
 package controllers;
 
 import static spark.Spark.get;
+import static spark.Spark.post;
 
 import com.google.gson.Gson;
 
+import beans.Product;
 import services.ProductService;
 
 public class ProductController {
@@ -22,6 +24,30 @@ public class ProductController {
 				e.printStackTrace();
 				return "";
 			}
+		});
+		
+		post("/product/addNew", (req,res) -> {
+			res.type("application/json");
+			
+			try {
+				Product newProduct = gson.fromJson(req.body(), Product.class);
+				
+				for (Product product : productService.getAll()) {
+					if(product.getName().equals(newProduct.getName())) {
+						//System.out.println("Vec postoji");
+						return "";
+					}
+				}
+				
+				productService.addNewProduct(newProduct);
+							
+				return gson.toJson(newProduct);
+				
+			} catch(Exception e) {
+				e.printStackTrace();
+				return null;
+			}
+			
 		});
 	}
 }

@@ -27,5 +27,14 @@ public class ProductService {
 		
 		return restaurantsProducts;
 	}
+	
+	public ArrayList<Product> getAll() throws JsonSyntaxException, IOException {
+		return productDAO.getAll();
+	}
+
+	public void addNewProduct(Product newProduct) throws JsonSyntaxException, IOException {
+		productDAO.create(newProduct);
+		
+	}
 
 }

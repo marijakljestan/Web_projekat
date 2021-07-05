@@ -1,6 +1,7 @@
 Vue.component("restaurant-page-manager", {
 	data: function () {
 		    return {
+		      restaurant: null,
 		      items: null,
 		      itemName: '',
 		      itemPrice: '',
@@ -216,16 +217,19 @@ Vue.component("restaurant-page-manager", {
 			    	let newItem = {
 						name : this.itemName,
 						price : this.itemPrice,
-	    				itemType : this.nameRegister == 'HRANA'?'FOOD':'DRINK',
+	    				type : this.itemType == 'HRANA'?'FOOD':'DRINK',
 	    				description : this.itemDescription,
-	    				quantity : this.itemQuantity			
+	    				picture: '',
+	    				quantity : this.itemQuantity,
+	    				restaurantName: ''		
     				}
 					axios 
-	    			.post('/product/addNew', JSON.stringify(newUser))
+	    			.post('/product/addNew', JSON.stringify(newItem))
 	    			.then(response => {
 	    				if (response.data == "") {
 							document.getElementById('itemNameLabel').innerHTML = "Vec postoji artikal sa tim imenom!";
 							document.getElementById('itemNameLabel').style.display = 'block';
+							this.errorMessage="Artikal vec postoji";
 	    				} else {
 							document.querySelector('.add-new-item').style.display = 'none';
 	    				}

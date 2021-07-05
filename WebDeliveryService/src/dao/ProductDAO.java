@@ -2,6 +2,7 @@ package dao;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -14,6 +15,7 @@ import com.google.gson.reflect.TypeToken;
 
 import beans.Product;
 import beans.Restaurant;
+import beans.User;
 
 public class ProductDAO implements IDao<Product, String> {
 
@@ -52,7 +54,9 @@ public class ProductDAO implements IDao<Product, String> {
 
 	@Override
 	public void create(Product entity) throws JsonSyntaxException, IOException {
-		// TODO Auto-generated method stub
+		ArrayList<Product> products = getAll();
+		products.add(entity);
+		saveAll(products);	
 		
 	}
 
@@ -76,7 +80,10 @@ public class ProductDAO implements IDao<Product, String> {
 
 	@Override
 	public void saveAll(ArrayList<Product> entities) throws FileNotFoundException {
-		// TODO Auto-generated method stub
+		PrintWriter writer = new PrintWriter(path);
+		String allEntities = new Gson().toJson(entities, new TypeToken<List<Product>>(){}.getType());
+		writer.println(allEntities);
+		writer.close();	
 		
 	}
 

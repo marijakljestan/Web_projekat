@@ -23,7 +23,7 @@ public class Main {
 	private static Gson g = new Gson();
 
 	public static void main(String[] args) throws Exception {
-		port(8088);
+		port(8080);
 		
 		staticFiles.externalLocation(new File("./static").getCanonicalPath()); 
 		
