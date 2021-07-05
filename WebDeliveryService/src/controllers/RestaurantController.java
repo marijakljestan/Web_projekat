@@ -3,12 +3,13 @@ package controllers;
 import static spark.Spark.get;
 import static spark.Spark.post;
 
+import java.util.ArrayList;
+
 import com.google.gson.Gson;
 
 import beans.Restaurant;
-import beans.User;
+import dto.RestaurantSearchDTO;
 import services.RestaurantService;
-import spark.Session;
 
 public class RestaurantController {
 	
@@ -47,14 +48,36 @@ public class RestaurantController {
 				
 				for (Restaurant restaurant : restaurantService.getAll()) {
 					if(restaurant.getName().equals(newRestaurant.getName())) {
-						//System.out.println("Vec postoji");
 						return "";
 					}
 				}
 				
-				restaurantService.createRestaurant(newRestaurant);
-							
+				restaurantService.createRestaurant(newRestaurant);		
 				return gson.toJson(newRestaurant);
+				
+			} catch(Exception e) {
+				e.printStackTrace();
+				return null;
+			}
+		});
+		
+		get("/restaurants/getAllTypes", (req, res) -> {
+			res.type("application/json");
+			try {
+				return gson.toJson(restaurantService.getAllRestaurantTypes());
+			} catch (Exception e) {
+				e.printStackTrace();
+				return "";
+			}
+		});
+		
+		post("/restaurants/searchRestaurants", (req,res) -> {
+			res.type("application/json");
+			
+			try {
+				RestaurantSearchDTO searchParameters = gson.fromJson(req.body(), RestaurantSearchDTO.class);
+				ArrayList<Restaurant> restaurants =	restaurantService.getSuitableRestaurants(searchParameters);		
+				return gson.toJson(restaurants);
 				
 			} catch(Exception e) {
 				e.printStackTrace();

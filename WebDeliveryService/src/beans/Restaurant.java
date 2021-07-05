@@ -14,6 +14,7 @@ public class Restaurant implements Serializable{
    private String logo;
    private Location location;
    private Boolean isDeleted;
+   private double grade;
    
    public ArrayList<Product> products;
    
@@ -84,6 +85,14 @@ public class Restaurant implements Serializable{
 
 	public void setIsDeleted(Boolean deleted) {
 		this.isDeleted = deleted;
-	} 	
-   
+	}
+
+	public double getGrade() {
+		return grade;
+	}
+
+	public void setGrade(double grade) {
+		this.grade = grade;
+	} 
+	   
 }

@@ -2,6 +2,7 @@ Vue.component("home-page", {
 	data: function () {
 		    return {
 		      restaurants: null,
+		      restaurantTypes : null,
 		      usernameRegister: '',
 		      passwordRegister: '',
 		      nameRegister: '',
@@ -11,7 +12,11 @@ Vue.component("home-page", {
 		      roleRegister : '',
 		      usernameLog: '',
 		      passwordLog: '',
-		      errorMessage: ''
+		      errorMessage: '',
+		      searchName : '',
+		      searchLocation: '',
+		      searchType: '',
+		      searchGrade: ''
 		    }
 	},
 	template: ` 
@@ -46,22 +51,25 @@ Vue.component("home-page", {
     </nav>
     
         <div class="search">
-        <input type="text" class="search-input" placeholder="Naziv restorana">
-        <input type="text" class="search-input" placeholder="Lokacija restorana">
-        <select class="search-input">
-           <option disabled selected>Tip restorana</option>
-            <option>Rostilj</option>
-            <option>Kineski</option>
-        </select>
-        <select class="search-input">
-          <option disabled selected>Izaberite ocenu</option>
-          <option>1</option>
-          <option>2</option>
-          <option>3</option>
-          <option>4</option>
-          <option>5</option>
-      </select>
-        <input type="submit" class="search-submit" value="Pretrazi">
+        <input type="text" v-model="searchName" 	class="search-input" placeholder="Naziv restorana">
+        <input type="text" v-model="searchLocation" class="search-input" placeholder="Lokacija restorana">
+             
+        <select v-model="searchType" class="search-input">
+        	<option disabled selected>Izaberite tip</option>
+			<option v-for="type in restaurantTypes" v-bind:value="type">
+				 {{ type }} 
+			</option>
+		</select>
+		
+		<select v-model="searchGrade" class="search-input">
+        	<option disabled selected> Izaberite ocenu</option>
+			<option v-for="index in 5" :key="index" v-bind:value="index">
+				{{ index }} 
+			</option>
+		</select>
+
+     
+        <button class="search-submit" v-on:click="searchRestaurants"> Pretraži </button>
 
     </div>
     
@@ -146,6 +154,14 @@ Vue.component("home-page", {
 					this.restaurants = response.data;
 				}
 			});
+			
+			axios
+          		.get('/restaurants/getAllTypes')
+          		.then(response => {
+				if (response.data != null) {
+					this.restaurantTypes= response.data;
+				}
+			});
     },
 	
 	methods : {
@@ -165,6 +181,21 @@ Vue.component("home-page", {
 		
 		showRestaurant : function (restaurant) {
 			window.location.href = "#/restaurant?id=" + restaurant.name;
+		},
+		
+		searchRestaurants : function (event) {
+				let searchParameters = {
+						name : this.searchName,
+						location : this.searchLocation,
+	    				type : this.searchType,
+	    				grade : this.searchGrade			
+    			}
+    			
+    			axios 
+		    		.post('/restaurants/searchRestaurants', JSON.stringify(searchParameters))
+		    		.then(response => {
+		    		   this.restaurants = response.data;
+		    	})
 		},
 		
 		register : function (event) {
@@ -226,21 +257,22 @@ Vue.component("home-page", {
 	    				gender : genderReg,
 	    				dateOfBirth : d,
 	    				role : 'CUSTOMER'				
-    			}
-				axios 
-    			.post('/users/register', JSON.stringify(newUser))
-    			.then(response => {
-    				if (response.data == "") {
-						document.getElementById('usernameLabel').innerHTML = "Vec postoji uneto korisnicko ime!";
-						document.getElementById('usernameLabel').style.display = 'block';
-    				} else {
-						window.location.href = "/";
     				}
-    			})
-    			.catch(error => {
-				    console.log(error.response)
-				});
-			    }
+    					
+						axios 
+		    			.post('/users/register', JSON.stringify(newUser))
+		    			.then(response => {
+		    				if (response.data == "") {
+								document.getElementById('usernameLabel').innerHTML = "Vec postoji uneto korisnicko ime!";
+								document.getElementById('usernameLabel').style.display = 'block';
+		    				} else {
+								window.location.href = "/";
+		    				}
+		    			})
+		    			.catch(error => {
+						    console.log(error.response)
+						});
+			   }
 			
 		},		
 		registrationClose: function (event) {
