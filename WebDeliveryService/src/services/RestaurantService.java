@@ -2,6 +2,7 @@ package services;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import com.google.gson.JsonSyntaxException;
 
@@ -9,6 +10,7 @@ import beans.Restaurant;
 import beans.RestaurantStatus;
 import dao.RestaurantDAO;
 import dto.RestaurantSearchDTO;
+import dto.SortDTO;
 
 public class RestaurantService {
 	
@@ -68,6 +70,30 @@ public class RestaurantService {
 				allRestaurantTypes.add(restaurant.getType());
 				
 		return allRestaurantTypes;
+	}
+	
+	public ArrayList<Restaurant> getSortedRestaurants(SortDTO sortParameters) throws JsonSyntaxException, IOException {
+		ArrayList<Restaurant> sortedRestaurants = getAll();
+		
+		if(sortParameters.getParameter().equals("name"))
+			if(sortParameters.getMode().equals("asc"))
+				sortedRestaurants.sort((o1, o2)-> o1.getName().compareTo( o2.getName()));
+			else
+				sortedRestaurants.sort((o1, o2)-> o2.getName().compareTo( o1.getName()));
+		
+		else if(sortParameters.getParameter().equals("location"))
+			if(sortParameters.getMode().equals("asc"))
+				sortedRestaurants.sort((o1, o2)-> o1.getLocation().toString().compareTo( o2.getLocation().toString()));
+			else
+				sortedRestaurants.sort((o1, o2)-> o2.getLocation().toString().compareTo( o1.getLocation().toString()));
+		
+		else if(sortParameters.getParameter().equals("grade"))
+			if(sortParameters.getMode().equals("asc"))
+				sortedRestaurants.sort((o1, o2) -> Double.compare(o1.getGrade(), o2.getGrade()));
+			else
+				sortedRestaurants.sort((o1, o2) -> Double.compare(o2.getGrade(), o1.getGrade()));
+		
+		return sortedRestaurants;
 	}
 	
 	public ArrayList<Restaurant> getSuitableRestaurants(RestaurantSearchDTO searchParameters) throws JsonSyntaxException, IOException{

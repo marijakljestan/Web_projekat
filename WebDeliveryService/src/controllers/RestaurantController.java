@@ -9,6 +9,7 @@ import com.google.gson.Gson;
 
 import beans.Restaurant;
 import dto.RestaurantSearchDTO;
+import dto.SortDTO;
 import services.RestaurantService;
 
 public class RestaurantController {
@@ -87,6 +88,20 @@ public class RestaurantController {
 			try {
 				RestaurantSearchDTO searchParameters = gson.fromJson(req.body(), RestaurantSearchDTO.class);
 				ArrayList<Restaurant> restaurants =	restaurantService.getSuitableRestaurants(searchParameters);		
+				return gson.toJson(restaurants);
+				
+			} catch(Exception e) {
+				e.printStackTrace();
+				return null;
+			}
+		});
+		
+		post("/restaurants/sortRestaurants", (req,res) -> {
+			res.type("application/json");
+			
+			try {
+				SortDTO sortParameters = gson.fromJson(req.body(), SortDTO.class);
+				ArrayList<Restaurant> restaurants =	restaurantService.getSortedRestaurants(sortParameters);		
 				return gson.toJson(restaurants);
 				
 			} catch(Exception e) {

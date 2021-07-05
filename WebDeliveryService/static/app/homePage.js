@@ -79,15 +79,15 @@ Vue.component("home-page", {
         <label style="color: darkgrey;" > Otvoreni restorani</label><br/>
         <hr>
         <label style="color: darkgrey);" > Sortiranje restorana: </label><br/><br/>
-        <input type="checkbox">
-        <label style="color: darkgrey;"  @change="setDescendingSortMode($event)"> Opadajuće</label><br/>
-        <input type="checkbox">
-        <label style="color: darkgrey;"  @change="setAscendingSortMode($event)"> Rastuće</label><br/><br/>
+        <input type="checkbox"  @change="setDescendingSortMode($event)">
+        <label style="color: darkgrey;"> Opadajuće</label><br/>
+        <input type="checkbox" @change="setAscendingSortMode($event)">
+        <label style="color: darkgrey;" > Rastuće</label><br/><br/>
         
         <label style="color: darkgrey;" > Parametri sortiranja: </label><br/><br/>
-        <input type="checkbox" @change="setSortNameAsParameter($event)">
+        <input type="checkbox" @change="setNameAsSortParameter($event)">
         <label style="color: darkgrey;"> Naziv</label><br/>
-        <input type="checkbox" @change="setSortLocationAsParameter($event)">
+        <input type="checkbox" @change="setLocationAsSortParameter($event)">
         <label style="color: darkgrey;"> Lokacija </label><br/>
         <input type="checkbox" @change="setGradeAsSortParameter($event)">
         <label style="color: darkgrey;"> Prosečna ocena</label><br/>
@@ -195,12 +195,12 @@ Vue.component("home-page", {
 			document.querySelector('.bg-modal').style.display = 'none';
 		},
 		
-		setAscendingSortModee : function (event) {
-			this.sortMode = 'ASCENDING';
+		setAscendingSortMode : function (event) {
+			this.sortMode = 'asc';
 		},
 		
 		setDescendingSortMode : function (event) {
-			this.sortMode = 'DESCENDING'
+			this.sortMode = 'desc'
 		},
 		
 		setNameAsSortParameter : function (event) {
@@ -216,7 +216,17 @@ Vue.component("home-page", {
 		},
 		
 		sortRestaurants : function (event) {
-		
+			
+					let sortParameters = {
+						mode : this.sortMode,
+						parameter : this.sortParameter		
+    			}
+    			
+    			axios 
+		    		.post('/restaurants/sortRestaurants', JSON.stringify(sortParameters))
+		    		.then(response => {
+		    		   this.restaurants = response.data;
+		    	})
 		},
 		
 		showRestaurant : function (restaurant) {
