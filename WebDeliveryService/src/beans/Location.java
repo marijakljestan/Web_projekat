@@ -28,7 +28,7 @@ public class Location implements Serializable{
 	}
 	@Override
 	public String toString() {
-		String ret =  latitude + " " + longitude + " " + address.getStreet() + " " + address.getCity() + " " + address.getPostalcode() + " " + address.getCountry();
+		String ret =  address.getCity() + " "  + address.getCountry();
 		return ret.trim();
 	}
    

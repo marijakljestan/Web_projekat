@@ -16,7 +16,9 @@ Vue.component("home-page", {
 		      searchName : '',
 		      searchLocation: '',
 		      searchType: '',
-		      searchGrade: ''
+		      searchGrade: '',
+		      sortMode : '',
+		      sortParameter : ''
 		    }
 	},
 	template: ` 
@@ -71,9 +73,27 @@ Vue.component("home-page", {
         <button class="search-submit" v-on:click="searchRestaurants"> Pretraži </button>
     </div>
     
-    <div class="col-sm-2 sidenav" style="position: absolute; left: 1%; top: 58%;">
+    <div class="col-sm-2 sidenav" style="position: absolute; left: 1%; top: 50%; border-radius: 25px; background-color: cornsilk;">
+    	<label style="color: darkgrey;" > Filteri: </label><br/><br/>
         <input type="checkbox" @change="showOnlyOpenRestaurants($event)" id="open-restaurants" value="restaurant">
-        <label style="color: rgb(30, 31, 104);" > Otvoreni restorani</label><br/>
+        <label style="color: darkgrey;" > Otvoreni restorani</label><br/>
+        <hr>
+        <label style="color: darkgrey);" > Sortiranje restorana: </label><br/><br/>
+        <input type="checkbox">
+        <label style="color: darkgrey;"  @change="setDescendingSortMode($event)"> Opadajuće</label><br/>
+        <input type="checkbox">
+        <label style="color: darkgrey;"  @change="setAscendingSortMode($event)"> Rastuće</label><br/><br/>
+        
+        <label style="color: darkgrey;" > Parametri sortiranja: </label><br/><br/>
+        <input type="checkbox" @change="setSortNameAsParameter($event)">
+        <label style="color: darkgrey;"> Naziv</label><br/>
+        <input type="checkbox" @change="setSortLocationAsParameter($event)">
+        <label style="color: darkgrey;"> Lokacija </label><br/>
+        <input type="checkbox" @change="setGradeAsSortParameter($event)">
+        <label style="color: darkgrey;"> Prosečna ocena</label><br/>
+        
+        <button class="search-submit" v-on:click="sortRestaurants" style="margin-left:50px; margin-top:15px; margin-bottom:10px; color:#fff" > Sortiraj </button>
+        
     </div>
     
     <div class="container" style="position:relative; left:100px">    
@@ -173,6 +193,30 @@ Vue.component("home-page", {
 		
 		loginClose: function (event) {
 			document.querySelector('.bg-modal').style.display = 'none';
+		},
+		
+		setAscendingSortModee : function (event) {
+			this.sortMode = 'ASCENDING';
+		},
+		
+		setDescendingSortMode : function (event) {
+			this.sortMode = 'DESCENDING'
+		},
+		
+		setNameAsSortParameter : function (event) {
+			this.sortParameter = 'name';
+		},
+		
+		setLocationAsSortParameter : function (event) {
+			this.sortParameter = 'location';
+		},
+		
+		setGradeAsSortParameter : function (event) {
+			this.sortParameter = 'grade';
+		},
+		
+		sortRestaurants : function (event) {
+		
 		},
 		
 		showRestaurant : function (restaurant) {
