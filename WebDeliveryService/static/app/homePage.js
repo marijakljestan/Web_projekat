@@ -88,7 +88,7 @@ Vue.component("home-page", {
 		        <h1 class="restaurant-name">{{ restaurant.name }}</h1> 
 		        <span class="restaurant-status"><label style="font-size: 18px; font-weight: lighte; color:silver">{{ restaurant.status}}</label></span>  
 		        <span class="restaurant-type"><label style="font-size: 16px; font-weight: lighter; font-family: sans-serif;">{{ restaurant.type }}</label></span>
-		        <span class="restaurant-grade"><label style="font-size: 16px; font-weight: lighte; color:silver">4.6</label></span>  <br/><br/>    
+		        <span class="restaurant-grade"><label style="font-size: 16px; font-weight: lighte; color:silver">{{ restaurant.grade }}</label></span>  <br/><br/>    
 		        <span class="restaurant-address"><label style="font-size: 16px; font-weight: lighter; font-family: sans-serif;">{{ restaurant.location.address.street }}</label></span>
 		      </div>
 	    

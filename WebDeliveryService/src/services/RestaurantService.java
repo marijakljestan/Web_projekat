@@ -73,11 +73,14 @@ public class RestaurantService {
 			allRestaurants.addAll(suitableRestaurants);
 		}
 		
-		if(!searchParameters.getLocation().trim().isEmpty()) {
+		if(!searchParameters.getType().trim().isEmpty()) {
 			suitableRestaurants.clear();
-			for (Restaurant restaurant : allRestaurants)
-				if(restaurant.getType().toString().toLowerCase().contains(searchParameters.getType().toLowerCase().trim()))
+			for (Restaurant restaurant : allRestaurants) {
+				String typeRest = restaurant.getType().toString();
+				if(typeRest.toLowerCase().contains(searchParameters.getType().toLowerCase().trim())) {
 					suitableRestaurants.add(restaurant);
+				}
+			}
 			
 		    allRestaurants.clear();
 			allRestaurants.addAll(suitableRestaurants);
@@ -87,6 +90,7 @@ public class RestaurantService {
 			int gradeFilter = Integer.parseInt(searchParameters.getGrade());
 			double minGrade = (gradeFilter == 1) ? 1. : gradeFilter - 0.5;
 			double maxGrade = (gradeFilter == 5) ? 5. : gradeFilter + 0.5;
+			
 			
 			suitableRestaurants.clear();
 			for (Restaurant restaurant : allRestaurants) 
