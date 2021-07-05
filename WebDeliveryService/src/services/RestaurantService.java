@@ -26,9 +26,9 @@ public class RestaurantService {
 	public void createRestaurant(Restaurant restaurant) throws JsonSyntaxException, IOException {
 		
 		String convertedImage = new String();
-		String path = "images/restaurants/"  + ".jpg";
+		String path = "images/restaurants/" + restaurant.getName()  + ".jpg";
 		decoder.Base64DecodeAndSave(restaurant.getLogo(), path);
-		path = "./" + "images/restaurants/"  + ".jpg"; 
+		path = "./" + "images/restaurants/" + restaurant.getName()  + ".jpg"; 
 		restaurant.setLogo(path);
 		
 		restaurantDAO.create(restaurant);

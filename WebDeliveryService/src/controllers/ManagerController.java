@@ -63,9 +63,9 @@ public class ManagerController {
 				
 				
 				String convertedImage = new String();
-				String path = "images/restaurants" + ".jpg";
+				String path = "images/restaurants/" + restaurant.getName()  + ".jpg";
 				decoder.Base64DecodeAndSave(restaurant.getLogo(), path);
-				path = "./" + "images/restaurants"  + ".jpg"; 
+				path = "./" + "images/restaurants/" + restaurant.getName()  + ".jpg"; 
 				restaurant.setLogo(path);
 				manager.setRestaurant(restaurant);
 				

@@ -7,11 +7,11 @@ Vue.component("addNewRestaurant-page", {
 		      name : '',
 		      type : '',
 		      logo : '',
-		      latitude : 0,
-			  longitude : 0,
+		      latitude : null,
+			  longitude : null,
 			  street : '',
 			  city : '',
-			  postalcode : 0,
+			  postalcode : null,
 			  country : '',
 			  usernameRegister: '',
 		      passwordRegister: '',
@@ -330,7 +330,10 @@ Vue.component("addNewRestaurant-page", {
 	    				} else {
 	    					axios
 							.post('/managers/createManager', JSON.stringify(newManager))
-							.then(response => this.selectedManager = newManager);
+							.then(response => {
+								this.selectedManager = newManager;
+								document.querySelector('.add-restaurant-popup').style.display = 'none';
+							});
 	    				}
 	    			})
 	    			.catch(error => {
