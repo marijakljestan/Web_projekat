@@ -89,8 +89,9 @@ Vue.component("addNewRestaurant-page", {
             </div>                
         </div>  
         
-        <button v-on:click="createNewRestaurant" class="accept-cancel" style="background-color: lightblue;">POTVRDI</button>
-        <button v-on:click="goBack" 			 class="accept-cancel" style="background-color: cornsilk;">ODUSTANI</button><br/>
+        <label style="color : red; margin-left: 40%;" id="errorLabel" name = "labels" display="hidden"> </label><br/>
+        <button v-on:click="createNewRestaurant" class="accept-cancel" style="background-color: lightblue; margin-left: 0%;">POTVRDI</button>
+        <button v-on:click="goBack" 			 class="accept-cancel" style="background-color: cornsilk;  margin-left: 1%;">ODUSTANI</button><br/>
 
     </div>
   
@@ -172,39 +173,73 @@ Vue.component("addNewRestaurant-page", {
 		
 			event.preventDefault();
 			
-			newRestaurant = {
-			      name : this.name,
-			      type : this.type,
-			      status : 'OPEN',
-			      logo : this.logo,
-			      location: {
-			      	  latitude : this.latitude,
-				      longitude : this.longitude,
-				      address : {
-				      	  street : this.street,
-					      city : this.city,
-					      postalcode : this.postalcode,
-					      country : this.country
+			let valid = true;
+       			     		      			
+       			 if(!this.name){
+			        document.getElementById('errorLabel').innerHTML = "Morate uneti naziv restorana!";
+					document.getElementById('errorLabel').style.display = 'block';
+					valid = false;
+			    }
+			     else if(!this.type){
+			       document.getElementById('errorLabel').innerHTML = "Morate uneti tip restorana!";
+				   document.getElementById('errorLabel').style.display = 'block';
+				   valid = false;
+			    }
+			    
+			     else if(!this.logo){
+			       document.getElementById('errorLabel').innerHTML = "Morate izabrati logo restorana!";
+				   document.getElementById('errorLabel').style.display = 'block';
+				   valid = false;
+			    }
+			
+			    else if(!this.selectedManager){
+			    	document.getElementById('errorLabel').innerHTML = "Morate izabrati menadžera restorana!";
+					document.getElementById('errorLabel').style.display = 'block';
+					valid = false;
+			    }
+			    
+			   else if(!this.latitude || !this.longitude || !this.street || !this.city || !this.postalcode || !this.country){
+			       document.getElementById('errorLabel').innerHTML = "Morate popuniti sva polja koja se odnose na adresu restorana!";
+				   document.getElementById('errorLabel').style.display = 'block';
+				   valid = false;
+			    }
+			    
+			  if(valid == true){
+			
+					newRestaurant = {
+					      name : this.name,
+					      type : this.type,
+					      status : 'OPEN',
+					      logo : this.logo,
+					      location: {
+					      	  latitude : this.latitude,
+						      longitude : this.longitude,
+						      address : {
+						      	  street : this.street,
+							      city : this.city,
+							      postalcode : this.postalcode,
+							      country : this.country
+							  }
+					      },
+					      isDeleted : false,
+					      products : []
 					  }
-			      },
-			      isDeleted : false,
-			      products : []
-			  }
-			  
-				axios 
-	    			.post('/restaurants/addNewRestaurant', JSON.stringify(newRestaurant))
-	    			.then(response => {
-	    				if (response.data == "") {
-							//document.getElementById('usernameLabel').innerHTML = "Već postoji uneto korisničko ime!";
-							//document.getElementById('usernameLabel').style.display = 'block';
-	    				} else {
-	    					alert("Hi");
-							window.location.href = "/admin";
-	    				}
-	    			})
-	    			.catch(error => {
-					    console.log(error.response)
-					});
+					  
+						axios 
+			    			.post('/restaurants/addNewRestaurant', JSON.stringify(newRestaurant))
+			    			.then(response => {
+			    				if (response.data == "") {
+									//document.getElementById('usernameLabel').innerHTML = "Već postoji uneto korisničko ime!";
+									//document.getElementById('usernameLabel').style.display = 'block';
+			    				} else {
+			    					alert("Hi");
+									window.location.href = "/admin";
+			    				}
+			    			})
+			    			.catch(error => {
+							    console.log(error.response)
+							});
+				}
 			
 		},	
 			
@@ -229,7 +264,7 @@ Vue.component("addNewRestaurant-page", {
 				var dates = document.getElementById("date_input").value;
        			var d=new Date(dates);
        			
-       			var valid = true;
+       			let valid = true;
        			     		      			
        			 if(!this.usernameRegister){
 			        document.getElementById('usernameLabel').innerHTML = "Morate uneti korisničko ime!";
