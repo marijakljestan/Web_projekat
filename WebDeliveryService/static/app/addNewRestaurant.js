@@ -229,11 +229,13 @@ Vue.component("addNewRestaurant-page", {
 			    			.post('/restaurants/addNewRestaurant', JSON.stringify(newRestaurant))
 			    			.then(response => {
 			    				if (response.data == "") {
-									//document.getElementById('usernameLabel').innerHTML = "Već postoji uneto korisničko ime!";
-									//document.getElementById('usernameLabel').style.display = 'block';
+									document.getElementById('errorLabel').innerHTML = "Već postoji restoran sa unetim nazivom!";
+									document.getElementById('errorLabel').style.display = 'block';
 			    				} else {
-			    					alert("Hi");
-									window.location.href = "/admin";
+			    					axios
+									.post('/managers/setRestaurantToManager/' + this.selectedManager.username, JSON.stringify(newRestaurant))
+									.then(toast("Uspesno kreiran restoran!"));
+									window.location.href = "#/admin";
 			    				}
 			    			})
 			    			.catch(error => {
@@ -298,7 +300,18 @@ Vue.component("addNewRestaurant-page", {
 			    }
 			    
 			    if(valid == true){
+			    	
 			    	let newUser = {
+						username : this.usernameRegister,
+						password : this.passwordRegister,
+	    				name : this.nameRegister,
+	    				surname : this.surnameRegister,
+	    				gender : genderReg,
+	    				dateOfBirth : d,
+	    				role : 'MANAGER'			
+    				}
+			    
+			    	let newManager = {
 						username : this.usernameRegister,
 						password : this.passwordRegister,
 	    				name : this.nameRegister,
@@ -315,7 +328,9 @@ Vue.component("addNewRestaurant-page", {
 							document.getElementById('usernameLabel').innerHTML = "Već postoji uneto korisničko ime!";
 							document.getElementById('usernameLabel').style.display = 'block';
 	    				} else {
-							window.location.href = "/";
+	    					axios
+							.post('/managers/createManager', JSON.stringify(newManager))
+							.then(response => this.selectedManager = newManager);
 	    				}
 	    			})
 	    			.catch(error => {

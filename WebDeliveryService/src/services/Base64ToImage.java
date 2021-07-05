@@ -16,7 +16,8 @@ public class Base64ToImage {
 		
 		byte[] data = Base64.getDecoder().decode(part[1]);
 		
-		System.out.println(part[1]);
+		//System.out.println(part[1]);
+		//System.out.println(data);
 		try (OutputStream stream = new FileOutputStream(path)) {
 		    stream.write(data);
 		}

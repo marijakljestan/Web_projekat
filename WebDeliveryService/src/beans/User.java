@@ -31,8 +31,7 @@ public class User implements Serializable{
 		this.role = role;
 		this.isDeleted = false;
 	}
-
-
+	
 	public String getUsername() {
 		return username;
 	}

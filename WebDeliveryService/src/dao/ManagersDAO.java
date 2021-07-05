@@ -80,8 +80,14 @@ public class ManagersDAO implements IDao<Manager, String>{
 
 	@Override
 	public void update(Manager entity) throws JsonSyntaxException, IOException {
-		// TODO Auto-generated method stub
-		
+		ArrayList<Manager> managers = getAll();
+		for(Manager manager : managers) {
+			if(manager.getUsername().equals(entity.getUsername())) {
+				managers.set(managers.indexOf(manager), entity);
+				break;
+			}
+		}
+		saveAll(managers);		
 	}
 
 	@Override

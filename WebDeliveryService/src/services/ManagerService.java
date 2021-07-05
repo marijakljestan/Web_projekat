@@ -18,7 +18,15 @@ public class ManagerService {
 	}
 	
 	public ArrayList<Manager> getAllManagers() throws JsonSyntaxException, IOException{
-		return managerDAO.getAll();
+		return managerDAO.getAllNonDeleted();
+	}
+	
+	public Manager getManagerByUserName(String username) throws JsonSyntaxException, IOException {
+		return managerDAO.getByID(username);
+	}
+	
+	public void updateManager(Manager manager) throws JsonSyntaxException, IOException {
+		this.managerDAO.update(manager);
 	}
 	
 	public ArrayList<Manager> getAllManagersWithoutRestaurant() throws JsonSyntaxException, IOException{
@@ -30,6 +38,10 @@ public class ManagerService {
 				managersWithoutRestaurant.add(manager);
 		
 		return (managersWithoutRestaurant.size() > 0) ?  managersWithoutRestaurant :  null;
+	}
+	
+	public void createManager(Manager manager) throws JsonSyntaxException, IOException {
+		managerDAO.create(manager);
 	}
 
 }

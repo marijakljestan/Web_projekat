@@ -5,8 +5,6 @@ import java.util.ArrayList;
 
 import com.google.gson.JsonSyntaxException;
 
-import beans.Manager;
-import beans.Role;
 import beans.User;
 import dao.UsersDAO;
 import dto.LoginDTO;
