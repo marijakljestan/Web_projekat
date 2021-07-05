@@ -37,6 +37,7 @@ public class RestaurantController {
 				e.printStackTrace();
 				return "";
 			}
+		});
 
 		post("/restaurants/addNewRestaurant", (req,res) -> {
 			res.type("application/json");
@@ -60,8 +61,7 @@ public class RestaurantController {
 				return null;
 			}
 		});
+		
 	}
-	
-	
 
 }
