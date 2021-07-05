@@ -1,7 +1,13 @@
 Vue.component("restaurant-page-manager", {
 	data: function () {
 		    return {
-		      items: null
+		      items: null,
+		      itemName: '',
+		      itemPrice: '',
+		      itemType: '',
+		      itemDescription: '',
+		      itemQuantity: '',
+		      errorMessage: ''
 		    }
 	},
 	template: ` 
@@ -144,7 +150,7 @@ Vue.component("restaurant-page-manager", {
                 <form>
                   <input v-model="itemName" type="text"  class="login-inputs" style="margin-top: 0px;" placeholder="Naziv artikla" id = "itemName">
                   <label style="color : red;" id="itemNameLabel" name = "labels" display="hidden"> </label>
-                  <input v-model="itemPrice" type="number" class="login-inputs" style="margin-top: 0px;" placeholder="Cena"> 
+                  <input v-model="itemPrice" type="text" class="login-inputs" style="margin-top: 0px;" placeholder="Cena"> 
                   <label style="color : red;" id="itemPriceLabel" name = "labels" display="hidden"> </label>
 
                   <label class="food-item-label">Tip:</label>
@@ -162,8 +168,8 @@ Vue.component("restaurant-page-manager", {
                   <textarea v-model="itemDescription" type="text" class="login-inputs" style="margin-top: 0px;" placeholder="Opis">
                   </textarea>
 
-                  <input type="number" class="login-inputs" style="margin-top: 1px;" id="itemQuantity" placeholder="Količina">
-
+                  <input type="text" v-model="itemQuantity" class="login-inputs" style="margin-top: 1px;"  placeholder="Količina">
+				  <p style="color:red;text-transform:none;">{{errorMessage}}</p>
                   <button v-on:click="addNewItem" class="button" style="background-color: rgb(64, 88, 224); color: white;"> Potvrdi</button>
                 </form>
               </div>
@@ -177,11 +183,6 @@ Vue.component("restaurant-page-manager", {
 `
 	, 
 	methods : {
-		/*addToCart : function (product) {
-			axios
-			.post('rest/proizvodi/add', {"id":''+product.id, "count":parseInt(product.count)})
-			.then(response => (toast('Product ' + product.name + " added to the Shopping Cart")))
-		}*/
 		
 		addItemOpenForm : function(event){
 			//selectedItem = null; v-model : selectedItem.price...
@@ -195,6 +196,45 @@ Vue.component("restaurant-page-manager", {
 		addNewItem : function(event){
 			//fleg za add/edit
 			event.preventDefault();
+      		document.getElementById('itemPriceLabel').innerHTML = "";
+      		document.getElementById('itemNameLabel').innerHTML = "";
+			if(!this.itemName || !this.itemPrice || !this.itemType || !this.itemDescription || !this.itemQuantity) {
+				this.errorMessage="Morate popuniti sva polja.";
+			} else {
+				this.errorMessage="";
+				let valid = true;
+				if(isNaN(this.itemPrice)) {
+					document.getElementById('itemPriceLabel').innerHTML = "Morate uneti brojcanu vrednost!";
+					document.getElementById('itemPriceLabel').style.display = 'block';
+					valid = false;
+				}
+				if(isNaN(this.itemQuantity)) {
+					this.errorMessage="Morate uneti brojcanu vrednost!";
+					valid = false;
+				}
+				if(valid == true){
+			    	let newItem = {
+						name : this.itemName,
+						price : this.itemPrice,
+	    				itemType : this.nameRegister == 'HRANA'?'FOOD':'DRINK',
+	    				description : this.itemDescription,
+	    				quantity : this.itemQuantity			
+    				}
+					axios 
+	    			.post('/product/addNew', JSON.stringify(newUser))
+	    			.then(response => {
+	    				if (response.data == "") {
+							document.getElementById('itemNameLabel').innerHTML = "Vec postoji artikal sa tim imenom!";
+							document.getElementById('itemNameLabel').style.display = 'block';
+	    				} else {
+							document.querySelector('.add-new-item').style.display = 'none';
+	    				}
+	    			})
+	    			.catch(error => {
+					    console.log(error.response)
+					});
+				}
+			}
 		},
 		
 		closeForm : function(event){
