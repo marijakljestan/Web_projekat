@@ -7,6 +7,7 @@ Vue.component("restaurant-page-manager", {
 		      itemPrice: '',
 		      itemType: '',
 		      itemDescription: '',
+		      itemPicture: '',
 		      itemQuantity: '',
 		      errorMessage: ''
 		    }
@@ -162,7 +163,7 @@ Vue.component("restaurant-page-manager", {
                  <label style="color : red;" id="itemTypeLabel" name = "labels" display="hidden"> </label>
 
                  <label class="food-item-label">Slika:</label>
-                 <input type="file" style="margin-left: 100px;" id="img" name="img" accept="image/*"><br/>
+                 <input type="file" @change="pictureAdded" style="margin-left: 100px;" id="img" name="img" accept="image/*"><br/>
                   <label style="color : red;" id="itemImageLabel" name = "labels" display="hidden"> </label>
 
                   <label class="food-item-label">Opis:</label>
@@ -194,6 +195,23 @@ Vue.component("restaurant-page-manager", {
 			document.querySelector('.add-new-item').style.display = 'flex';
 		},
 		
+		pictureAdded(e) 
+        {
+            const file = e.target.files[0];
+            this.createBase64Image(file);
+            this.logo = URL.createObjectURL(file);
+        },
+        
+         createBase64Image(file){
+            const reader= new FileReader();
+           
+            reader.onload = (e) =>{
+            	let img = e.target.result;
+            	this.itemPicture = img;
+            }
+            reader.readAsDataURL(file);
+        },
+		
 		addNewItem : function(event){
 			//fleg za add/edit
 			event.preventDefault();
@@ -213,13 +231,18 @@ Vue.component("restaurant-page-manager", {
 					this.errorMessage="Morate uneti brojcanu vrednost!";
 					valid = false;
 				}
+				if(!this.itemPicture){
+			       document.getElementById('itemImageLabel').innerHTML = "Morate izabrati sliku artikla!";
+				   document.getElementById('itemImageLabel').style.display = 'block';
+				   valid = false;
+			    }
 				if(valid == true){
 			    	let newItem = {
 						name : this.itemName,
 						price : this.itemPrice,
 	    				type : this.itemType == 'HRANA'?'FOOD':'DRINK',
 	    				description : this.itemDescription,
-	    				picture: '',
+	    				picture: this.itemPicture,
 	    				quantity : this.itemQuantity,
 	    				restaurantName: ''		
     				}

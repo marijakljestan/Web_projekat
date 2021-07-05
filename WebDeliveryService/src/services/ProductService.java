@@ -11,6 +11,7 @@ import dao.ProductDAO;
 public class ProductService {
 	
 	private ProductDAO productDAO;
+	private Base64ToImage decoder = new Base64ToImage();
 	
 	public ProductService(ProductDAO productDAO) {
 		super();
@@ -33,6 +34,13 @@ public class ProductService {
 	}
 
 	public void addNewProduct(Product newProduct) throws JsonSyntaxException, IOException {
+		
+		String convertedImage = new String();
+		String path = "images/products/"  + newProduct.getName() + ".jpg";
+		decoder.Base64DecodeAndSave(newProduct.getPicture(), path);
+		path = "./" + "images/products/"  + newProduct.getName() + ".jpg"; 
+		newProduct.setPicture(path);
+		
 		productDAO.create(newProduct);
 		
 	}
