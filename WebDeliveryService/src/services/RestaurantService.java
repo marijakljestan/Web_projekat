@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import com.google.gson.JsonSyntaxException;
 
 import beans.Restaurant;
+import beans.RestaurantStatus;
 import dao.RestaurantDAO;
 import dto.RestaurantSearchDTO;
 
@@ -20,7 +21,10 @@ public class RestaurantService {
 	}
 	
 	public ArrayList<Restaurant> getAll() throws JsonSyntaxException, IOException{
-		return restaurantDAO.getAll();
+		ArrayList<Restaurant> allRestaurants = new ArrayList<Restaurant>();
+		allRestaurants.addAll(getAllOpenedRestaurant());
+		allRestaurants.addAll(getAllClosedRestaurant());
+		return allRestaurants;
 	}
 	
 	public void createRestaurant(Restaurant restaurant) throws JsonSyntaxException, IOException {
@@ -36,6 +40,24 @@ public class RestaurantService {
 
 	public Restaurant getRestaurant(String id) throws JsonSyntaxException, IOException {
 		return restaurantDAO.getByID(id);
+	}
+	
+	public ArrayList<Restaurant> getAllOpenedRestaurant() throws JsonSyntaxException, IOException {
+		ArrayList<Restaurant> allOpenedRestaurants = new ArrayList<Restaurant>();
+		for (Restaurant restaurant : restaurantDAO.getAllNonDeleted()) 
+			if(restaurant.getStatus().equals(RestaurantStatus.OPEN))
+				allOpenedRestaurants.add(restaurant);
+		
+		return allOpenedRestaurants;
+	}
+	
+	public ArrayList<Restaurant> getAllClosedRestaurant() throws JsonSyntaxException, IOException {
+		ArrayList<Restaurant> allClosedRestaurants = new ArrayList<Restaurant>();
+		for (Restaurant restaurant : restaurantDAO.getAllNonDeleted()) 
+			if(restaurant.getStatus().equals(RestaurantStatus.CLOSED))
+				allClosedRestaurants.add(restaurant);
+		
+		return allClosedRestaurants;
 	}
 	
 	public ArrayList<String> getAllRestaurantTypes() throws JsonSyntaxException, IOException{
