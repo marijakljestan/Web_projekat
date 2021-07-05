@@ -50,7 +50,7 @@ Vue.component("home-page", {
       </div>
     </nav>
     
-        <div class="search">
+    <div class="search">
         <input type="text" v-model="searchName" 	class="search-input" placeholder="Naziv restorana">
         <input type="text" v-model="searchLocation" class="search-input" placeholder="Lokacija restorana">
              
@@ -67,22 +67,19 @@ Vue.component("home-page", {
 				{{ index }} 
 			</option>
 		</select>
-
-     
+    
         <button class="search-submit" v-on:click="searchRestaurants"> Pretraži </button>
-
     </div>
     
-    <div class="container" style="position:relative; left:-100px">    
-      <div class="row">
-        <div class="col-sm-2 sidenav">
-          <p><a href="#">Link</a></p>
-          <p><a href="#">Link</a></p>
-          <p><a href="#">Link</a></p>
-        </div>
+    <div class="col-sm-2 sidenav" style="position: absolute; left: 1%; top: 58%;">
+        <input type="checkbox" @change="showOnlyOpenRestaurants($event)" id="open-restaurants" value="restaurant">
+        <label style="color: rgb(30, 31, 104);" > Otvoreni restorani</label><br/>
+    </div>
+    
+    <div class="container" style="position:relative; left:100px">    
+      <div class="row">      
         <div class="col-lg-10" > 
-          
-	   
+            
 		      <div v-for="restaurant in restaurants" v-on:click="showRestaurant(restaurant)" class="restaurant-info-home-page" style="background-color:cornsilk; border-radius: 25px; height: 200px; text-align: center; display: block;">
 		        <img v-bind:src= "restaurant.logo" alt="" class="restaurant-logo-home-page">
 		        <h1 class="restaurant-name">{{ restaurant.name }}</h1> 
@@ -90,13 +87,12 @@ Vue.component("home-page", {
 		        <span class="restaurant-type"><label style="font-size: 16px; font-weight: lighter; font-family: sans-serif;">{{ restaurant.type }}</label></span>
 		        <span class="restaurant-grade"><label style="font-size: 16px; font-weight: lighte; color:silver">{{ restaurant.grade }}</label></span>  <br/><br/>    
 		        <span class="restaurant-address"><label style="font-size: 16px; font-weight: lighter; font-family: sans-serif;">{{ restaurant.location.address.street }}</label></span>
-		      </div>
-	    
+		      </div>    
         </div>
+        
       </div>
     </div><br>
-  
-    
+     
     
     <div class="bg-modal">
       <div class="modal-content">
@@ -181,6 +177,16 @@ Vue.component("home-page", {
 		
 		showRestaurant : function (restaurant) {
 			window.location.href = "#/restaurant?id=" + restaurant.name;
+		},
+		
+		showOnlyOpenRestaurants : function (event) {
+			axios
+          		.get('/restaurants/getAllOpenedRestaurants')
+          		.then(response => {
+				if (response.data != null) {
+					this.restaurants = response.data;
+				}
+			});
 		},
 		
 		searchRestaurants : function (event) {

@@ -57,9 +57,9 @@ Vue.component("administrator-page", {
 
     </div>
     
-   <div class="col-sm-2 sidenav" style="position: absolute; left: 1%; top: 38%;">
+   	<div class="col-sm-2 sidenav" style="position: absolute; left: 1%; top: 38%;">
         <button class="add-restaurant" v-on:click="addNewRestaurant">+ Novi restoran</button>
-      </div>
+    </div>
     
     <div class="container" style="top:43%">    
       <div class="row">

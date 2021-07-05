@@ -30,6 +30,16 @@ public class RestaurantController {
 			}
 		});
 		
+		get("/restaurants/getAllOpenedRestaurants", (req, res) -> {
+			res.type("application/json");
+			try {
+				return gson.toJson(restaurantService.getAllOpenedRestaurant());
+			} catch (Exception e) {
+				e.printStackTrace();
+				return "";
+			}
+		});
+		
 		get("restaurant/:id", (req, res) -> {
 			res.type("application/json");
 			try {
