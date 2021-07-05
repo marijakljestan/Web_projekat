@@ -29,7 +29,7 @@ public class RestaurantController {
 			}
 		});
 		
-		get("restaurant/:id", (req, res) -> {
+		get("/restaurant/:id", (req, res) -> {
 			res.type("application/json");
 			try {
 				return gson.toJson(restaurantService.getRestaurant(req.params("id")));
@@ -38,7 +38,7 @@ public class RestaurantController {
 				return "";
 			}
 		});
-
+		
 		post("/restaurants/addNewRestaurant", (req,res) -> {
 			res.type("application/json");
 			

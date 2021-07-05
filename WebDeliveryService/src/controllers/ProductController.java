@@ -16,7 +16,7 @@ public class ProductController {
 		super();
 		this.productService = productService;
 		
-		get("restaurant/getJustProducts/:id", (req, res) -> {
+		get("/products/getRestaurantsProducts/:id", (req, res) -> {
 			res.type("application/json");
 			try {
 				return gson.toJson(productService.getRestaurantsProducts(req.params("id")));

@@ -4,18 +4,18 @@ import java.io.Serializable;
 
 public class Manager extends User implements Serializable{
 
-   private Restaurant restaurant;
+   private String restaurant;
 
-	public Manager(Restaurant restaurant) {
+	public Manager(String restaurant) {
 		super();
 		this.restaurant = restaurant;
 	}
 
-	public Restaurant getRestaurant() {
+	public String getRestaurant() {
 		return restaurant;
 	}
 
-	public void setRestaurant(Restaurant restaurant) {
+	public void setRestaurant(String restaurant) {
 		this.restaurant = restaurant;
 	}
    

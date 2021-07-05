@@ -7,8 +7,10 @@ import com.google.gson.Gson;
 
 import beans.Manager;
 import beans.Restaurant;
+import beans.User;
 import services.Base64ToImage;
 import services.ManagerService;
+import spark.Session;
 
 
 public class ManagerController {
@@ -67,7 +69,7 @@ public class ManagerController {
 				decoder.Base64DecodeAndSave(restaurant.getLogo(), path);
 				path = "./" + "images/restaurants/" + restaurant.getName()  + ".jpg"; 
 				restaurant.setLogo(path);
-				manager.setRestaurant(restaurant);
+				manager.setRestaurant(restaurant.getName());
 				
 				managerService.updateManager(manager);							
 				return gson.toJson(manager);
@@ -78,8 +80,29 @@ public class ManagerController {
 			}
 			
 		});
+		
+		get("/managers/getAllManagersWithoutRestaurant", (req, res) -> {
+			res.type("application/json");
+			try {
+				return gson.toJson(managerService.getAllManagersWithoutRestaurant());
+			} catch (Exception e) {
+				e.printStackTrace();
+				return "";
+			}
+		});
+		
+		get("/manager/", (req, res) -> {
+			res.type("application/json");
+			try {
+				Session session = req.session(true);
+				User loggedUser = session.attribute("user");
+				return gson.toJson(managerService.getManagerByUserName(loggedUser.getUsername()));
+			} catch (Exception e) {
+				e.printStackTrace();
+				return "";
+			}
+		});
 	}
 	
 	
-
 }

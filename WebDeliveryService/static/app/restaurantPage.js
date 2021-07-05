@@ -123,10 +123,10 @@ Vue.component("restaurant-page", {
 	,
 	mounted () {
 		axios
-          .get('restaurant/' + this.$route.query.id)
+          .get('/restaurant/' + this.$route.query.id)
           .then(response => (this.restaurant = response.data))
 		axios
-          .get('restaurant/getJustProducts/' + this.$route.query.id)
+          .get('/products/getRestaurantsProducts/' + this.$route.query.id)
           .then(response => (this.products = response.data))
     },
 	methods : {
