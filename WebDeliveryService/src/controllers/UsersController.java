@@ -8,8 +8,10 @@ import java.util.ArrayList;
 
 import com.google.gson.Gson;
 
+import beans.Restaurant;
 import beans.User;
 import dto.LoginDTO;
+import dto.SortDTO;
 import dto.UserSearchDTO;
 import services.UsersService;
 import spark.Session;
@@ -93,12 +95,66 @@ public class UsersController {
 			}
 		});
 		
+		get("/user/getAllAdmins", (req, res) -> {
+			res.type("application/json");
+			try {
+				return gson.toJson(usersService.getAllAdmins());
+			} catch (Exception e) {
+				e.printStackTrace();
+				return null;
+			}
+		});
+		
+		get("/user/getAllManagers", (req, res) -> {
+			res.type("application/json");
+			try {
+				return gson.toJson(usersService.getAllManagers());
+			} catch (Exception e) {
+				e.printStackTrace();
+				return null;
+			}
+		});
+		
+		get("/user/getAllDeliverers", (req, res) -> {
+			res.type("application/json");
+			try {
+				return gson.toJson(usersService.getAllDeliverers());
+			} catch (Exception e) {
+				e.printStackTrace();
+				return null;
+			}
+		});
+		
+		get("/user/getAllCustomers", (req, res) -> {
+			res.type("application/json");
+			try {
+				return gson.toJson(usersService.getAllCustomers());
+			} catch (Exception e) {
+				e.printStackTrace();
+				return null;
+			}
+		});
+		
 		post("/user/searchUsers", (req,res) -> {
 			res.type("application/json");
 			
 			try {
 				UserSearchDTO searchParameters = gson.fromJson(req.body(), UserSearchDTO.class);
 				ArrayList<User> users =	usersService.getSuitableUsers(searchParameters);		
+				return gson.toJson(users);
+				
+			} catch(Exception e) {
+				e.printStackTrace();
+				return null;
+			}
+		});
+		
+		post("/user/sortUsers", (req,res) -> {
+			res.type("application/json");
+			
+			try {
+				SortDTO sortParameters = gson.fromJson(req.body(), SortDTO.class);
+				ArrayList<User> users =	usersService.getSortedUsers(sortParameters);		
 				return gson.toJson(users);
 				
 			} catch(Exception e) {

@@ -142,7 +142,7 @@
 
     .show-suspect-users{
         position: absolute;
-        margin-top: 190px;
+        margin-top: 160px;
         margin-left: 20px;
         font-size: 16px;
         font-family: sans-serif;
@@ -150,7 +150,7 @@
 
     .new-users-button{
         position: absolute;
-        margin-top: 230px;
+        margin-top: 200px;
         margin-left: 20px;
         font-size: 16px;
         font-family: sans-serif;

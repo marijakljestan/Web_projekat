@@ -5,6 +5,8 @@ Vue.component("user-profiles-page", {
 		      searchUsername : '',
 		      searchName: '',
 		      searchSurname: '',
+		      sortMode:'',
+		      sortParameter:'',
 		      usernameRegister: '',
 		      passwordRegister: '',
 		      nameRegister: '',
@@ -52,10 +54,48 @@ Vue.component("user-profiles-page", {
     <div class="registered-users">
 
         <h1 style="position: absolute; margin-top: 20px; margin-left: 600px; font-weight: bolder; color: rgb(30, 31, 104);">REGISTROVANI KORISNICI</h1>
-
+		
+		 <div style="position: absolute; right: 3%; top: 1%; border-radius: 25px; background-color: cornsilk;">
+	        <label style="color: darkgrey;" > Filteri: </label><br/><br/>
+	        <input type="checkbox"  @change="showOnlyAdmins($event)" id="admins" value="restaurant">
+	        <label style="color: darkgrey;" > Administratori</label><br/>
+	        <input type="checkbox"  @change="showOnlyManagers($event)"  id="managers" value="restaurant">
+	        <label style="color: darkgrey;" > Menadžeri</label><br/>
+	        <input type="checkbox"  @change="showOnlyDeliverers($event)" id="deliverers" value="restaurant">
+	        <label style="color: darkgrey;" > Dostavljači</label><br/>
+	        <input type="checkbox"  @change="showOnlyCustomers($event)" id="customers" value="restaurant">
+	        <label style="color: darkgrey;" > Kupci</label><br/><br/>
+	        
+	        <input type="checkbox"  @change="showOnlyGoldenCustomers($event)" id="zlatni" value="restaurant">
+	        <label style="color: darkgrey;" > Zlatni kupci</label><br/>
+	        <input type="checkbox"  @change="showOnlySilverCustomers($event)" id="srebrni" value="restaurant">
+	        <label style="color: darkgrey;" > Srebrni kupci</label><br/>
+	        <input type="checkbox"  @change="showOnlyBronzedCustomers($event)" id="bronzani" value="restaurant">
+	        <label style="color: darkgrey;" > Bronzani kupci</label><br/>
+	        
+	        <hr>
+	        <label style="color: darkgrey);" > Sortiranje restorana: </label><br/><br/>
+	        <input type="checkbox" @change="setDescendingSortMode($event)">
+	        <label style="color: darkgrey;"> Opadajuće</label><br/>
+	        <input type="checkbox" @change="setAscendingSortMode($event)">
+	        <label style="color: darkgrey;" > Rastuće</label><br/><br/>
+	        
+	        <label style="color: darkgrey;" > Parametri sortiranja: </label><br/><br/>
+	        <input type="checkbox" @change="setNameAsSortParameter($event)">
+	        <label style="color: darkgrey;"> Ime</label><br/>
+	        <input type="checkbox" @change="setSurnameAsSortParameter($event)">
+	        <label style="color: darkgrey;"> Prezime </label><br/>
+	        <input type="checkbox" @change="setUsernameAsSortParameter($event)">
+	        <label style="color: darkgrey;"> Korisničko ime</label><br/>
+	        <input type="checkbox" @change="setNumberOfPointsAsSortParameter($event)">
+	        <label style="color: darkgrey;"> Skupljeni bodovi</label><br/>
+	        
+	        <button class="search-submit" v-on:click="sortUsers" style="margin-left:50px; margin-top:15px; margin-bottom:10px; color:#fff" > Sortiraj </button>
+        </div>
+		
         <div class="show-suspect-users">
             <input type="checkbox" id="suspect-users" value="user">
-            <label style="color: rgb(30, 31, 104);"> Sumnjivi korisnici</label><br>
+            <label style="color: rgb(30, 31, 104);"> Sumnjivi korisnici</label><br>   
         </div>
 
         <div class="new-users">
@@ -68,7 +108,7 @@ Vue.component("user-profiles-page", {
 	        <input type="text" v-model="searchSurname"	  class="search-input" placeholder="Prezime ">
 	        <input type="text" v-model="searchUsername"   class="search-input" placeholder="Korisničko ime">
 	  
-	        <input type="submit" class="search-submit" v-on:click="searchUsers" value="Pretrazi">
+	        <input type="submit" class="search-submit" v-on:click="searchUsers" value="Pretraži">
      </div>     
     
         <div class="container-fluid text-center" style="position: absolute; left: 300px; top: 100px;">    
@@ -223,6 +263,76 @@ Vue.component("user-profiles-page", {
 			 document.querySelector('.registration-manager-deliverer').style.display = 'none';
 		},
 		
+		showOnlyAdmins : function (event) {
+			axios
+          		.get('/user/getAllAdmins')
+          		.then(response => {
+				if (response.data != null) {
+					this.users = response.data;
+				}
+			});
+		},
+		
+		showOnlyManagers : function (event) {
+			axios
+          		.get('/user/getAllManagers')
+          		.then(response => {
+				if (response.data != null) {
+					this.users = response.data;
+				}
+			});
+		},
+		
+		showOnlyDeliverers : function (event) {
+			axios
+          		.get('/user/getAllDeliverers')
+          		.then(response => {
+				if (response.data != null) {
+					this.users = response.data;
+				}
+			});
+		},
+		
+		showOnlyCustomers : function (event) {
+			axios
+          		.get('/user/getAllCustomers')
+          		.then(response => {
+				if (response.data != null) {
+					this.users = response.data;
+				}
+			});
+		},
+		
+		showOnlyGoldenCustomers : function (event) {
+			axios
+          		.get('/user/getAllCustomers')
+          		.then(response => {
+				if (response.data != null) {
+					this.users = response.data;
+				}
+			});
+		},
+		
+		showOnlySilverCustomers : function (event) {
+			axios
+          		.get('/user/getAllCustomers')
+          		.then(response => {
+				if (response.data != null) {
+					this.users = response.data;
+				}
+			});
+		},
+		
+		showOnlyBronzedCustomers : function (event) {
+			axios
+          		.get('/user/getAllCustomers')
+          		.then(response => {
+				if (response.data != null) {
+					this.users = response.data;
+				}
+			});
+		},
+		
 		searchUsers : function (event) {
 				let searchParameters = {
 						name : this.searchName,
@@ -232,6 +342,44 @@ Vue.component("user-profiles-page", {
     			
     			axios 
 		    		.post('/user/searchUsers', JSON.stringify(searchParameters))
+		    		.then(response => {
+		    		   this.users = response.data;
+		    	})
+		},
+		
+		setAscendingSortMode : function (event) {
+			this.sortMode = 'asc';
+		},
+		
+		setDescendingSortMode : function (event) {
+			this.sortMode = 'desc'
+		},
+		
+		setNameAsSortParameter : function (event) {
+			this.sortParameter = 'name';
+		},
+		
+		setSurnameAsSortParameter : function (event) {
+			this.sortParameter = 'surname';
+		},
+		
+		setUsernameAsSortParameter : function (event) {
+			this.sortParameter = 'username';
+		},
+		
+		setNumberOfPointsAsSortParameter : function (event) {
+			this.sortParameter = 'numberOfPoints';
+		},
+		
+		sortUsers : function (event) {
+			
+				let sortParameters = {
+					mode : this.sortMode,
+					parameter : this.sortParameter		
+    			}
+    			
+    			axios 
+		    		.post('/user/sortUsers', JSON.stringify(sortParameters))
 		    		.then(response => {
 		    		   this.users = response.data;
 		    	})
