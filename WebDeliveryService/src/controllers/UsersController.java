@@ -2,6 +2,7 @@ package controllers;
 
 import static spark.Spark.get;
 import static spark.Spark.post;
+import static spark.Spark.put;
 import spark.Session;
 
 import javax.ws.rs.core.Response;
@@ -79,6 +80,26 @@ public class UsersController {
 				e.printStackTrace();
 				return "";
 			}
+		});
+		
+		put("/users/edit", (req,res) -> {
+			res.type("application/json");
+			
+			try {
+				User newUser = gson.fromJson(req.body(), User.class);
+				
+				usersService.editUser(newUser);
+				Session session = req.session(true);
+							
+				session.attribute("user", newUser);
+				
+				return true;
+				
+			} catch(Exception e) {
+				e.printStackTrace();
+				return null;
+			}
+			
 		});
 		
 	}	

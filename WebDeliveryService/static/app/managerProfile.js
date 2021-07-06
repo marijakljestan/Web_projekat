@@ -2,15 +2,7 @@ Vue.component("manager-profile", {
 	data: function () {
 		    return {
 			  user: null,
-			  usernameRegister: '',
-		      passwordRegister: '',
-		      nameRegister: '',
-			  surnameRegister: '',
-			  genderRegister:'',
-		      dateOfBirthRegister: '',
-		      roleRegister : '',
-		      usernameLog: '',
-		      passwordLog: '',
+			  restaurant: '',
 		      errorMessage: ''
 		    }
 	},
@@ -59,11 +51,11 @@ Vue.component("manager-profile", {
             <div class="col-lg-6" style="margin-left: 120px; margin-top: 150px;">
             
             	<label style="color: rgb(30, 31, 104);">Ime:</label><br/>
-                <input type="text" v-model="user.name" class="input-fields" placeholder="Ime"><br/><br/>
+                <input type="text" v-model="user.name" class="input-fields"><br/><br/>
                 <label style="color: rgb(30, 31, 104);">Prezime:</label><br/>
-                <input type="text" v-model="user.surname" class="input-fields" placeholder="Prezime"><br/><br/>
+                <input type="text" v-model="user.surname" class="input-fields"><br/><br/>
                 <label style="color: rgb(30, 31, 104);">Korisničko ime:</label><br/>
-                <input type="text" v-model="user.username" class="input-fields" placeholder="korisničko ime"><br/><br/>                
+                <input type="text" v-model="user.username" class="input-fields" disabled><br/><br/>                
             </div>
 
 
@@ -71,63 +63,34 @@ Vue.component("manager-profile", {
                 <label style="color: rgb(30, 31, 104);">Datum rođenja:</label><br/>
                 <input id="date-of-birth" type="date" v-model="user.dateOfBirth" class="input-fields" style="margin-left: 0px;"><br/><br/>
                 <label style="color: rgb(30, 31, 104);">Pol:</label><br/>
-                <input type="text" v-model="user.gender" class="input-fields" placeholder="Pol"><br/><br/> 
+                <select id="gender" v-model="user.gender" class="input-fields" style="margin-top: 0px;">
+                  <option>MALE</option>
+                  <option>FEMALE</option>
+              	</select><br/><br/> 
                 <label style="color: rgb(30, 31, 104);">Lozinka:</label><br/>
-                <input type="text" v-model="user.password" class="input-fields" placeholder="Lozinka"><br/><br/> 
+                <input type="text" v-model="user.password" class="input-fields"><br/><br/> 
             </div>                
         </div>  
-        
-        <button v-on:click="acceptChanges" class="edit-profile" v-on:click="editProfile" style="position: absolute; top: 450px; left: 630px; width: 250px;">Izmeni podatke</button>
+        <p style="color:red; position: absolute; top: 430px; left: 630px;">{{errorMessage}}</p>
+        <button v-on:click="acceptChanges" class="edit-profile" style="position: absolute; top: 450px; left: 630px; width: 250px;">Izmeni podatke</button>
     </div>
   
-    <div class="edit-profile-container">
-        <div class="modal-content-reg">
-          <div class="login-title">
-            <h3 style="color: rgb(69, 131, 201); font-weight: bolder;"> IZMENI PODATKE </h3>
-          </div>
-          <div v-on:click="editProfileClose" class="close">+</div>
-          <div class = "form-div" style="margin-top: 20px;">
-            <form>
-              <input v-model="usernameRegister" type="text"  class="login-inputs" style="margin-top: 0px;" placeholder="korisničko ime" id = "userNameReg">
-              <label style="color : red;" id="usernameLabel" name = "labels" display="hidden"> </label>
-              <input v-model="passwordRegister" type="password" class="login-inputs" style="margin-top: 0px;" placeholder="lozinka"> 
-              <label style="color : red;" id="passwordLabel" name = "labels" display="hidden"> </label>
-              <input v-model="nameRegister" type="text" class="login-inputs" style="margin-top: 0px;" placeholder="ime">
-              <label style="color : red;" id="nameLabel" name = "labels" display="hidden"> </label>
-              <input v-model="surnameRegister" type="text" class="login-inputs" style="margin-top: 0px;" placeholder="prezime">
-              <label style="color : red;" id="surnameLabel" name = "labels" display="hidden"> </label>
-              <select v-model="genderRegister" class="login-inputs" style="margin-top: 0px;">
-                  <option>MUŠKO</option>
-                  <option>ŽENSKO</option>
-              </select>
-              <label style="color : red;" id="genderLabel" name = "labels" display="hidden"> </label>
-              <label style="color: rgb(69, 131, 201);">Datum rođenja:</label>
-              <input type="date" class="login-inputs" style="margin-top: 1px;" id="date_input">
-                <label style="color : red;" id="dateLabel" name = "labels" display="hidden"> </label>  
-              <button v-on:click="acceptChanges" class="button" style="background-color: rgb(69, 131, 201); color: white;"> Potvrdi</button>
-            </form>
-          </div>
-        </div>
-      </div>
-
       <footer class="container-fluid text-center">
         <p>Online Food Delivery Copyright</p>  
       </footer>
-      </div>
+   </div>
 `
 	,
 	mounted () {
         axios
           .get('/user/')
           .then(response => (this.user = response.data))
+          
+        axios
+	      .get('/manager/')
+	      .then(response => (this.restaurant = response.data.restaurant))
     }, 
 	methods : {
-		/*addToCart : function (product) {
-			axios
-			.post('rest/proizvodi/add', {"id":''+product.id, "count":parseInt(product.count)})
-			.then(response => (toast('Product ' + product.name + " added to the Shopping Cart")))
-		}*/
-		
 		showRestaurant : function() {
 			axios
 	          .get('/manager/')
@@ -135,57 +98,28 @@ Vue.component("manager-profile", {
 		    		window.location.href = "#/restaurantManager?id="+ response.data.restaurant;
 		      })
 		},
-		
-		editProfile : function (event) {
-			document.querySelector('.edit-profile-container').style.display = 'flex';
-		},
 				
 		acceptChanges : function (event) {
 				
 				event.preventDefault();
-				
-				let genderReg;
-				/*if (this.genderRegister == 'MUŠKO') {
-					genderReg = 'MALE';
-				} else if(this.genderRegister == 'ŽENSKO'){
-					genderReg = 'FEMALE';
-				}*/
 				
 				var dates = document.getElementById("date-of-birth").value;
        			var d=new Date(dates).toISOString().substr(0, 10);
        			
        			var valid = true;
        			     		      			
-       			/*if(!this.usernameRegister){
-			        document.getElementById('usernameLabel').innerHTML = "Morate uneti korisnicko ime!";
-					document.getElementById('usernameLabel').style.display = 'block';
-					valid = false;
-			    }
-			     else if(!this.passwordRegister){
-			       document.getElementById('passwordLabel').innerHTML = "Morate uneti lozinku!";
-				   document.getElementById('passwordLabel').style.display = 'block';
+			    if(!this.user.password){
+			       this.errorMessage="Zaboravili ste da unesete lozinku!";
 				   valid = false;
 			    }
-			    else if(this.nameRegister[0] < 'A' || this.nameRegister[0] > 'Z' || !this.nameRegister){
-			        document.getElementById('nameLabel').innerHTML = "Morate uneti ime koje pocinje velikim slovom!";
-					document.getElementById('nameLabel').style.display = 'block';
+			    else if(this.user.name[0] < 'A' || this.user.name[0] > 'Z' || !this.user.name){
+			        this.errorMessage="Morate uneti ime koje pocinje velikim slovom!";
 					valid = false;
 			    }
-			    else if(this.surnameRegister[0] < 'A' || this.surnameRegister[0] > 'Z' || !this.surnameRegister){
-			        document.getElementById('surnameLabel').innerHTML = "Morate uneti prezime koje pocinje velikim slovom!";
-					document.getElementById('surnameLabel').style.display = 'block';
+			    else if(this.user.surname[0] < 'A' || this.user.surname[0] > 'Z' || !this.user.surname){
+			        this.errorMessage="Morate uneti prezime koje pocinje velikim slovom!";
 					valid = false;
 			    }
-			    else if(!genderReg){
-			    	document.getElementById('genderLabel').innerHTML = "Morate izabrati pol!";
-					document.getElementById('genderLabel').style.display = 'block';
-					valid = false;
-			    }
-			    else if(!dates){
-			    	document.getElementById('dateLabel').innerHTML = "Morate izabrati datum rodjenja!";
-					document.getElementById('dateLabel').style.display = 'block';
-					valid = false;
-			    }*/
 			    
 			    if(valid == true){
 			    	let newUser = {
@@ -196,38 +130,38 @@ Vue.component("manager-profile", {
 	    				gender : this.user.gender,
 	    				dateOfBirth : d,
 	    				role : 'MANAGER'				
-    			}
-				axios 
-    			.post('/users/register', JSON.stringify(newUser))
-    			.then(response => {
-    				if (response.data == "") {
-						document.getElementById('usernameLabel').innerHTML = "Vec postoji uneto korisnicko ime!";
-						document.getElementById('usernameLabel').style.display = 'block';
-    				} else {
-						location.reload();
     				}
-    			})
-    			.catch(error => {
-				    console.log(error.response)
-				});
-			    }
+    				let newManager = {
+    					username : this.user.username,
+						password : this.user.password,
+	    				name : this.user.name,
+	    				surname : this.user.surname,
+	    				gender : this.user.gender,
+	    				dateOfBirth : d,
+	    				role : 'MANAGER',
+	    				restaurant: this.restaurant
+    				}
+					axios 
+		    			.put('/users/edit', JSON.stringify(newUser))
+		    			.then(response => {
+								location.reload();
+		    			})
+		    			.catch(error => {
+						    console.log(error.response)
+						});
+					axios
+						.put('/manager/edit', JSON.stringify(newManager))
+		    			.then(response => {
+								location.reload();
+		    			})
+		    			.catch(error => {
+						    console.log(error.response)
+						});
+				}
 			
-		},		
-		editProfileClose: function (event) {
-			 this.usernameRegister = '';
-		     this.passwordRegister = '';
-		     this.nameRegister = '';
-			 this.surnameRegister = '';
-			 for (element of document.getElementsByName('labels')){
-			 	element.innerHTML = '';
-			 	element.style.display = 'hidden';
-			 }
-			 document.querySelector('.edit-profile-container').style.display = 'none';
 		},
-		
 		logout : function (event) {
 			window.location.href = "#/";
 		}
-		
 	}
 });

@@ -41,4 +41,8 @@ public class UsersService {
 		return null;
 	}
 
+	public void editUser(User newUser) throws JsonSyntaxException, IOException {
+		usersDAO.update(newUser);
+	}
+
 }

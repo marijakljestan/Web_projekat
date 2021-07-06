@@ -2,6 +2,7 @@ package controllers;
 
 import static spark.Spark.get;
 import static spark.Spark.post;
+import static spark.Spark.put;
 
 import com.google.gson.Gson;
 
@@ -101,6 +102,21 @@ public class ManagerController {
 				e.printStackTrace();
 				return "";
 			}
+		});
+		
+		put("/manager/edit", (req,res) -> {
+			res.type("application/json");
+			
+			try {
+				Manager newManager = gson.fromJson(req.body(), Manager.class);
+				managerService.updateManager(newManager);
+				
+				return true;
+			} catch(Exception e) {
+				e.printStackTrace();
+				return null;
+			}
+			
 		});
 	}
 	
