@@ -1,7 +1,7 @@
 Vue.component("user-profiles-page", {
 	data: function () {
 		    return {
-		      restaurants: null,
+		      users: null,
 		      usernameRegister: '',
 		      passwordRegister: '',
 		      nameRegister: '',
@@ -66,96 +66,26 @@ Vue.component("user-profiles-page", {
 	        <input type="text" class="search-input" placeholder="Korisničko ime">
 	  
 	        <input type="submit" class="search-submit" value="Pretrazi">
-
-     </div>
-  
+     </div>     
+    
         <div class="container-fluid text-center" style="position: absolute; left: 300px; top: 100px;">    
             <div class="row content">
                 <div class="col-lg-8"> 
                     <div class="users-panel">
-                        <div class="user-card">
-                            <h4 style="margin-top: 10; margin-left: 90px;">peraperic</h4><br/>
+                        <div class="user-card" v-for="user in users">
+                            <h4 style="margin-top: 10; margin-left: 90px;">{{user.username}}</h4><br/>
                             <div style="margin-top: 40px; margin-left: -150px;">                      
-                                <span style="margin-left: -31px;"><label>Ime:</label> Pera</span><br/>
-                                <span><label>Prezime:</label> Peric</span><br/>
-                                <h4 style="color: rgb(30, 31, 104); margin-left: 90px; font-weight: bolder;">KUPAC</h4>
+                                <span style="margin-left: -31px;"><label>Ime: </label> {{user.name}}</span><br/>
+                                <span><label>Prezime:</label> {{user.surname}}</span><br/>
+                                <h4 style="color: rgb(30, 31, 104); margin-left: 90px; font-weight: bolder;">{{user.role}}</h4>
                             </div>
-                            <button class="block-user-button">BLOKIRAJ</button>           
+                            <button v-on:click="blockUser(user)" class="block-user-button" v-if="!(user.isBlocked === true || user.role == 'ADMIN')">BLOKIRAJ</button>           
                         </div>
-                        <div class="user-card">
-                            <h4 style="margin-top: 0; margin-left: 90px;">peraperic</h4><br/>
-                            <div style="margin-top: 40px; margin-left: -150px;">                      
-                                <span style="margin-left: -31px;"><label>Ime:</label> Pera</span><br/>
-                                <span><label>Prezime:</label> Peric</span><br/>
-                                <h4 style="color: rgb(30, 31, 104); margin-left: 90px; font-weight: bolder;">KUPAC</h4>
-                            </div> 
-                        </div>      
-                
-                        <div class="user-card">
-                            <h4 style="margin-top: 0; margin-left: 90px;">peraperic</h4><br/>
-                            <div style="margin-top: 40px; margin-left: -150px;">                      
-                                <span style="margin-left: -31px;"><label>Ime:</label> Pera</span><br/>
-                                <span><label>Prezime:</label> Peric</span><br/>
-                                <h4 style="color: rgb(30, 31, 104); margin-left: 90px; font-weight: bolder;">KUPAC</h4>
-                            </div> 
-                        </div> 
-                        <div class="user-card">
-                            <h4 style="margin-top: 0; margin-left: 90px;">peraperic</h4><br/>
-                            <div style="margin-top: 40px; margin-left: -150px;">                      
-                                <span style="margin-left: -31px;"><label>Ime:</label> Pera</span><br/>
-                                <span><label>Prezime:</label> Peric</span><br/>
-                                <h4 style="color: rgb(30, 31, 104); margin-left: 90px; font-weight: bolder;">KUPAC</h4>
-                            </div> 
-                        </div> 
-                        <div class="user-card">
-                            <h4 style="margin-top: 0; margin-left: 90px;">peraperic</h4><br/>
-                            <div style="margin-top: 40px; margin-left: -150px;">                      
-                                <span style="margin-left: -31px;"><label>Ime:</label> Pera</span><br/>
-                                <span><label>Prezime:</label> Peric</span><br/>
-                                <h4 style="color: rgb(30, 31, 104); margin-left: 90px; font-weight: bolder;">KUPAC</h4>
-                            </div>  
-                        </div>  
-                        
-                        <div class="user-card">
-                            <h4 style="margin-top: 0; margin-left: 90px;">peraperic</h4><br/>
-                            <div style="margin-top: 40px; margin-left: -150px;">                      
-                                <span style="margin-left: -31px;"><label>Ime:</label> Pera</span><br/>
-                                <span><label>Prezime:</label> Peric</span><br/>
-                                <h4 style="color: rgb(30, 31, 104); margin-left: 90px; font-weight: bolder;">KUPAC</h4>
-                            </div> 
-                        </div>  
-
-                        <div class="user-card">
-                            <h4 style="margin-top: 0; margin-left: 90px;">peraperic</h4><br/>
-                            <div style="margin-top: 40px; margin-left: -150px;">                      
-                                <span style="margin-left: -31px;"><label>Ime:</label> Pera</span><br/>
-                                <span><label>Prezime:</label> Peric</span><br/>
-                                <h4 style="color: rgb(30, 31, 104); margin-left: 90px; font-weight: bolder;">KUPAC</h4>
-                            </div> 
-                        </div> 
-                        
-                        <div class="user-card">
-                            <h4 style="margin-top: 0; margin-left: 90px;">peraperic</h4><br/>
-                            <div style="margin-top: 40px; margin-left: -150px;">                      
-                                <span style="margin-left: -31px;"><label>Ime:</label> Pera</span><br/>
-                                <span><label>Prezime:</label> Peric</span><br/>
-                                <h4 style="color: rgb(30, 31, 104); margin-left: 90px; font-weight: bolder;">KUPAC</h4>
-                            </div> 
-                        </div> 
-
-                        <div class="user-card">
-                            <h4 style="margin-top: 0; margin-left: 90px;">peraperic</h4><br/>
-                            <div style="margin-top: 40px; margin-left: -150px;">                      
-                                <span style="margin-left: -31px;"><label>Ime:</label> Pera</span><br/>
-                                <span><label>Prezime:</label> Peric</span><br/>
-                                <h4 style="color: rgb(30, 31, 104); margin-left: 90px; font-weight: bolder;">KUPAC</h4>
-                            </div> 
-                        </div> 
+                       
                     </div>
                     </div>
                 </div>
-            </div>        
-    </div>
+           </div>        
   
     <div class="registration-manager-deliverer">
         <div class="new-manager-deliverer-reg-form">
@@ -188,6 +118,8 @@ Vue.component("user-profiles-page", {
       </div>
 `
 	, 
+	
+
 	methods : {
 		/*addToCart : function (product) {
 			axios
@@ -288,13 +220,36 @@ Vue.component("user-profiles-page", {
 			 document.querySelector('.registration-manager-deliverer').style.display = 'none';
 		},
 		
+		blockUser : function (user) {
+			axios 
+				.put("user/blockUser/" + user.username)
+				.then(response => {
+					if (response.data != null) {
+						this.users = response.data;
+					}
+					
+				});
+		},
+		
 		logout : function (event) {
 			window.location.href = "#/";
 		}
 	},
+	
+	computed: {
+	      isDisabled : function(user) {
+	        // you can  check your form is filled or not here.
+	         return user.isBlocked === true || user.role == "ADMIN";
+	      }
+    },
+    
 	mounted () {
-     /*   axios
-          .get('rest/proizvodi/getJustProducts')
-          .then(response => (this.products = response.data))*/
+          axios
+          	.get('/user/getAllUsers')
+          	.then(response => {
+				 if (response.data != null) {
+					this.users = response.data;
+			 }
+		   });
     }
 });

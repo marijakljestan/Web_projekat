@@ -13,6 +13,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
 
+import beans.Manager;
 import beans.Restaurant;
 import beans.User;
 
@@ -80,7 +81,14 @@ public class UsersDAO implements IDao<User, String>{
 	@Override
 	public void update(User entity) throws JsonSyntaxException, IOException {
 		// TODO Auto-generated method stub
-		return;
+		ArrayList<User> users = getAll();
+		for(User user : users) {
+			if(user.getUsername().equals(entity.getUsername())) {
+				users.set(users.indexOf(user), entity);
+				break;
+			}
+		}
+		saveAll(users);		
 	}
 
 	@Override

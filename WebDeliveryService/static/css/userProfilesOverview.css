@@ -131,12 +131,13 @@
     .block-user-button{
         width: 100px; 
         height: 30px; 
-        background-color: rgb(250, 241, 190); 
+        background-color: red; 
         position: absolute; 
         margin-top: 25px; 
         margin-left: 180px; 
         border: none; 
         border-radius: 25px;
+        color:#fff;
     }
 
     .show-suspect-users{

@@ -2,12 +2,14 @@ package controllers;
 
 import static spark.Spark.get;
 import static spark.Spark.post;
+import static spark.Spark.put;
 import spark.Session;
 
 import javax.ws.rs.core.Response;
 import com.google.gson.Gson;
 
 import beans.Gender;
+import beans.Manager;
 import beans.User;
 import dto.LoginDTO;
 import services.UsersService;
@@ -78,6 +80,30 @@ public class UsersController {
 			} catch (Exception e) {
 				e.printStackTrace();
 				return "";
+			}
+		});
+		
+		get("/user/getAllUsers", (req, res) -> {
+			res.type("application/json");
+			try {
+				return gson.toJson(usersService.getAllUsers());
+			} catch (Exception e) {
+				e.printStackTrace();
+				return null;
+			}
+		});
+		
+		put("user/blockUser/:id", (req, res) -> {
+			res.type("application/json");
+			try {
+				User user = usersService.getUserByUserName(req.params("id"));
+				user.setBlocked(true);
+				usersService.updateUser(user);
+				return gson.toJson(usersService.getAllUsers());
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+				return null;
 			}
 		});
 		

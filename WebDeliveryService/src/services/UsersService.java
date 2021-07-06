@@ -22,9 +22,16 @@ public class UsersService {
 	}
 	
 	public ArrayList<User> getAllUsers() throws JsonSyntaxException, IOException{
-		return usersDAO.getAll();
+		return usersDAO.getAllNonDeleted();
 	}
 	
+	public User getUserByUserName(String username) throws JsonSyntaxException, IOException {
+		return usersDAO.getByID(username);
+	}
+	
+	public void updateUser(User user) throws JsonSyntaxException, IOException {
+		usersDAO.update(user);
+	}
 
 	public User login(LoginDTO user) throws JsonSyntaxException, IOException {
 		User loggedUser = null;
