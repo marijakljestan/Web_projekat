@@ -30,25 +30,27 @@ Vue.component("restaurant-page", {
         </div>
         <div class="collapse navbar-collapse" id="myNavbar">
           <ul class="nav navbar-nav">
-            <li><a href="#">Pocetna</a></li>
-            <li class="active"><a href="#">Meni</a></li>
-            <li><a href="#">Moje porudzbine</a></li>
-            <li><a href="#">Komentari</a></li>     
+            <li class="active"><a href="#"><span class="glyphicon glyphicon-home"></span>  Restorani</a></li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li v-on:click="login"><span class="glyphicon glyphicon-log-in"></span> Prijavite se </li>
+            <li v-on:click="register"><span class="glyphicon glyphicon-user"></span> Registrujte se</li>
           </ul>
         </div>
       </div>
     </nav>
     
     
-    <div class="container-fluid text-center">    
+	<div class="container-fluid text-center" style="background:white; position:relative; margin:0px"> 
+   
         <div class="row content">
-          <div class="col-sm-2 sidenav">
-            <p><a href="#">Link</a></p>
-            <p><a href="#">Link</a></p>
-            <p><a href="#">Link</a></p>
+
+          <div class="col-sm-2 sidenav" style="position:relative; margin-left: -20px; gap: 1.5em; padding: 1.5em 0;">
+    
           </div>
+
           <div class="col-lg-8"> 
-           <div class="menu-group">
+           <div class="menu-group" style="position: relative; margin-left: -35px">
                <div v-for="product in products" class="menu-item">
                    <img class="menu-item-image" v-bind:src= "product.picture" alt="Food">
                    <div class="menu-item-text">
@@ -61,55 +63,7 @@ Vue.component("restaurant-page", {
                         {{ product.description }}
                     </p>
                    </div>               
-               </div>
-                <div class="menu-item">
-                    <img class="menu-item-image" src="https://metmunch.com/wp-content/uploads/2021/02/pexels-photo-376464-1.jpeg" alt="Food">
-                    <div class="menu-item-text">
-                        <h3 class="menu-item-heading">
-                            <span class="menu-item-name"> American pancakes</span>
-                            <span class="menu-item-price"> $5.99</span>
-                        </h3>
-                        <p class="menu-item-description">
-                         Lorem ipsum dolor.Lorem ipsum dolor.Lorem ipsum dolor.Lorem ipsum dolor.Lorem ipsum dolor.Lorem ipsum dolor.
-                     </p>
-                    </div> 
-                </div>  
-                <div class="menu-item">
-                    <img class="menu-item-image" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS29YsvHevLUvSigi9yb71M7VyYaQ5-eLiN-BmduywGJPkW22aRXRmsU0UL9uKalzY5Vig&usqp=CAU" alt="Food">
-                    <div class="menu-item-text">
-                        <h3 class="menu-item-heading">
-                            <span class="menu-item-name"> Pasta</span>
-                            <span class="menu-item-price"> $25.99</span>
-                        </h3>
-                        <p class="menu-item-description">
-                         Lorem ipsum dolor.Lorem ipsum dolor.Lorem ipsum dolor.Lorem ipsum dolor.Lorem ipsum dolor.Lorem ipsum dolor.
-                     </p>
-                    </div> 
-                </div> 
-                <div class="menu-item">
-                    <img class="menu-item-image" src="https://static.onecms.io/wp-content/uploads/sites/35/2021/01/11/med-diet-plan-fb-GettyImages-1175355677-2000.jpg" alt="Food">
-                    <div class="menu-item-text">
-                        <h3 class="menu-item-heading">
-                            <span class="menu-item-name"> Salad</span>
-                            <span class="menu-item-price"> $19.99</span>
-                        </h3>
-                        <p class="menu-item-description">
-                         Lorem ipsum dolor.Lorem ipsum dolor.Lorem ipsum dolor.Lorem ipsum dolor.Lorem ipsum dolor.Lorem ipsum dolor.
-                     </p>
-                    </div> 
-                </div>  
-                <div class="menu-item">
-                    <img class="menu-item-image" src="https://images.immediate.co.uk/production/volatile/sites/30/2020/08/processed-food700-350-e6d0f0f.jpg?quality=90&resize=385%2C350">
-                    <div class="menu-item-text">
-                        <h3 class="menu-item-heading">
-                            <span class="menu-item-name"> Hot dog</span>
-                            <span class="menu-item-price"> $6.99</span>
-                        </h3>
-                        <p class="menu-item-description">
-                         Lorem ipsum dolor.Lorem ipsum dolor.Lorem ipsum dolor.Lorem ipsum dolor.Lorem ipsum dolor.Lorem ipsum dolor.
-                     </p>
-                    </div> 
-                </div>              
+               </div>             
             </div>
            </div>
           </div>

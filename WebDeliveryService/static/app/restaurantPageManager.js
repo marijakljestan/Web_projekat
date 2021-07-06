@@ -9,7 +9,8 @@ Vue.component("restaurant-page-manager", {
 		      itemDescription: '',
 		      itemPicture: '',
 		      itemQuantity: '0',
-		      errorMessage: ''
+		      errorMessage: '',
+		      selectedProduct : {}
 		    }
 	},
 	template: ` 
@@ -64,7 +65,7 @@ Vue.component("restaurant-page-manager", {
 
           <div class="col-lg-8"> 
            <div class="menu-group" style="position: relative; margin-left: -35px">
-               <div v-for="product in products" class="menu-item">
+               <div v-for="product in products" class="menu-item" v-on:click="setSelectedProduct(product)">
                    <img class="menu-item-image" v-bind:src= "product.picture" alt="Food">
                    <div class="menu-item-text">
                        <h3 class="menu-item-heading">
@@ -118,6 +119,43 @@ Vue.component("restaurant-page-manager", {
               </div>
             </div>
           </div> 
+          
+          <div class="edit-item">
+            <div class="edit-item-form">
+              <div class="login-title">
+                <h3 style="color: rgb(58, 43, 194); font-weight: bolder;"> IZMENA ARTIKLA </h3>
+              </div>
+              <div v-on:click="closeEditForm" class="close">+</div>
+              <div class = "form-div" style="margin-top: 20px;">
+                <form>
+                  <input v-model="selectedProduct.name" type="text"  class="login-inputs" style="margin-top: 0px;" placeholder="Naziv artikla*" id = "itemName">
+                  <label style="color : red;" id="itemNameLabel" name = "labels" display="hidden"> </label>
+                  <input v-model="selectedProduct.price" type="text" class="login-inputs" style="margin-top: 0px;" placeholder="Cena*"> 
+                  <label style="color : red;" id="itemPriceLabel" name = "labels" display="hidden"> </label>
+
+                  <label class="food-item-label">Tip*:</label>
+                  <select v-model="selectedProduct.type" class="login-inputs" style="margin-top: 0px;">
+                    <option>HRANA</option>
+                    <option>PIĆE</option>
+                 </select>
+                 <label style="color : red;" id="itemTypeLabel" name = "labels" display="hidden"> </label>
+
+                 <label class="food-item-label">Slika*:</label>
+                 <input type="file" @change="pictureEdited" style="margin-left: 100px;" id="img1" name="img" accept="image/*"><br/>
+                  <label style="color : red;" id="itemImageLabel" name = "labels" display="hidden"> </label>
+
+                  <label class="food-item-label">Opis:</label>
+                  <textarea v-model="selectedProduct.description" type="text" class="login-inputs" style="margin-top: 0px;" placeholder="Opis">
+                  </textarea>
+				
+				  <label class="food-item-label" style="margin-left: -150px;" >Kolicina u gramima:</label>
+                  <input type="text" v-model="selectedProduct.quantity" class="login-inputs" style="margin-top: 1px;">
+				  <p style="color:red;text-transform:none;">{{errorMessage}}</p>
+                  <button v-on:click="editItem" class="button" style="background-color: rgb(64, 88, 224); color: white;"> Potvrdi</button>
+                </form>
+              </div>
+            </div>
+          </div> 
     
     <footer class="container-fluid text-center">
       <p>Online Food Delivery Copyright</p>  
@@ -141,8 +179,13 @@ Vue.component("restaurant-page-manager", {
 			document.querySelector('.add-new-item').style.display = 'flex';
 		},
 		
+		setSelectedProduct : function(product){
+			this.selectedProduct = product;
+		},
+		
 		editItemOpenForm : function(event){
-			document.querySelector('.add-new-item').style.display = 'flex';
+			if(this.selectedProduct)
+				document.querySelector('.edit-item').style.display = 'flex';
 		},
 		
 		pictureAdded(e) 
@@ -150,6 +193,13 @@ Vue.component("restaurant-page-manager", {
             const file = e.target.files[0];
             this.createBase64Image(file);
             this.logo = URL.createObjectURL(file);
+        },
+        
+        pictureEdited(e) 
+        {
+            const file = e.target.files[0];
+            this.createBase64Image(file);
+            this.selectedProduct.logo = URL.createObjectURL(file);
         },
         
          createBase64Image(file){
@@ -215,8 +265,17 @@ Vue.component("restaurant-page-manager", {
 			}
 		},
 		
+		editItem : function (event) {
+		
+		},
+		
 		closeForm : function(event){
 			document.querySelector('.add-new-item').style.display = 'none';
+		},
+		
+		closeEditForm : function(event){
+			this.selectedProduct = null;
+			document.querySelector('.edit-item').style.display = 'none';
 		},
 		
 		logout : function (){

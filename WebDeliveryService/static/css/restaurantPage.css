@@ -146,6 +146,28 @@
       padding: 20px;
       position: relative;
     }
+    
+    .edit-item{
+      width: 100%;
+      height: 100%;
+      background-color: rbg(0,0,0, 0.7);
+      position: fixed;
+      top:0;
+      display: none;
+      justify-content: center;
+      align-items: center;
+    }
+
+    
+     .edit-item-form{
+      width: 500px;
+      height: 700px;
+      background:linear-gradient(rgba(255,255,255,.5), rgba(255,255,255,.5)), url(https://forkandpixel.files.wordpress.com/2018/02/pancakes0153.jpg) no-repeat center ;
+      border-radius: 10px;
+      text-align: center;
+      padding: 20px;
+      position: relative;
+    }
 
     .food-item-label{
         margin-left: -250px;
