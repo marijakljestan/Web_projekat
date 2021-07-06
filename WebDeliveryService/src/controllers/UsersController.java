@@ -56,10 +56,7 @@ public class UsersController {
 				User loggedUser = usersService.login(gson.fromJson(req.body(), LoginDTO.class));
 				if (loggedUser != null) {
 					Session session = req.session(true);
-					User isLoggedIn = session.attribute("user");
-					if (isLoggedIn == null) {
-						session.attribute("user", loggedUser);
-					}
+					session.attribute("user", loggedUser);
 					return gson.toJson(loggedUser);
 				} else {
 					return "";
@@ -100,6 +97,17 @@ public class UsersController {
 				return null;
 			}
 			
+		});
+		
+		get("/users/logout", (req, res) -> {
+			res.type("application/json");
+			Session session = req.session(true);
+			User loggedUser = session.attribute("user");
+			
+			if (loggedUser != null) {
+				session.invalidate();
+			}
+			return true;
 		});
 		
 	}	
