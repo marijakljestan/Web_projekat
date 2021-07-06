@@ -13,6 +13,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
 
+import beans.Manager;
 import beans.Product;
 import beans.Restaurant;
 import beans.User;
@@ -63,7 +64,14 @@ public class ProductDAO implements IDao<Product, String> {
 	@Override
 	public void update(Product entity) throws JsonSyntaxException, IOException {
 		// TODO Auto-generated method stub
-		
+		ArrayList<Product> products = getAll();
+		for(Product product : products) {
+			if(product.getName().equals(entity.getName()) && product.getRestaurantName().equals(entity.getRestaurantName())) {
+				products.set(products.indexOf(product), entity);
+				break;
+			}
+		}
+		saveAll(products);	
 	}
 
 	@Override

@@ -49,5 +49,28 @@ public class ProductController {
 			}
 			
 		});
+		
+		post("/product/editProduct", (req,res) -> {
+			res.type("application/json");
+			
+			try {
+				Product editedProduct = gson.fromJson(req.body(), Product.class);
+				
+			/*	for (Product product : productService.getAll()) {
+					if(product.getName().equals(editedProduct.getName()) && product.getRestaurantName().equals(editedProduct.getRestaurantName())) {
+						//System.out.println("Vec postoji");
+						return "";
+					}
+				}*/
+				
+				productService.updateProduct(editedProduct);	
+				return gson.toJson(editedProduct);
+				
+			} catch(Exception e) {
+				e.printStackTrace();
+				return null;
+			}
+			
+		});
 	}
 }

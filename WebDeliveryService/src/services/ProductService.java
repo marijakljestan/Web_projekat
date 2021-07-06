@@ -44,5 +44,9 @@ public class ProductService {
 		productDAO.create(newProduct);
 		
 	}
+	
+	public void updateProduct(Product editedProduct) throws JsonSyntaxException, IOException {
+		productDAO.update(editedProduct);
+	}
 
 }

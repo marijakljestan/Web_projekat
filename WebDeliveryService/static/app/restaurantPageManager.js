@@ -180,11 +180,19 @@ Vue.component("restaurant-page-manager", {
 		},
 		
 		setSelectedProduct : function(product){
-			this.selectedProduct = product;
+			this.selectedProduct = {
+				name : product.name,
+				price : product.price,
+	    		type : product.type == 'HRANA'?'FOOD':'DRINK',
+	    		description : product.description,
+	    		picture: product.picture,
+	    		quantity : product.quantity,
+	    		restaurantName: this.restaurant.name		
+			}
 		},
 		
 		editItemOpenForm : function(event){
-			if(this.selectedProduct)
+			if(isNaN(this.selectedProduct))
 				document.querySelector('.edit-item').style.display = 'flex';
 		},
 		
@@ -199,7 +207,7 @@ Vue.component("restaurant-page-manager", {
         {
             const file = e.target.files[0];
             this.createBase64Image(file);
-            this.selectedProduct.logo = URL.createObjectURL(file);
+            this.selectedProduct.picture = URL.createObjectURL(file);
         },
         
          createBase64Image(file){
@@ -213,7 +221,7 @@ Vue.component("restaurant-page-manager", {
         },
 		
 		addNewItem : function(event){
-			//fleg za add/edit
+		
 			event.preventDefault();
       		document.getElementById('itemPriceLabel').innerHTML = "";
       		document.getElementById('itemNameLabel').innerHTML = "";
@@ -266,7 +274,55 @@ Vue.component("restaurant-page-manager", {
 		},
 		
 		editItem : function (event) {
-		
+			event.preventDefault();
+      		document.getElementById('itemPriceLabel').innerHTML = "";
+      		document.getElementById('itemNameLabel').innerHTML = "";
+			if(!this.selectedProduct.name || !this.selectedProduct.price || !this.selectedProduct.type) {
+				this.errorMessage="Morate popuniti sva obavezna polja.";
+			} else {
+				this.errorMessage="";
+				let valid = true;
+				if(isNaN(this.selectedProduct.price)) {
+					document.getElementById('itemPriceLabel').innerHTML = "Morate uneti brojcanu vrednost!";
+					document.getElementById('itemPriceLabel').style.display = 'block';
+					valid = false;
+				}
+				if(isNaN(this.selectedProduct.quantity)) {
+					this.errorMessage="Morate uneti brojcanu vrednost!";
+					valid = false;
+				}
+				if(!this.selectedProduct.picture){
+			       document.getElementById('itemImageLabel').innerHTML = "Morate izabrati sliku artikla!";
+				   document.getElementById('itemImageLabel').style.display = 'block';
+				   valid = false;
+			    }
+				if(valid == true){
+			    	let editedItem = {
+						name : this.selectedProduct.name,
+						price : this.selectedProduct.price,
+	    				type : this.selectedProduct.type == 'HRANA'?'FOOD':'DRINK',
+	    				description : this.selectedProduct.description,
+	    				picture: this.selectedProduct.picture,
+	    				quantity : this.selectedProduct.quantity,
+	    				restaurantName: this.restaurant.name		
+    				}
+					axios 
+	    			.post('/product/editProduct', JSON.stringify(editedItem))
+	    			.then(response => {
+	    				if (response.data == "") {
+							document.getElementById('itemNameLabel').innerHTML = "Vec postoji artikal sa tim imenom!";
+							document.getElementById('itemNameLabel').style.display = 'block';
+							this.errorMessage="Artikal vec postoji";
+	    				} else {
+							document.querySelector('.edit-item').style.display = 'none';
+							location.reload();
+	    				}
+	    			})
+	    			.catch(error => {
+					    console.log(error.response)
+					});
+				}
+			}
 		},
 		
 		closeForm : function(event){
@@ -275,7 +331,7 @@ Vue.component("restaurant-page-manager", {
 		
 		closeEditForm : function(event){
 			this.selectedProduct = null;
-			document.querySelector('.edit-item').style.display = 'none';
+			document.querySelector('.edit-item').style.display = 'none';		
 		},
 		
 		logout : function (){
