@@ -194,7 +194,7 @@ Vue.component("restaurant-page-manager", {
 	    				description : this.itemDescription,
 	    				picture: this.itemPicture,
 	    				quantity : this.itemQuantity,
-	    				restaurantName: ''		
+	    				restaurantName: this.restaurant.name		
     				}
 					axios 
 	    			.post('/product/addNew', JSON.stringify(newItem))
@@ -205,6 +205,7 @@ Vue.component("restaurant-page-manager", {
 							this.errorMessage="Artikal vec postoji";
 	    				} else {
 							document.querySelector('.add-new-item').style.display = 'none';
+							location.reload();
 	    				}
 	    			})
 	    			.catch(error => {

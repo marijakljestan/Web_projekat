@@ -69,5 +69,17 @@ public class UsersController {
 			}
 		});
 		
+		get("/user/", (req, res) -> {
+			res.type("application/json");
+			try {
+				Session session = req.session(true);
+				User loggedUser = session.attribute("user");
+				return gson.toJson(loggedUser);
+			} catch (Exception e) {
+				e.printStackTrace();
+				return "";
+			}
+		});
+		
 	}	
 }

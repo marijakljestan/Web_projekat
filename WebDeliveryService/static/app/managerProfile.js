@@ -1,7 +1,7 @@
 Vue.component("manager-profile", {
 	data: function () {
 		    return {
-		      restaurants: null,
+			  user: null,
 			  usernameRegister: '',
 		      passwordRegister: '',
 		      nameRegister: '',
@@ -37,7 +37,7 @@ Vue.component("manager-profile", {
           <<ul class="nav navbar-nav">
             <li class="active"><a href="#/manager"><span class="glyphicon glyphicon-home"></span> Početna</a></li>
             <li><a href="#/managerProfile"><span class="glyphicon glyphicon-user"></span> Moj Profil</a></li>
-            <li><a href="#/restaurantManager"><span class="glyphicon glyphicon-tasks"></span> Moj restoran</a></li>
+            <li><a v-on:click="showRestaurant"><span class="glyphicon glyphicon-tasks"></span> Moj restoran</a></li>
             <li><a href="#/ordersManager"><span class="glyphicon glyphicon-cutlery"></span> Porudžbine</a></li>
             <li><a href="#/customersManger"><span class="glyphicon glyphicon-globe"></span> Kupci</a></li>
             <li><a href="#/commentsManager"><span class="glyphicon glyphicon-comment"></span> Komentari</a></li>
@@ -58,17 +58,17 @@ Vue.component("manager-profile", {
         
             <div class="col-lg-6" style="margin-left: 120px; margin-top: 190px;">
             
-                <input type="text" class="input-fields" placeholder="Ime"><br/><br/>
-                <input type="text" class="input-fields" placeholder="Prezime"><br/><br/>
-                <input type="text" class="input-fields" placeholder="korisničko ime"><br/><br/>                
+                <input type="text" v-model="user.name" class="input-fields" placeholder="Ime"><br/><br/>
+                <input type="text" v-model="user.surname" class="input-fields" placeholder="Prezime"><br/><br/>
+                <input type="text" v-model="user.username" class="input-fields" placeholder="korisničko ime"><br/><br/>                
             </div>
 
 
             <div class="col-lg-6" style="margin-left: 560px; margin-top: -250px;">        
                 <label style="color: rgb(30, 31, 104);">Datum rođenja:</label><br/>
-                <input type="date"  class="input-fields" style="margin-left: 0px;"><br/><br/>
-                <input type="text" class="input-fields" placeholder="Pol"><br/><br/> 
-                <input type="password" class="input-fields" placeholder="Lozinka"><br/><br/> 
+                <input type="date" v-model="user.dateOfBirth" class="input-fields" style="margin-left: 0px;"><br/><br/>
+                <input type="text" v-model="user.gender" class="input-fields" placeholder="Pol"><br/><br/> 
+                <input type="text" v-model="user.password" class="input-fields" placeholder="Lozinka"><br/><br/> 
             </div>                
         </div>  
         
@@ -110,13 +110,26 @@ Vue.component("manager-profile", {
       </footer>
       </div>
 `
-	, 
+	,
+	mounted () {
+        axios
+          .get('/user/')
+          .then(response => (this.user = response.data))
+    }, 
 	methods : {
 		/*addToCart : function (product) {
 			axios
 			.post('rest/proizvodi/add', {"id":''+product.id, "count":parseInt(product.count)})
 			.then(response => (toast('Product ' + product.name + " added to the Shopping Cart")))
 		}*/
+		
+		showRestaurant : function() {
+			axios
+	          .get('/manager/')
+	          .then(response => {
+		    		window.location.href = "#/restaurantManager?id="+ response.data.restaurant;
+		      })
+		},
 		
 		editProfile : function (event) {
 			document.querySelector('.edit-profile-container').style.display = 'flex';
@@ -210,10 +223,5 @@ Vue.component("manager-profile", {
 			window.location.href = "#/";
 		}
 		
-	},
-	mounted () {
-     /*   axios
-          .get('rest/proizvodi/getJustProducts')
-          .then(response => (this.products = response.data))*/
-    }
+	}
 });
