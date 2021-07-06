@@ -2,6 +2,9 @@ Vue.component("user-profiles-page", {
 	data: function () {
 		    return {
 		      users: null,
+		      searchUsername : '',
+		      searchName: '',
+		      searchSurname: '',
 		      usernameRegister: '',
 		      passwordRegister: '',
 		      nameRegister: '',
@@ -61,11 +64,11 @@ Vue.component("user-profiles-page", {
         </div>
         
       <div class="search-panel">
-	        <input type="text" class="search-input" placeholder="Ime ">
-	        <input type="text" class="search-input" placeholder="Prezime ">
-	        <input type="text" class="search-input" placeholder="Korisničko ime">
+	        <input type="text" v-model="searchName"       class="search-input" placeholder="Ime ">
+	        <input type="text" v-model="searchSurname"	  class="search-input" placeholder="Prezime ">
+	        <input type="text" v-model="searchUsername"   class="search-input" placeholder="Korisničko ime">
 	  
-	        <input type="submit" class="search-submit" value="Pretrazi">
+	        <input type="submit" class="search-submit" v-on:click="searchUsers" value="Pretrazi">
      </div>     
     
         <div class="container-fluid text-center" style="position: absolute; left: 300px; top: 100px;">    
@@ -218,6 +221,20 @@ Vue.component("user-profiles-page", {
 			 	element.style.display = 'hidden';
 			 }
 			 document.querySelector('.registration-manager-deliverer').style.display = 'none';
+		},
+		
+		searchUsers : function (event) {
+				let searchParameters = {
+						name : this.searchName,
+						surname : this.searchSurname,
+	    				username : this.searchUsername			
+    			}
+    			
+    			axios 
+		    		.post('/user/searchUsers', JSON.stringify(searchParameters))
+		    		.then(response => {
+		    		   this.users = response.data;
+		    	})
 		},
 		
 		blockUser : function (user) {

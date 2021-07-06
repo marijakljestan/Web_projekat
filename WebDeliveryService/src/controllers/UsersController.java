@@ -3,16 +3,16 @@ package controllers;
 import static spark.Spark.get;
 import static spark.Spark.post;
 import static spark.Spark.put;
-import spark.Session;
 
-import javax.ws.rs.core.Response;
+import java.util.ArrayList;
+
 import com.google.gson.Gson;
 
-import beans.Gender;
-import beans.Manager;
 import beans.User;
 import dto.LoginDTO;
+import dto.UserSearchDTO;
 import services.UsersService;
+import spark.Session;
 
 public class UsersController {
 	
@@ -88,6 +88,20 @@ public class UsersController {
 			try {
 				return gson.toJson(usersService.getAllUsers());
 			} catch (Exception e) {
+				e.printStackTrace();
+				return null;
+			}
+		});
+		
+		post("/user/searchUsers", (req,res) -> {
+			res.type("application/json");
+			
+			try {
+				UserSearchDTO searchParameters = gson.fromJson(req.body(), UserSearchDTO.class);
+				ArrayList<User> users =	usersService.getSuitableUsers(searchParameters);		
+				return gson.toJson(users);
+				
+			} catch(Exception e) {
 				e.printStackTrace();
 				return null;
 			}

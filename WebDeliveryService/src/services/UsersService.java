@@ -5,9 +5,11 @@ import java.util.ArrayList;
 
 import com.google.gson.JsonSyntaxException;
 
+import beans.Restaurant;
 import beans.User;
 import dao.UsersDAO;
 import dto.LoginDTO;
+import dto.UserSearchDTO;
 
 public class UsersService {
 	
@@ -47,5 +49,42 @@ public class UsersService {
 		}
 		return null;
 	}
-
+	
+public ArrayList<User> getSuitableUsers(UserSearchDTO searchParameters) throws JsonSyntaxException, IOException{
+		
+		ArrayList<User> allUsers = getAllUsers();
+		ArrayList<User> suitableUsers = getAllUsers();
+		
+		if(!searchParameters.getName().trim().isEmpty()) {
+			suitableUsers.clear();
+			for (User user : allUsers) 
+				if(user.getName().toLowerCase().contains(searchParameters.getName().toLowerCase().trim()))
+					suitableUsers.add(user);
+				
+			allUsers.clear();
+			allUsers.addAll(suitableUsers);
+		}
+		
+		if(!searchParameters.getSurname().trim().isEmpty()) {
+			suitableUsers.clear();
+			for (User user : allUsers)
+				if(user.getSurname().toString().toLowerCase().contains(searchParameters.getSurname().toLowerCase().trim()))
+					suitableUsers.add(user);
+				
+			allUsers.clear();
+			allUsers.addAll(suitableUsers);
+		}
+		
+		if(!searchParameters.getUsername().trim().isEmpty()) {
+			suitableUsers.clear();
+			for (User user : allUsers) 
+				if(user.getUsername().toLowerCase().contains(searchParameters.getUsername().toLowerCase().trim())) 
+					suitableUsers.add(user);
+				
+			
+			allUsers.clear();
+			allUsers.addAll(suitableUsers);
+		}					
+		return suitableUsers;
+	}
 }
