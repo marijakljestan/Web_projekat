@@ -149,7 +149,7 @@ Vue.component("restaurant-page-manager", {
         {
             const file = e.target.files[0];
             this.createBase64Image(file);
-            this.logo = URL.createObjectURL(file);
+            this.itemPicture = URL.createObjectURL(file);
         },
         
          createBase64Image(file){

@@ -33,7 +33,7 @@ public class ProductController {
 				Product newProduct = gson.fromJson(req.body(), Product.class);
 				
 				for (Product product : productService.getAll()) {
-					if(product.getName().equals(newProduct.getName())) {
+					if(product.getName().equals(newProduct.getName()) && product.getRestaurantName().equals(newProduct.getRestaurantName())) {
 						//System.out.println("Vec postoji");
 						return "";
 					}
