@@ -34,7 +34,7 @@ Vue.component("manager-profile", {
           </button>
         </div>
         <div class="collapse navbar-collapse" id="myNavbar">
-          <<ul class="nav navbar-nav">
+          <ul class="nav navbar-nav">
             <li class="active"><a href="#/manager"><span class="glyphicon glyphicon-home"></span> Početna</a></li>
             <li><a href="#/managerProfile"><span class="glyphicon glyphicon-user"></span> Moj Profil</a></li>
             <li><a v-on:click="showRestaurant"><span class="glyphicon glyphicon-tasks"></span> Moj restoran</a></li>
@@ -56,23 +56,28 @@ Vue.component("manager-profile", {
   
         <div  class="col-lg-12"> 
         
-            <div class="col-lg-6" style="margin-left: 120px; margin-top: 190px;">
+            <div class="col-lg-6" style="margin-left: 120px; margin-top: 150px;">
             
+            	<label style="color: rgb(30, 31, 104);">Ime:</label><br/>
                 <input type="text" v-model="user.name" class="input-fields" placeholder="Ime"><br/><br/>
+                <label style="color: rgb(30, 31, 104);">Prezime:</label><br/>
                 <input type="text" v-model="user.surname" class="input-fields" placeholder="Prezime"><br/><br/>
+                <label style="color: rgb(30, 31, 104);">Korisničko ime:</label><br/>
                 <input type="text" v-model="user.username" class="input-fields" placeholder="korisničko ime"><br/><br/>                
             </div>
 
 
-            <div class="col-lg-6" style="margin-left: 560px; margin-top: -250px;">        
+            <div class="col-lg-6" style="margin-left: 560px; margin-top: -290px;">        
                 <label style="color: rgb(30, 31, 104);">Datum rođenja:</label><br/>
-                <input type="date" v-model="user.dateOfBirth" class="input-fields" style="margin-left: 0px;"><br/><br/>
+                <input id="date-of-birth" type="date" v-model="user.dateOfBirth" class="input-fields" style="margin-left: 0px;"><br/><br/>
+                <label style="color: rgb(30, 31, 104);">Pol:</label><br/>
                 <input type="text" v-model="user.gender" class="input-fields" placeholder="Pol"><br/><br/> 
+                <label style="color: rgb(30, 31, 104);">Lozinka:</label><br/>
                 <input type="text" v-model="user.password" class="input-fields" placeholder="Lozinka"><br/><br/> 
             </div>                
         </div>  
         
-        <button class="edit-profile" v-on:click="editProfile" style="position: absolute; top: 450px; left: 630px; width: 250px;">Izmeni podatke</button>
+        <button v-on:click="acceptChanges" class="edit-profile" v-on:click="editProfile" style="position: absolute; top: 450px; left: 630px; width: 250px;">Izmeni podatke</button>
     </div>
   
     <div class="edit-profile-container">
@@ -140,17 +145,18 @@ Vue.component("manager-profile", {
 				event.preventDefault();
 				
 				let genderReg;
-				if (this.genderRegister == 'MUŠKO') {
+				/*if (this.genderRegister == 'MUŠKO') {
 					genderReg = 'MALE';
 				} else if(this.genderRegister == 'ŽENSKO'){
 					genderReg = 'FEMALE';
-				}
-				var dates = document.getElementById("date_input").value;
-       			var d=new Date(dates);
+				}*/
+				
+				var dates = document.getElementById("date-of-birth").value;
+       			var d=new Date(dates).toISOString().substr(0, 10);
        			
        			var valid = true;
        			     		      			
-       			 if(!this.usernameRegister){
+       			/*if(!this.usernameRegister){
 			        document.getElementById('usernameLabel').innerHTML = "Morate uneti korisnicko ime!";
 					document.getElementById('usernameLabel').style.display = 'block';
 					valid = false;
@@ -179,17 +185,17 @@ Vue.component("manager-profile", {
 			    	document.getElementById('dateLabel').innerHTML = "Morate izabrati datum rodjenja!";
 					document.getElementById('dateLabel').style.display = 'block';
 					valid = false;
-			    }
+			    }*/
 			    
 			    if(valid == true){
 			    	let newUser = {
-						username : this.usernameRegister,
-						password : this.passwordRegister,
-	    				name : this.nameRegister,
-	    				surname : this.surnameRegister,
-	    				gender : genderReg,
+						username : this.user.username,
+						password : this.user.password,
+	    				name : this.user.name,
+	    				surname : this.user.surname,
+	    				gender : this.user.gender,
 	    				dateOfBirth : d,
-	    				role : 'CUSTOMER'				
+	    				role : 'MANAGER'				
     			}
 				axios 
     			.post('/users/register', JSON.stringify(newUser))
@@ -198,7 +204,7 @@ Vue.component("manager-profile", {
 						document.getElementById('usernameLabel').innerHTML = "Vec postoji uneto korisnicko ime!";
 						document.getElementById('usernameLabel').style.display = 'block';
     				} else {
-						window.location.href = "/";
+						location.reload();
     				}
     			})
     			.catch(error => {
