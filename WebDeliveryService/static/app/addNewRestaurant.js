@@ -45,7 +45,7 @@ Vue.component("addNewRestaurant-page", {
         <div class="collapse navbar-collapse" id="myNavbar">
           <ul class="nav navbar-nav">
             <li class="active"><a href="#/admin"><span class="glyphicon glyphicon-home"></span> Početna</a></li>
-            <li><a href="#/userProfile"><span class="glyphicon glyphicon-user"></span> Moj Profil</a></li>
+            <li><a href="#/adminProfile"><span class="glyphicon glyphicon-user"></span> Moj Profil</a></li>
             <li><a href="#/userProfilesView"><span class="glyphicon glyphicon-folder-open"></span> Korisnici</a></li>
             <li><a href="#/commentsAdmin"><span class="glyphicon glyphicon-comment"></span> Komentari</a></li>
           </ul>

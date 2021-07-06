@@ -1,4 +1,4 @@
-Vue.component("customer-profile", {
+Vue.component("admin-profile-page", {
 	data: function () {
 		    return {
 		      user: null,
@@ -25,15 +25,15 @@ Vue.component("customer-profile", {
           </button>
         </div>
         <div class="collapse navbar-collapse" id="myNavbar">
-          <ul class="nav navbar-nav">
-           		<li class="active"><a href="#/customer"><span class="glyphicon glyphicon-home"></span> Početna</a></li>
-                <li><a href="#/customerProfile"><span class="glyphicon glyphicon-user"></span> Moj Profil</a></li>
-                <li><a href="#/ordersCustomer"><span class="glyphicon glyphicon-cutlery"></span> Moje porudžbine</a></li>
-                <li><a href="#/customerComments"><span class="glyphicon glyphicon-comment"></span> Komentari</a></li>   
+            <ul class="nav navbar-nav">
+            <li class="active"><a href="#/admin"><span class="glyphicon glyphicon-home"></span> Početna</a></li>
+            <li><a href="#/adminProfile"><span class="glyphicon glyphicon-user"></span> Moj Profil</a></li>
+            <li><a href="#/userProfilesView"><span class="glyphicon glyphicon-folder-open"></span> Korisnici</a></li>
+            <li><a href="#/commentsAdmin"><span class="glyphicon glyphicon-comment"></span> Komentari</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
-            <li><a href="#/shoppingCart"><span class="glyphicon glyphicon-shopping-cart"></span> Korpa</a></li>
-            <li><a href="#/"><span class="glyphicon glyphicon-log-out"></span> Odjavite se</a></li>
+            <li> <a href="#/"><span class="glyphicon glyphicon-log-out"></span> Odjavite se</a> </li>
+          </ul>
         </div>
       </div>
     </nav>
@@ -75,9 +75,8 @@ Vue.component("customer-profile", {
         <p>Online Food Delivery Copyright</p>  
       </footer>
   </div>
-
 `
-	,
+	, 
 	mounted () {
      axios
           .get('/user/')
@@ -114,7 +113,7 @@ Vue.component("customer-profile", {
 	    				surname : this.user.surname,
 	    				gender : this.user.gender,
 	    				dateOfBirth : d,
-	    				role : 'CUSTOMER'				
+	    				role : 'ADMIN'				
     				}
 					axios 
 		    			.put('/users/edit', JSON.stringify(newUser))
@@ -137,6 +136,5 @@ Vue.component("customer-profile", {
 					console.log(error.response)
 				});
 		}
-		
 	}
 });

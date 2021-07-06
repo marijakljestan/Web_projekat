@@ -36,9 +36,9 @@ public class ProductService {
 	public void addNewProduct(Product newProduct) throws JsonSyntaxException, IOException {
 		
 		String convertedImage = new String();
-		String path = "images/products/"  + newProduct.getName() + ".jpg";
+		String path = "images/products/"  + newProduct.getName() + newProduct.getRestaurantName() + ".jpg";
 		decoder.Base64DecodeAndSave(newProduct.getPicture(), path);
-		path = "./" + "images/products/"  + newProduct.getName() + ".jpg"; 
+		path = "./" + "images/products/"  + newProduct.getName() + newProduct.getRestaurantName() + ".jpg";
 		newProduct.setPicture(path);
 		
 		productDAO.create(newProduct);
