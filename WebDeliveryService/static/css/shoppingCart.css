@@ -142,6 +142,21 @@
         color: rgb(173, 16, 16);
         background-color: #fff;
     }
+    
+    .minus_button_disabled{
+        width: 35px;
+        height:25px;
+        align-content: center;
+        border-radius: 25px;
+        position: absolute;
+        margin-top: 5.6%;
+        margin-left: 44%;
+        font-size: 38px;
+        font-weight: bolder;
+        border: none;
+        color: grey;
+        background-color: #fff;
+    }
 
     .shopping-cart-label{
       position: relative;

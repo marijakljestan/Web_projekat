@@ -44,7 +44,11 @@ Vue.component("shopping-cart", {
 
           <div class="col-sm-2 sidenav" style="margin-left: -10px;">
               <label style="font-family: sans-serif; font-size: 18px;">Ukupno: </label><br/>
-              <span style="font-size: 16px;">{{ shoppingCart.total }}</span><br/>
+              <span>
+              	<span style="font-size: 16px;"> $ </span>
+              	<span style="font-size: 16px;">{{ shoppingCart.total.toFixed(2) }}</span>
+              </span>
+              <br/>
               <button v-on:click="orderItemsInCart" class="order-button">Poruči</button>
           </div>
 
@@ -53,7 +57,7 @@ Vue.component("shopping-cart", {
 
                <div v-for="item in shoppingCart.items" class="menu-item">
                    <img class="menu-item-image" v-bind:src= "item.product.picture" alt="Food">
-                   <div v-on:click="moveToTrash" class="removeFromCart">+</div>
+                   <div v-on:click="removeItem(item)" class="removeFromCart">+</div>
                    <div class="menu-item-text">
                        <h3 class="menu-item-heading-cart">
                            <span class="menu-item-name"> {{ item.product.name }}</span>
@@ -61,11 +65,11 @@ Vue.component("shopping-cart", {
                            <span class="menu-item-price"> {{ item.product.price }}</span>
                        </h3>
                        <br/>
-                       <span class="shopping-cart-label">Količina: <span style="margin-left: 10px;"> {{ item.quantity}} </span></span><br/>
+                       <span class="shopping-cart-label">Količina: <span style="margin-left: 10px;"> {{ item.quantity }} </span></span><br/>
                        <hr/>
                    </div>
                    <button v-on:click="increaseQuantity(item)" class="plus-cart-button">+</button>       
-                   <button class="minus-cart-button">-</button>  <br/> 
+                   <button v-on:click="reduceQuantity(item)" v-bind:disabled="item.quantity == 1" v-bind:class="{minus_button_disabled : item.quantity == 1}" class="minus-cart-button">-</button>  <br/> 
                </div>
             </div>
            </div>
@@ -84,11 +88,6 @@ Vue.component("shopping-cart", {
 	       .then(response => (this.shoppingCart = response.data))
     },
 	methods : {
-		/*addToCart : function (product) {
-			axios
-			.post('rest/proizvodi/add', {"id":''+product.id, "count":parseInt(product.count)})
-			.then(response => (toast('Product ' + product.name + " added to the Shopping Cart")))
-		}*/
 		
 		orderItemsInCart : function (item) {
 		
@@ -107,15 +106,32 @@ Vue.component("shopping-cart", {
 		
 		increaseQuantity: function (item) {
 			axios
-	       .put('/customer/increaseQuantity/', JSON.stringify(item))
-	       .then(response => {
-	       		this.shoppingCart = response.data;
-	       		location.reload();
-		    })
+		       .put('/customer/increaseQuantity/', JSON.stringify(item))
+		       .then(response => {
+		       		this.shoppingCart = response.data;
+		       		location.reload();
+			    })
+		},
+		
+		reduceQuantity: function (item) {
+			axios
+		       .put('/customer/reduceQuantity/', JSON.stringify(item))
+		       .then(response => {
+		       		this.shoppingCart = response.data;
+		       		location.reload();
+			    })
 		},
 		
 		logout : function (){
 			window.location.href = "#/";
+		},
+		
+		removeItem: function(item) {
+			axios
+				.delete('/customer/removeItem/' + item.product.name + item.product.restaurantName)
+				.then(response => {
+					this.shoppingCart = response.data;
+				})
 		}
 	}
 });

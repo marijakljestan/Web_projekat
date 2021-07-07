@@ -38,7 +38,7 @@ public class CustomerService {
 		customerDAO.update(customer);
 	}
 
-	public void editCustomerItem(Customer customer, ShoppingCartItem item) throws JsonSyntaxException, IOException {
+	public void increaseItemQuantity(Customer customer, ShoppingCartItem item) throws JsonSyntaxException, IOException {
 		double total = customer.getCart().getTotal();
 		ArrayList<ShoppingCartItem> items = customer.getCart().getItems();
 		ShoppingCartItem foundedItem = new ShoppingCartItem();
@@ -115,5 +115,42 @@ public class CustomerService {
 		customer.getOrders().add(newOrder);
 		updateCustomer(customer);
 		return customer;
+
+	public void reduceItemQuantity(Customer customer, ShoppingCartItem item) throws JsonSyntaxException, IOException {
+		double total = customer.getCart().getTotal();
+		ArrayList<ShoppingCartItem> items = customer.getCart().getItems();
+		ShoppingCartItem foundedItem = new ShoppingCartItem();
+		int index = 0;
+		for(int i = 0; i < items.size(); i++) {
+			if(isEqual(items.get(i),item)) {
+				foundedItem = items.get(i);
+				index = i;
+				customer.getCart().getItems().remove(i);
+				break;
+			}
+		}
+		int quantity = foundedItem.getQuantity();
+		foundedItem.setQuantity(--quantity);
+		customer.getCart().setTotal(total - foundedItem.getProduct().getPrice());
+		customer.getCart().getItems().add(index, foundedItem);
+		updateCustomer(customer);
+		
+	}
+
+	public void removeItemFromCart(Customer customer, String nameAndRestaurant) throws JsonSyntaxException, IOException {
+		double total = customer.getCart().getTotal();
+		ArrayList<ShoppingCartItem> items = customer.getCart().getItems();
+		ShoppingCartItem foundedItem = new ShoppingCartItem();
+		int index = 0;
+		for(ShoppingCartItem item : items) {
+			String id = item.getProduct().getName() + item.getProduct().getRestaurantName();
+			if(id.equals(nameAndRestaurant)) {
+				foundedItem = item;
+				customer.getCart().getItems().remove(item);
+				break;
+			}
+		}
+		customer.getCart().setTotal(total - foundedItem.getProduct().getPrice() * foundedItem.getQuantity());
+		updateCustomer(customer);
 	}
 }
