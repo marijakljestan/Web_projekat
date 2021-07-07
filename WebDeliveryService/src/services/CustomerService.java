@@ -154,4 +154,16 @@ public class CustomerService {
 		customer.getCart().setTotal(total - foundedItem.getProduct().getPrice() * foundedItem.getQuantity());
 		updateCustomer(customer);
 	}
+
+	public ArrayList<Order> getRestaurantOrders(String restaurant) throws JsonSyntaxException, IOException {
+		ArrayList<Order> restaurantOrders = new ArrayList<Order>();
+		for(Customer customer : customerDAO.getAll()) {
+			for(Order order : customer.getOrders()) {
+				if(order.getRestaurant().equals(restaurant)) {
+					restaurantOrders.add(order);
+				}
+			}
+		}
+		return restaurantOrders;
+	}
 }

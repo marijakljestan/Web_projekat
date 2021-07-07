@@ -6,6 +6,7 @@ import static spark.Spark.put;
 import static spark.Spark.delete;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
@@ -169,6 +170,17 @@ public class CustomerController {
 			} catch (Exception e) {
 				e.printStackTrace();
 				return null;
+			}
+		});
+		
+		get("/customer/getRestaurantOrders/:id", (req, res) -> {
+			res.type("application/json");
+			try {
+				ArrayList<Order> orders = customerService.getRestaurantOrders(req.params("id"));
+				return gson.toJson(orders);
+			} catch (Exception e) {
+				e.printStackTrace();
+				return "";
 			}
 		});
 	}

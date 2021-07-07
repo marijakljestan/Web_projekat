@@ -40,9 +40,9 @@ Vue.component("restaurant-page-manager", {
           <ul class="nav navbar-nav">
             <li class="active"><a href="#/manager"><span class="glyphicon glyphicon-home"></span> Početna</a></li>
             <li><a href="#/managerProfile"><span class="glyphicon glyphicon-user"></span> Moj Profil</a></li>
-            <li><a href="#/restaurantManager"><span class="glyphicon glyphicon-tasks"></span> Moj restoran</a></li>
-            <li><a href="#/ordersManager"><span class="glyphicon glyphicon-cutlery"></span> Porudžbine</a></li>
-            <li><a href="#/customersManger"><span class="glyphicon glyphicon-globe"></span> Kupci</a></li>
+            <li><a v-on:click="showRestaurant"><span class="glyphicon glyphicon-tasks"></span> Moj restoran</a></li>
+	        <li><a v-on:click="showOrders"><span class="glyphicon glyphicon-cutlery"></span> Porudžbine</a></li>
+	        <li><a href="#/customersManger"><span class="glyphicon glyphicon-globe"></span> Kupci</a></li>
             <li><a href="#/commentsManager"><span class="glyphicon glyphicon-comment"></span> Komentari</a></li>
       
           </ul>
@@ -323,6 +323,22 @@ Vue.component("restaurant-page-manager", {
 					});
 				}
 			}
+		},
+		
+		showRestaurant : function() {
+			axios
+	          .get('/manager/')
+	          .then(response => {
+		    		window.location.href = "#/restaurantManager?id="+ response.data.restaurant;
+		      })
+		},
+		
+		showOrders: function() {
+			axios
+	          .get('/manager/')
+	          .then(response => {
+		    		window.location.href = "#/ordersManager?id="+ response.data.restaurant;
+		      })
 		},
 		
 		closeForm : function(event){

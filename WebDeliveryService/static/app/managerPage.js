@@ -28,7 +28,7 @@ Vue.component("manager-page", {
 	            <li class="active"><a href="#/manager"><span class="glyphicon glyphicon-home"></span> Početna</a></li>
 	            <li><a href="#/managerProfile"><span class="glyphicon glyphicon-user"></span> Moj Profil</a></li>
 	            <li><a v-on:click="showRestaurant"><span class="glyphicon glyphicon-tasks"></span> Moj restoran</a></li>
-	            <li><a href="#/ordersManager"><span class="glyphicon glyphicon-cutlery"></span> Porudžbine</a></li>
+	            <li><a v-on:click="showOrders"><span class="glyphicon glyphicon-cutlery"></span> Porudžbine</a></li>
 	            <li><a href="#/customersManger"><span class="glyphicon glyphicon-globe"></span> Kupci</a></li>
 	            <li><a href="#/commentsManager"><span class="glyphicon glyphicon-comment"></span> Komentari</a></li>
           	 </ul>
@@ -114,21 +114,27 @@ Vue.component("manager-page", {
 `
 	, 
 	methods : {
-		/*addToCart : function (product) {
-			axios
-			.post('rest/proizvodi/add', {"id":''+product.id, "count":parseInt(product.count)})
-			.then(response => (toast('Product ' + product.name + " added to the Shopping Cart")))
-		}*/
-		logout : function (){
-			window.location.href = "#/";
-		},
+	
 		showRestaurant : function() {
 			axios
 	          .get('/manager/')
 	          .then(response => {
 		    		window.location.href = "#/restaurantManager?id="+ response.data.restaurant;
 		      })
-		}
+		},
+		
+		showOrders: function() {
+			axios
+	          .get('/manager/')
+	          .then(response => {
+		    		window.location.href = "#/ordersManager?id="+ response.data.restaurant;
+		      })
+		},
+		
+		logout : function (){
+			window.location.href = "#/";
+		},
+		
 	},
 	mounted () {
      /*   axios
