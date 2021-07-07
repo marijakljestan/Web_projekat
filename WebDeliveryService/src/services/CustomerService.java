@@ -85,8 +85,15 @@ public class CustomerService {
 		for (ShoppingCartItem item : orderParams.getItems()) {
 			products.add(item.getProduct());
 		}
-		String restaurant = products.get(0).getName();
-		return new Order(generateOrderID(), orderParams.getPrice(), customer.getUsername(), products, restaurant);
+		
+		double orderPrice = orderParams.getPrice();
+		if(customer.getCustomerType().equals("GOLDEN"))
+			orderPrice *= 0.95;
+		else if(customer.getCustomerType().equals("SILVER"))
+			orderPrice *= 0.97; 
+		
+		String restaurant = products.get(0).getRestaurantName();
+		return new Order(generateOrderID(), orderPrice, customer.getUsername(), products, restaurant);
 	}
 	
 	public Customer editCustomerOrders (Customer customer, Order newOrder) throws JsonSyntaxException, IOException {

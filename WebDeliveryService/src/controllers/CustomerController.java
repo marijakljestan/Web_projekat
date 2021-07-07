@@ -131,5 +131,17 @@ public class CustomerController {
 			}
 			
 		});
+		
+		get("/customer/getAllOrders", (req, res) -> {
+			res.type("application/json");
+			try {
+				Session session = req.session(true);
+				User loggedUser = session.attribute("user");
+				return gson.toJson(customerService.getCustomerByUsername(loggedUser.getUsername()).getOrders());
+			} catch (Exception e) {
+				e.printStackTrace();
+				return "";
+			}
+		});
 	}
 }

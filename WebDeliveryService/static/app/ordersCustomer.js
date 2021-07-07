@@ -1,7 +1,7 @@
 Vue.component("customer-orders", {
 	data: function () {
 		    return {
-		      restaurants: null,
+		      orders: null,
 		      restaurantTypes : null,
 		      searchName : '',
 		      searchLocation: '',
@@ -68,70 +68,28 @@ Vue.component("customer-orders", {
 
             <div class="orders-group">
 
-                <div class="restaurant-info-orders">
-                    <h4 style="position: relative; left: -35%; top: 2%;">U PRIPREMI</h4>
+                <div class="restaurant-info-orders"  v-for="order in orders">
+                    <h4 style="position: relative; left: -35%; top: 2%;">{{order.status}}</h4>
                     <img src="https://promenadanovisad.rs/wp-content/uploads/2018/10/TortillaCasa-logo.jpg" alt="" class="restaurant-logo">
-                    <h1>Tortilla cassa</h1> 
-                    <h4>06.08.2020. 14:14 </h4> 
-                    <h4>Pera Peric</h4><br/>
+                    <h1>{{order.restaurant}}</h1> 
+                    <h4>{{order.dateAndTime}} </h4> 
+                    <h4>{{order.customer}}</h4><br/>
                     
-                   <h4>Porudžbina broj 235</h4><br/>
-                    <h3 class="menu-item-heading-orders">
-                        <span class="order-name"  style="font-size: 16px;"> Pizza</span>
-                        <span class="order-price" style="font-size: 16px;"> $19.99</span>
-                    </h3>
-                    <h3 class="menu-item-heading-orders">
-                        <span class="order-name"  style="font-size: 16px;"> Burger</span>
-                        <span class="order-price" style="font-size: 16px;"> $19.99</span>
-                    </h3>
-                    <h3 class="menu-item-heading-orders">
-                        <span class="order-name"  style="font-size: 16px;"> American pancakes</span>
-                        <span class="order-price" style="font-size: 16px;"> $19.99</span>
-                    </h3>
+                   <h4>Porudžbina broj {{order.id}}</h4><br/>
+                    <h3 class="menu-item-heading-orders" v-for="product in order.products">
+                        <span class="order-name"  style="font-size: 16px;">{{ product.name }}</span>
+                        <span class="order-price" style="font-size: 16px;"> {{ product.price }}</span>
+                    </h3>          
 
                     <hr style="border-top: 1px solid rgb(77, 86, 129); margin-left: 12%; margin-right: 12%;">
                     <h3 class="menu-item-heading-orders">
                         <span class="order-name"  style="font-size: 16px;"> Total: </span>
-                        <span class="order-price" style="font-size: 16px;"> $59.97</span>
-                    </h3>
-                   
+                        <span class="order-price" style="font-size: 16px;"> {{order.price}}</span>
+                    </h3> 
                 </div>
-
-                <div class="restaurant-info-orders">
-                    <h4 style="position: relative; left: -35%; top: 2%;">U PRIPREMI</h4>
-					<img src="https://promenadanovisad.rs/wp-content/uploads/2018/10/TortillaCasa-logo.jpg" alt="" class="restaurant-logo">
-                    <h1>Tortilla cassa</h1> 
-                    <h4>06.08.2020. 14:14 </h4> 
-                    <h4>Pera Peric</h4><br/>
-                    
-                    <h4>Porudžbina broj 235</h4><br/>
-                    <h3 class="menu-item-heading-orders">
-                        <span class="order-name"  style="font-size: 16px;"> Pizza</span>
-                        <span class="order-price" style="font-size: 16px;"> $19.99</span>
-                    </h3>
-                    <h3 class="menu-item-heading-orders">
-                        <span class="order-name"  style="font-size: 16px;"> Burger</span>
-                        <span class="order-price" style="font-size: 16px;"> $19.99</span>
-                    </h3>
-                    <h3 class="menu-item-heading-orders">
-                        <span class="order-name"  style="font-size: 16px;"> American pancakes</span>
-                        <span class="order-price" style="font-size: 16px;"> $19.99</span>
-                    </h3>
-
-                    <hr style="border-top: 1px solid rgb(77, 86, 129); margin-left: 12%; margin-right: 12%;">
-                    <h3 class="menu-item-heading-orders">
-                        <span class="order-name"  style="font-size: 16px;"> Total: </span>
-                        <span class="order-price" style="font-size: 16px;"> $59.97</span>
-                    </h3>
-                   
-                </div>
-
 
             </div>
-          
           </div>   
-
-          
         </div>
     </div> 
     
@@ -140,20 +98,13 @@ Vue.component("customer-orders", {
 	,
 	mounted () {
 	    axios
-	     	.get('/restaurants/getAll')
+	     	.get('/customer/getAllOrders')
 	        .then(response => {
 			if (response.data != null) {
-				this.restaurants = response.data;
+				this.orders = response.data;
 			}
 		});
 		
-		axios
-          .get('/restaurants/getAllTypes')
-          .then(response => {
-		  	if (response.data != null) {
-				this.restaurantTypes= response.data;
-			}
-		});
     }, 
 	methods : {
 		setAscendingSortMode : function (event) {
