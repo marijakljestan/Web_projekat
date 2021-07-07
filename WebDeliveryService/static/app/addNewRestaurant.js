@@ -264,7 +264,7 @@ Vue.component("addNewRestaurant-page", {
 					genderReg = 'FEMALE';
 				}
 				var dates = document.getElementById("date_input").value;
-       			var d=new Date(dates);
+       			var d=new Date(dates).toISOString().substr(0, 10);
        			
        			let valid = true;
        			     		      			

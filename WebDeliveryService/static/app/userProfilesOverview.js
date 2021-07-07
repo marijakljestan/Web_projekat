@@ -13,9 +13,7 @@ Vue.component("user-profiles-page", {
 			  surnameRegister: '',
 			  genderRegister:'',
 		      dateOfBirthRegister: '',
-		      roleRegister : '',
-		      usernameLog: '',
-		      passwordLog: ''
+		      roleRegister : ''
 		    }
 	},
 	template: ` 
@@ -170,12 +168,12 @@ Vue.component("user-profiles-page", {
 			.then(response => (toast('Product ' + product.name + " added to the Shopping Cart")))
 		}*/
 		registerManager : function (event) {
-			//this.role = MANAGER;
+			this.roleRegister = 'MANAGER';
 			document.querySelector('.registration-manager-deliverer').style.display = 'flex';
 		},
 		
 		registerDeliverer : function (event) {
-			//this.role = DELIVERER;
+			this.roleRegister = 'DELIVERER';
 			document.querySelector('.registration-manager-deliverer').style.display = 'flex';			
 		},
 				
@@ -190,12 +188,12 @@ Vue.component("user-profiles-page", {
 					genderReg = 'FEMALE';
 				}
 				var dates = document.getElementById("date_input").value;
-       			var d=new Date(dates);
+       			var d=new Date(dates).toISOString().substr(0, 10);
        			
-       			var valid = true;
+       			let valid = true;
        			     		      			
        			 if(!this.usernameRegister){
-			        document.getElementById('usernameLabel').innerHTML = "Morate uneti korisnicko ime!";
+			        document.getElementById('usernameLabel').innerHTML = "Morate uneti korisničko ime!";
 					document.getElementById('usernameLabel').style.display = 'block';
 					valid = false;
 			    }
@@ -205,12 +203,12 @@ Vue.component("user-profiles-page", {
 				   valid = false;
 			    }
 			    else if(this.nameRegister[0] < 'A' || this.nameRegister[0] > 'Z' || !this.nameRegister){
-			        document.getElementById('nameLabel').innerHTML = "Morate uneti ime koje pocinje velikim slovom!";
+			        document.getElementById('nameLabel').innerHTML = "Morate uneti ime koje počinje velikim slovom!";
 					document.getElementById('nameLabel').style.display = 'block';
 					valid = false;
 			    }
 			    else if(this.surnameRegister[0] < 'A' || this.surnameRegister[0] > 'Z' || !this.surnameRegister){
-			        document.getElementById('surnameLabel').innerHTML = "Morate uneti prezime koje pocinje velikim slovom!";
+			        document.getElementById('surnameLabel').innerHTML = "Morate uneti prezime koje počinje velikim slovom!";
 					document.getElementById('surnameLabel').style.display = 'block';
 					valid = false;
 			    }
@@ -220,12 +218,13 @@ Vue.component("user-profiles-page", {
 					valid = false;
 			    }
 			    else if(!dates){
-			    	document.getElementById('dateLabel').innerHTML = "Morate izabrati datum rodjenja!";
+			    	document.getElementById('dateLabel').innerHTML = "Morate izabrati datum rođenja!";
 					document.getElementById('dateLabel').style.display = 'block';
 					valid = false;
 			    }
 			    
 			    if(valid == true){
+			    	
 			    	let newUser = {
 						username : this.usernameRegister,
 						password : this.passwordRegister,
@@ -233,22 +232,45 @@ Vue.component("user-profiles-page", {
 	    				surname : this.surnameRegister,
 	    				gender : genderReg,
 	    				dateOfBirth : d,
-	    				role : 'CUSTOMER'				
-    			}
-				axios 
-    			.post('/users/register', JSON.stringify(newUser))
-    			.then(response => {
-    				if (response.data == "") {
-						document.getElementById('usernameLabel').innerHTML = "Vec postoji uneto korisnicko ime!";
-						document.getElementById('usernameLabel').style.display = 'block';
-    				} else {
-						window.location.href = "/";
+	    				role : 'MANAGER'			
     				}
-    			})
-    			.catch(error => {
-				    console.log(error.response)
-				});
-			    }
+			    	
+			    	if(this.roleRegister == 'MANAGER'){
+			    	
+				    	var newManager = {
+							username : this.usernameRegister,
+							password : this.passwordRegister,
+		    				name : this.nameRegister,
+		    				surname : this.surnameRegister,
+		    				gender : genderReg,
+		    				dateOfBirth : d,
+		    				role : 'MANAGER',
+		    				restaurant : null				
+	    				}
+    				}
+					axios 
+	    			.post('/users/register', JSON.stringify(newUser))
+	    			.then(response => {
+	    			
+	    				if (response.data == "") {
+							document.getElementById('usernameLabel').innerHTML = "Već postoji uneto korisničko ime!";
+							document.getElementById('usernameLabel').style.display = 'block';
+	    				} else {
+	    					if(this.roleRegister == 'MANAGER'){
+		    					axios
+								.post('/managers/createManager', JSON.stringify(newManager))
+								.then(response => {
+									this.selectedManager = newManager;
+									document.querySelector('.registration-manager-deliverer').style.display = 'none';
+									window.reload();
+								});
+							}
+	    				}
+	    			})
+	    			.catch(error => {
+					    console.log(error.response)
+					});
+				}
 			
 		},		
 		addManagerDelivererClose: function (event) {
