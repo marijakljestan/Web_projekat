@@ -7,6 +7,8 @@ public class ShoppingCartItem implements Serializable{
    private int quantity;
    private Product product;
    
+   public ShoppingCartItem() {}
+   
 	public ShoppingCartItem(Product product) {
 		super();
 		this.quantity = 1;

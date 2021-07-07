@@ -2,6 +2,7 @@ package controllers;
 
 import static spark.Spark.get;
 import static spark.Spark.post;
+import static spark.Spark.put;
 
 import com.google.gson.Gson;
 
@@ -89,6 +90,21 @@ public class CustomerController {
 			} catch (Exception e) {
 				e.printStackTrace();
 				return "";
+			}
+		});
+		
+		put("/customer/increaseQuantity/", (req,res) -> {
+			res.type("application/json");
+			try {
+				ShoppingCartItem item = gson.fromJson(req.body(), ShoppingCartItem.class);
+				Session session = req.session(true);
+				User loggedUser = session.attribute("user");
+				Customer customer = customerService.getCustomerByUsername(loggedUser.getUsername());
+				customerService.editCustomerItem(customer, item);
+				return gson.toJson(customer.getCart());
+			} catch (Exception e) {
+				e.printStackTrace();
+				return null;
 			}
 		});
 	}

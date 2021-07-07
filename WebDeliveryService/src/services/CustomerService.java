@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import com.google.gson.JsonSyntaxException;
 
 import beans.Customer;
+import beans.ShoppingCartItem;
 import dao.CustomerDAO;
 
 public class CustomerService {
@@ -33,4 +34,27 @@ public class CustomerService {
 		customerDAO.update(customer);
 	}
 
+	public void editCustomerItem(Customer customer, ShoppingCartItem item) throws JsonSyntaxException, IOException {
+		double total = customer.getCart().getTotal();
+		ArrayList<ShoppingCartItem> items = customer.getCart().getItems();
+		ShoppingCartItem foundedItem = new ShoppingCartItem();
+		int index = 0;
+		for(int i = 0; i < items.size(); i++) {
+			if(isEqual(items.get(i),item)) {
+				foundedItem = items.get(i);
+				index = i;
+				customer.getCart().getItems().remove(i);
+				break;
+			}
+		}
+		int quantity = foundedItem.getQuantity();
+		foundedItem.setQuantity(++quantity);
+		customer.getCart().setTotal(total + foundedItem.getProduct().getPrice());
+		customer.getCart().getItems().add(index, foundedItem);
+		updateCustomer(customer);
+	}
+	
+	private boolean isEqual(ShoppingCartItem i, ShoppingCartItem item) {
+		return i.getProduct().getName().equals(item.getProduct().getName()) && i.getProduct().getRestaurantName().equals(item.getProduct().getRestaurantName());
+	}
 }

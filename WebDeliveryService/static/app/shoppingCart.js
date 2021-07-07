@@ -64,7 +64,7 @@ Vue.component("shopping-cart", {
                        <span class="shopping-cart-label">Količina: <span style="margin-left: 10px;"> {{ item.quantity}} </span></span><br/>
                        <hr/>
                    </div>
-                   <button class="plus-cart-button">+</button>       
+                   <button v-on:click="increaseQuantity(item)" class="plus-cart-button">+</button>       
                    <button class="minus-cart-button">-</button>  <br/> 
                </div>
             </div>
@@ -90,7 +90,14 @@ Vue.component("shopping-cart", {
 			.then(response => (toast('Product ' + product.name + " added to the Shopping Cart")))
 		}*/
 		
-		
+		increaseQuantity: function (item) {
+			axios
+	       .put('/customer/increaseQuantity/', JSON.stringify(item))
+	       .then(response => {
+	       		this.shoppingCart = response.data;
+	       		location.reload();
+		    })
+		},
 		logout : function (){
 			window.location.href = "#/";
 		}
