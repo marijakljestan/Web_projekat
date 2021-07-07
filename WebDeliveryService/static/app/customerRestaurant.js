@@ -2,7 +2,8 @@ Vue.component("customer-restaurant", {
 	data: function () {
 		    return {
 		      products: null,
-		      restaurant: null
+		      restaurant: null,
+		      customer : null
 		    }
 	},
 	template: ` 
@@ -61,7 +62,7 @@ Vue.component("customer-restaurant", {
                         {{ product.description }}
                     </p>
                    </div>
-                   <button class="add-to-cart-button">+</button>              
+                   <button v-on:click="addProductToCart(product)" class="add-to-cart-button">+</button>              
                </div>       
 
                <div class="menu-item">
@@ -154,11 +155,11 @@ Vue.component("customer-restaurant", {
 	          .then(response => (this.products = response.data))
     },
 	methods : {
-		/*addToCart : function (product) {
+		addProductToCart : function (product) {
 			axios
-			.post('rest/proizvodi/add', {"id":''+product.id, "count":parseInt(product.count)})
-			.then(response => (toast('Product ' + product.name + " added to the Shopping Cart")))
-		}*/
+			.post('/customer/addToShoppingCart', JSON.stringify(product))
+			.then(response => (toast('Proizvod ' + product.name + " je dodat u korpu!")))
+		},
 		
 		addItemOpenForm : function(event){
 			//selectedItem = null; v-model : selectedItem.price...

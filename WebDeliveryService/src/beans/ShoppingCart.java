@@ -5,7 +5,7 @@ import java.util.*;
 
 public class ShoppingCart implements Serializable{
 
-   private int total;
+   private double total;
    private ArrayList<ShoppingCartItem> items;
    private String customer;
    
@@ -24,17 +24,17 @@ public class ShoppingCart implements Serializable{
 		this.customer = customer;
 	}
 
-	public ShoppingCart(int total, ArrayList<ShoppingCartItem> items, String customer) {
+	public ShoppingCart(double total, ArrayList<ShoppingCartItem> items, String customer) {
 		super();
 		this.total = total;
 		this.items = items;
 		this.customer = customer;
 	}
 	
-	public int getTotal() {
+	public double getTotal() {
 		return total;
 	}
-	public void setTotal(int total) {
+	public void setTotal(double total) {
 		this.total = total;
 	}
 	public ArrayList<ShoppingCartItem> getItems() {

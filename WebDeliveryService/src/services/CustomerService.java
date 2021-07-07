@@ -24,5 +24,13 @@ public class CustomerService {
 	public void createCustomer(Customer customer) throws JsonSyntaxException, IOException {
 		customerDAO.create(customer);
 	}
+	public Customer getCustomerByUsername(String username) throws JsonSyntaxException, IOException {
+		return customerDAO.getByID(username);
+	}
+
+	public void updateCustomer(Customer customer) throws JsonSyntaxException, IOException {
+		// TODO Auto-generated method stub
+		customerDAO.update(customer);
+	}
 
 }
