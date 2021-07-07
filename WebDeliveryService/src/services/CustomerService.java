@@ -166,6 +166,10 @@ public class CustomerService {
 			}
 		}
 		
+		double points = customer.getPoints();
+		double newPoints = points - order.getPrice()/1000 * 133 * 4;
+		customer.setPoints(newPoints);
+		
 		customer.setOrders(newOrders);
 		updateCustomer(customer);
 	}
