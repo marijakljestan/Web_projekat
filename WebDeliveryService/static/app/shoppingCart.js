@@ -99,7 +99,10 @@ Vue.component("shopping-cart", {
 			
 			axios
 			.post('/customer/createOrder', JSON.stringify(newOrder))
-			.then(response => (this.shoppingCart = response.data))
+			.then(response => {
+				this.shoppingCart = response.data;
+				window.location.href = '#/ordersCustomer';
+			})
 		},
 		
 		increaseQuantity: function (item) {
