@@ -118,7 +118,7 @@ Vue.component("admin-profile-page", {
 					axios 
 		    			.put('/users/edit', JSON.stringify(newUser))
 		    			.then(response => {
-								location.reload();
+								this.user = response.data;
 		    			})
 		    			.catch(error => {
 						    console.log(error.response)

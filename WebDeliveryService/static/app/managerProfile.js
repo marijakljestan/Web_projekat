@@ -144,16 +144,14 @@ Vue.component("manager-profile", {
 					axios 
 		    			.put('/users/edit', JSON.stringify(newUser))
 		    			.then(response => {
-								location.reload();
+								this.user = response.data;
 		    			})
 		    			.catch(error => {
 						    console.log(error.response)
 						});
 					axios
 						.put('/manager/edit', JSON.stringify(newManager))
-		    			.then(response => {
-								location.reload();
-		    			})
+		    			.then()
 		    			.catch(error => {
 						    console.log(error.response)
 						});

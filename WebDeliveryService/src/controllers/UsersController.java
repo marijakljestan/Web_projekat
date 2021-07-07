@@ -91,8 +91,8 @@ public class UsersController {
 				usersService.editUser(newUser);
 				Session session = req.session(true);			
 				session.attribute("user", newUser);
+				return gson.toJson(newUser);
 				
-				return true;
 			} catch (Exception e) {
 				e.printStackTrace();
 				return null;
