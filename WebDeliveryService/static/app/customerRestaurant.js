@@ -1,7 +1,8 @@
 Vue.component("customer-restaurant", {
 	data: function () {
 		    return {
-		      items: null
+		      products: null,
+		      restaurant: null
 		    }
 	},
 	template: ` 
@@ -9,12 +10,12 @@ Vue.component("customer-restaurant", {
 
     <div class="jumbotron">
       <div class="restaurant-info" style="background-color:cornsilk; border-radius: 25px; position: absolute; width: 50%; left: 25%; top:5%; height: 200px; text-align: center; display: block;">
-        <img src="https://promenadanovisad.rs/wp-content/uploads/2018/10/TortillaCasa-logo.jpg" alt="" class="restaurant-logo">
-        <h1>Tortilla cassa</h1> 
-        <span style="position: absolute; top: 15%; right: 10%;"><label style="font-size: 14px; font-weight: lighte; color:silver">OTVORENO</label></span>  
-        <span><label style="font-size: 16px; font-weight: lighter; font-family: sans-serif;">Meksicki restoran</label></span>
-        <span style="position: absolute; top: 35%; right: 14%;"><label style="font-size: 16px; font-weight: lighte; color:silver">4.6</label></span>  <br/><br/>    
-        <span><label style="font-size: 16px; font-weight: lighter; font-family: sans-serif;">Bulevar oslobodjenja 55</label></span>
+        <img v-bind:src= "restaurant.logo" alt="" class="restaurant-logo">
+        <h1>{{ restaurant.name }}</h1> 
+        <span style="position: absolute; top: 15%; right: 10%;"><label style="font-size: 14px; font-weight: lighte; color:silver">{{ restaurant.status }}</label></span>  
+        <span><label style="font-size: 16px; font-weight: lighter; font-family: sans-serif;">{{ restaurant.type }}</label></span>
+        <span style="position: absolute; top: 35%; right: 11%;"><label style="font-size: 16px; font-weight: lighte; color:silver">4.6</label></span>  <br/><br/>    
+        <span><label style="font-size: 16px; font-weight: lighter; font-family: sans-serif;">{{ restaurant.location.address.street }}  {{ restaurant.location.address.number }}</label></span>
       </div>
     </div>
     
@@ -48,19 +49,20 @@ Vue.component("customer-restaurant", {
          
           <div class="col-lg-10" style="margin-left:8%;"> 
            <div class="menu-group">
-               <div class="menu-item" style="height:130px">
-                   <img class="menu-item-image" src="https://media-cdn.tripadvisor.com/media/photo-s/18/6d/ac/19/variety-pack-original.jpg" alt="Food">
+               <div v-for="product in products" class="menu-item">
+                   <img class="menu-item-image" v-bind:src= "product.picture" alt="Food">
                    <div class="menu-item-text">
                        <h3 class="menu-item-heading">
-                           <span class="menu-item-name"> Burger</span>
-                           <span class="menu-item-price"> $9.99</span>
+                           <span class="menu-item-name"> {{ product.name }} </span>
+                           <span class="menu-item-price"> $ </span>
+                           <span class="menu-item-price">{{ product.price }}</span>
                        </h3>
                        <p class="menu-item-description">
-                        Lorem ipsum dolor.Lorem ipsum dolor.Lorem ipsum dolor.Lorem ipsum dolor.
+                        {{ product.description }}
                     </p>
                    </div>
-                   <button class="add-to-cart-button">+</button>               
-               </div>
+                   <button class="add-to-cart-button">+</button>              
+               </div>       
 
                <div class="menu-item">
                     <img class="menu-item-image" src="https://post.healthline.com/wp-content/uploads/2020/07/pizza-beer-1200x628-facebook-1200x628.jpg" alt="Food">
@@ -142,7 +144,15 @@ Vue.component("customer-restaurant", {
     </footer>
     </div>
 `
-	, 
+	,
+	mounted () {
+	     axios
+	          .get('/restaurant/' + this.$route.query.id)
+	          .then(response => (this.restaurant = response.data))
+		 axios
+	          .get('/products/getRestaurantsProducts/' + this.$route.query.id)
+	          .then(response => (this.products = response.data))
+    },
 	methods : {
 		/*addToCart : function (product) {
 			axios
@@ -171,10 +181,5 @@ Vue.component("customer-restaurant", {
 		logout : function (){
 			window.location.href = "#/";
 		}
-	},
-	mounted () {
-     /*   axios
-          .get('rest/proizvodi/getJustProducts')
-          .then(response => (this.products = response.data))*/
-    }
+	}
 });
