@@ -70,7 +70,7 @@ Vue.component("customer-orders", {
 
                 <div class="restaurant-info-orders"  v-for="order in orders">
                     <h4 style="position: relative; left: -35%; top: 2%;">{{order.status}}</h4>
-                    <img src="https://promenadanovisad.rs/wp-content/uploads/2018/10/TortillaCasa-logo.jpg" alt="" class="restaurant-logo">
+                    <img src="https://promenadanovisad.rs/wp-content/uploads/2018/10/TortillaCasa-logo.jpg" alt="" class="restaurant-logo-order">
                     <h1>{{order.restaurant}}</h1> 
                     <h4>{{order.dateAndTime}} </h4> 
                     <h4>{{order.customer}}</h4><br/>
