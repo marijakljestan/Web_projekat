@@ -158,7 +158,9 @@ Vue.component("customer-restaurant", {
 		addProductToCart : function (product) {
 			axios
 			.post('/customer/addToShoppingCart', JSON.stringify(product))
-			.then(response => (toast('Proizvod ' + product.name + " je dodat u korpu!")))
+			.then(response => {
+				window.location.href = '#/shoppingCart';
+			})
 		},
 		
 		addItemOpenForm : function(event){
