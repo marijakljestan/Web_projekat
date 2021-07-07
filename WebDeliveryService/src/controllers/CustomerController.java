@@ -7,6 +7,7 @@ import static spark.Spark.put;
 import com.google.gson.Gson;
 
 import beans.Customer;
+import beans.CustomerType;
 import beans.Order;
 import beans.Product;
 import beans.ShoppingCartItem;
@@ -119,12 +120,8 @@ public class CustomerController {
 				Customer customer = customerService.getCustomerByUsername(loggedUser.getUsername());
 				
 				OrderDTO orderParams = gson.fromJson(req.body(), OrderDTO.class);
-				Order newOrder = customerService.createNewOrder(orderParams, customer);
-				
-				customer.getCart().getItems().clear();
-				customer.getCart().setTotal(0);
-				customer.getOrders().add(newOrder);
-				customerService.updateCustomer(customer);
+				Order newOrder = customerService.createNewOrder(orderParams, customer);	
+				customerService.editCustomerOrders(customer, newOrder);
 				
 				return gson.toJson(customer.getCart());
 				

@@ -2,17 +2,17 @@ package dto;
 
 import java.util.ArrayList;
 
-import beans.Product;
+import beans.ShoppingCartItem;
 
 public class OrderDTO {
 	
 	private double price;
-	private ArrayList<Product> products;
+	private ArrayList<ShoppingCartItem> items;
 	
-	public OrderDTO(double price, ArrayList<Product> products) {
+	public OrderDTO(double price, ArrayList<ShoppingCartItem> items) {
 		super();
 		this.price = price;
-		this.products = products;
+		this.items = items;
 	}
 
 	public double getPrice() {
@@ -23,11 +23,11 @@ public class OrderDTO {
 		this.price = price;
 	}
 
-	public ArrayList<Product> getProducts() {
-		return products;
+	public ArrayList<ShoppingCartItem> getItems() {
+		return items;
 	}
 
-	public void setProducts(ArrayList<Product> products) {
-		this.products = products;
+	public void setProducts(ArrayList<ShoppingCartItem> items) {
+		this.items = items;
 	}
 }

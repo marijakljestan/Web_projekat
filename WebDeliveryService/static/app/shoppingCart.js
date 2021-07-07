@@ -94,7 +94,7 @@ Vue.component("shopping-cart", {
 		
 			let newOrder = {
 				price : this.shoppingCart.total,
-				products : this.shoppingCart.items
+				items : this.shoppingCart.items
 			}
 			
 			axios

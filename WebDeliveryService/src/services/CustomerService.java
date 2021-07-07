@@ -6,7 +6,9 @@ import java.util.ArrayList;
 import com.google.gson.JsonSyntaxException;
 
 import beans.Customer;
+import beans.CustomerType;
 import beans.Order;
+import beans.Product;
 import beans.ShoppingCartItem;
 import dao.CustomerDAO;
 import dto.OrderDTO;
@@ -79,7 +81,32 @@ public class CustomerService {
 
 	public Order createNewOrder(OrderDTO orderParams, Customer customer) throws JsonSyntaxException, IOException {
 		// TODO Auto-generated method stub
-		String restaurant = orderParams.getProducts().get(0).getRestaurantName();
-		return new Order(generateOrderID(), orderParams.getPrice(), customer.getUsername(), orderParams.getProducts(), restaurant);
+		ArrayList<Product> products = new ArrayList<Product>();
+		for (ShoppingCartItem item : orderParams.getItems()) {
+			products.add(item.getProduct());
+		}
+		String restaurant = products.get(0).getName();
+		return new Order(generateOrderID(), orderParams.getPrice(), customer.getUsername(), products, restaurant);
+	}
+	
+	public Customer editCustomerOrders (Customer customer, Order newOrder) throws JsonSyntaxException, IOException {
+		customer.getCart().getItems().clear();
+		customer.getCart().setTotal(0);
+		double points = customer.getPoints();
+		double newPoints = newOrder.getPrice()/1000 * 133;
+		customer.setPoints(newPoints + points);
+		
+		if(customer.getPoints() > 3000) {
+			CustomerType silverType = new CustomerType("SILVER", 3, 3000);
+			customer.setCustomerType(silverType);
+		}
+		else if (customer.getPoints() > 4000) {
+			CustomerType goldenType = new CustomerType("GOLDEN", 5, 4000);
+			customer.setCustomerType(goldenType);
+		}
+		
+		customer.getOrders().add(newOrder);
+		updateCustomer(customer);
+		return customer;
 	}
 }
