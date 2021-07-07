@@ -262,7 +262,14 @@ Vue.component("user-profiles-page", {
 								.then(response => {
 									this.selectedManager = newManager;
 									document.querySelector('.registration-manager-deliverer').style.display = 'none';
-									window.reload();
+									
+									axios
+							          	.get('/user/getAllUsers')
+							          	.then(response => {
+											 if (response.data != null) {
+												this.users = response.data;
+										 }
+									   });
 								});
 							}
 	    				}
