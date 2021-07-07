@@ -45,7 +45,7 @@ Vue.component("shopping-cart", {
           <div class="col-sm-2 sidenav" style="margin-left: -10px;">
               <label style="font-family: sans-serif; font-size: 18px;">Ukupno: </label><br/>
               <span style="font-size: 16px;">{{ shoppingCart.total }}</span><br/>
-              <button class="order-button">Poruči</button>
+              <button v-on:click="orderItemsInCart" class="order-button">Poruči</button>
           </div>
 
           <div class="col-lg-8"> 
@@ -90,6 +90,11 @@ Vue.component("shopping-cart", {
 			.then(response => (toast('Product ' + product.name + " added to the Shopping Cart")))
 		}*/
 		
+		orderItemsInCart : function (item) {
+			
+			
+		},
+		
 		increaseQuantity: function (item) {
 			axios
 	       .put('/customer/increaseQuantity/', JSON.stringify(item))
@@ -98,6 +103,7 @@ Vue.component("shopping-cart", {
 	       		location.reload();
 		    })
 		},
+		
 		logout : function (){
 			window.location.href = "#/";
 		}

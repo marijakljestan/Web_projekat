@@ -26,14 +26,14 @@ public class Order implements Serializable{
 		this.restaurant = "";
 	}
    
-	public Order(String id, Date dateAndTime, double price, String customer, OrderStatus status, ArrayList<Product> products,
+	public Order(String id, double price, String customer, ArrayList<Product> products,
 				String restaurant) {
 		super();
 		this.id = id;
-		this.dateAndTime = dateAndTime;
+		this.dateAndTime = new Date();
 		this.price = price;
 		this.customer = customer;
-		this.status = status;
+		this.status = OrderStatus.PROCESSING;
 		this.products = products;
 		this.restaurant = restaurant;
 	}

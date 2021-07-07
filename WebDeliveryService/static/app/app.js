@@ -16,6 +16,7 @@ const CustomerProfile = { template: '<customer-profile></customer-profile>' }
 const CustomerComments = { template: '<customer-comments></customer-comments>' }
 const CustomerRestaurant = { template: '<customer-restaurant></customer-restaurant>' }
 const ShoppingCart = { template: '<shopping-cart></shopping-cart>' }
+const CustomerOrders = { template: '<customer-orders></customer-orders>' }
 
 const router = new VueRouter({
 	  mode: 'hash',
@@ -36,6 +37,7 @@ const router = new VueRouter({
 	    { path: '/restaurantManager', component: RestaurantPageManager },
 	    { path: '/customersManger', component: CustomersManager },
 	    { path: '/customerProfile', component: CustomerProfile },
+	    { path: '/ordersCustomer', component: CustomerOrders },
 	    { path: '/customerComments', component: CustomerComments },
 	    { path: '/restaurantCustomer', component: CustomerRestaurant },
 	    { path: '/shoppingCart', component: ShoppingCart },
