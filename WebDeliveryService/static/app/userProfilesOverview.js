@@ -232,7 +232,7 @@ Vue.component("user-profiles-page", {
 	    				surname : this.surnameRegister,
 	    				gender : genderReg,
 	    				dateOfBirth : d,
-	    				role : 'MANAGER'			
+	    				role : this.roleRegister			
     				}
 			    	
 			    	if(this.roleRegister == 'MANAGER'){
@@ -248,6 +248,21 @@ Vue.component("user-profiles-page", {
 		    				restaurant : null				
 	    				}
     				}
+    				
+    				if(this.roleRegister == 'DELIVERER'){
+			    	
+				    	var newDeliverer = {
+							username : this.usernameRegister,
+							password : this.passwordRegister,
+		    				name : this.nameRegister,
+		    				surname : this.surnameRegister,
+		    				gender : genderReg,
+		    				dateOfBirth : d,
+		    				role : 'DELIVERER',
+		    				orders : null				
+	    				}
+    				}
+    				
 					axios 
 	    			.post('/users/register', JSON.stringify(newUser))
 	    			.then(response => {
@@ -260,18 +275,30 @@ Vue.component("user-profiles-page", {
 		    					axios
 								.post('/managers/createManager', JSON.stringify(newManager))
 								.then(response => {
-									this.selectedManager = newManager;
 									document.querySelector('.registration-manager-deliverer').style.display = 'none';
-									
-									axios
-							          	.get('/user/getAllUsers')
-							          	.then(response => {
-											 if (response.data != null) {
-												this.users = response.data;
-										 }
-									   });
+									 axios
+									    .get('/user/getAllUsers')
+									    .then(response => {
+										   if (response.data != null) {
+											   this.users = response.data;
+										    }
+									 });
 								});
 							}
+							else if(this.roleRegister == 'DELIVERER'){
+								axios
+								.post('/deliverer/createDeliverer', JSON.stringify(newDeliverer))
+								.then(response => {
+									document.querySelector('.registration-manager-deliverer').style.display = 'none';
+									 axios
+									    .get('/user/getAllUsers')
+									    .then(response => {
+										   if (response.data != null) {
+											   this.users = response.data;
+										    }
+									 });
+								});
+							}			
 	    				}
 	    			})
 	    			.catch(error => {

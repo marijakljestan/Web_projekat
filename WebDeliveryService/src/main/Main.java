@@ -7,16 +7,20 @@ import static spark.Spark.staticFiles;
 import java.io.File;
 
 import com.google.gson.Gson;
-import controllers.ProductController;
-import dao.ProductDAO;
-import services.ProductService;
+
+import controllers.DelivererController;
 import controllers.ManagerController;
+import controllers.ProductController;
 import controllers.RestaurantController;
 import controllers.UsersController;
+import dao.DelivererDAO;
 import dao.ManagersDAO;
+import dao.ProductDAO;
 import dao.RestaurantDAO;
 import dao.UsersDAO;
+import services.DelivererService;
 import services.ManagerService;
+import services.ProductService;
 import services.RestaurantService;
 import services.UsersService;
 
@@ -48,5 +52,9 @@ public class Main {
 		ManagersDAO managersDAO = new ManagersDAO("./files/managers.json");
 		ManagerService managerService = new ManagerService(managersDAO);
 		ManagerController managerController = new ManagerController(managerService);
+		
+		DelivererDAO delivererDAO = new DelivererDAO("./files/deliverers.json");
+		DelivererService delivererService = new DelivererService(delivererDAO);
+		DelivererController delivererController = new DelivererController(delivererService);
 	}
 }
