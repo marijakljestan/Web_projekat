@@ -1,4 +1,4 @@
-Vue.component("restaurant-page", {
+  Vue.component("restaurant-page", {
 	data: function () {
 		    return {
 		      products: null,
@@ -7,7 +7,6 @@ Vue.component("restaurant-page", {
 	},
 	template: ` 
  <div id="home">
-
     <div class="jumbotron">
       <div class="restaurant-info" style="background-color:cornsilk; border-radius: 25px; position: absolute; width: 50%; left: 25%; top:5%; height: 200px; text-align: center; display: block;">
         <img v-bind:src= "restaurant.logo" alt="" class="restaurant-logo">
@@ -28,29 +27,21 @@ Vue.component("restaurant-page", {
             <span class="icon-bar"></span>                        
           </button>
         </div>
-        <div class="collapse navbar-collapse" id="myNavbar">
+        <div class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
-            <li class="active"><a href="#"><span class="glyphicon glyphicon-home"></span>  Restorani</a></li>
-          </ul>
-          <ul class="nav navbar-nav navbar-right">
-            <li v-on:click="login"><span class="glyphicon glyphicon-log-in"></span> Prijavite se </li>
-            <li v-on:click="register"><span class="glyphicon glyphicon-user"></span> Registrujte se</li>
+            <li class="active"><a href="#/"><span class="glyphicon glyphicon-home"></span>  Restorani</a></li>
           </ul>
         </div>
       </div>
     </nav>
     
     
-	<div class="container-fluid text-center" style="background:white; position:relative; margin:0px"> 
-   
+    <div class="container-fluid text-center">    
         <div class="row content">
-
-          <div class="col-sm-2 sidenav" style="position:relative; margin-left: -20px; gap: 1.5em; padding: 1.5em 0;">
-    
+          <div class="col-sm-2 sidenav">
           </div>
-
           <div class="col-lg-8"> 
-           <div class="menu-group" style="position: relative; margin-left: -35px">
+           <div class="menu-group">
                <div v-for="product in products" class="menu-item">
                    <img class="menu-item-image" v-bind:src= "product.picture" alt="Food">
                    <div class="menu-item-text">
@@ -63,7 +54,7 @@ Vue.component("restaurant-page", {
                         {{ product.description }}
                     </p>
                    </div>               
-               </div>             
+               </div>              
             </div>
            </div>
           </div>
