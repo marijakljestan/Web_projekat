@@ -21,17 +21,14 @@ public class DelivererController {
 			
 			try {
 				Deliverer newDeliverer = gson.fromJson(req.body(), Deliverer.class);
-				System.out.println(newDeliverer.getUsername());
 				
 				for (Deliverer deliverer : delivererService.getAllDeliverers()) {
 					if(deliverer.getUsername().equals(newDeliverer.getUsername())) {
 						//System.out.println("Vec postoji");
-						System.out.println(deliverer.getUsername());
 						return "";
 					}
 				}
 				
-				System.out.println("****");
 				delivererService.createDeliverer(newDeliverer);							
 				return gson.toJson(newDeliverer);
 				
