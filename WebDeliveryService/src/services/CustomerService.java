@@ -154,4 +154,19 @@ public class CustomerService {
 		customer.getCart().setTotal(total - foundedItem.getProduct().getPrice() * foundedItem.getQuantity());
 		updateCustomer(customer);
 	}
+
+	public void removeOrder(Customer customer, Order order) throws JsonSyntaxException, IOException {
+		// TODO Auto-generated method stub
+		ArrayList<Order> newOrders = customer.getOrders();
+		
+		for (Order o : newOrders) {
+			if(o.getId().equals(order.getId())) {
+				newOrders.remove(o);
+				break;
+			}
+		}
+		
+		customer.setOrders(newOrders);
+		updateCustomer(customer);
+	}
 }

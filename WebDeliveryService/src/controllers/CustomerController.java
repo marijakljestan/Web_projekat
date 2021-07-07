@@ -171,6 +171,19 @@ public class CustomerController {
 				return null;
 			}
 		});
+		
+		delete("/customer/removeOrder", (req,res) -> {
+			res.type("application/json");
+			try {
+				Customer customer = findCustomer(req);
+				Order order = gson.fromJson(req.body(), Order.class);
+				customerService.removeOrder(customer, order);
+				return gson.toJson(customer.getOrders());
+			} catch (Exception e) {
+				e.printStackTrace();
+				return null;
+			}
+		});
 	}
 
 	private Customer findCustomer(Request req) throws JsonSyntaxException, IOException {

@@ -69,6 +69,7 @@ Vue.component("customer-orders", {
             <div class="orders-group">
 
                 <div class="restaurant-info-orders"  v-for="order in orders">
+                	<div v-on:click="removeOrder(order)" class="cancelOrderBtn">+</div>
                     <h4 style="position: relative; left: -35%; top: 2%;">{{order.status}}</h4>
                     <img src="https://promenadanovisad.rs/wp-content/uploads/2018/10/TortillaCasa-logo.jpg" alt="" class="restaurant-logo-order">
                     <h1>{{order.restaurant}}</h1> 
@@ -149,8 +150,18 @@ Vue.component("customer-orders", {
 			axios
           		.get('/restaurants/getAllOpenedRestaurants')
           		.then(response => {
+					if (response.data != null) {
+						this.orders = response.data;
+					}
+				});
+		},
+		
+		removeOrder : function (order) {
+			axios
+			.delete('/customer/removeOrder', { data: order })
+			.then(response => {
 				if (response.data != null) {
-					this.restaurants = response.data;
+					this.orders = response.data;
 				}
 			});
 		},
