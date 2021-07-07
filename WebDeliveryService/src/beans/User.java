@@ -13,6 +13,7 @@ public class User implements Serializable{
    private String dateOfBirth;
    private Role role;
    private boolean isDeleted;
+   private boolean isBlocked;
      
 	public User() {
 		super();
@@ -30,6 +31,7 @@ public class User implements Serializable{
 		this.dateOfBirth = dateOfBirth;
 		this.role = role;
 		this.isDeleted = false;
+		this.isBlocked = false;
 	}
 	
 	public String getUsername() {
@@ -85,6 +87,16 @@ public class User implements Serializable{
 	
 	public String toString() {
 		return this.name + this.surname;
+	}
+
+
+	public boolean isBlocked() {
+		return isBlocked;
+	}
+
+
+	public void setBlocked(boolean isBlocked) {
+		this.isBlocked = isBlocked;
 	}
  
 }

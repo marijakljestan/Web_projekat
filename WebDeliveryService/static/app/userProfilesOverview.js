@@ -1,16 +1,19 @@
 Vue.component("user-profiles-page", {
 	data: function () {
 		    return {
-		      restaurants: null,
+		      users: null,
+		      searchUsername : '',
+		      searchName: '',
+		      searchSurname: '',
+		      sortMode:'',
+		      sortParameter:'',
 		      usernameRegister: '',
 		      passwordRegister: '',
 		      nameRegister: '',
 			  surnameRegister: '',
 			  genderRegister:'',
 		      dateOfBirthRegister: '',
-		      roleRegister : '',
-		      usernameLog: '',
-		      passwordLog: ''
+		      roleRegister : ''
 		    }
 	},
 	template: ` 
@@ -49,10 +52,48 @@ Vue.component("user-profiles-page", {
     <div class="registered-users">
 
         <h1 style="position: absolute; margin-top: 20px; margin-left: 600px; font-weight: bolder; color: rgb(30, 31, 104);">REGISTROVANI KORISNICI</h1>
-
+		
+		 <div style="position: absolute; right: 3%; top: 1%; border-radius: 25px; background-color: cornsilk;">
+	        <label style="color: darkgrey;" > Filteri: </label><br/><br/>
+	        <input type="checkbox"  @change="showOnlyAdmins($event)" id="admins" value="restaurant">
+	        <label style="color: darkgrey;" > Administratori</label><br/>
+	        <input type="checkbox"  @change="showOnlyManagers($event)"  id="managers" value="restaurant">
+	        <label style="color: darkgrey;" > Menadžeri</label><br/>
+	        <input type="checkbox"  @change="showOnlyDeliverers($event)" id="deliverers" value="restaurant">
+	        <label style="color: darkgrey;" > Dostavljači</label><br/>
+	        <input type="checkbox"  @change="showOnlyCustomers($event)" id="customers" value="restaurant">
+	        <label style="color: darkgrey;" > Kupci</label><br/><br/>
+	        
+	        <input type="checkbox"  @change="showOnlyGoldenCustomers($event)" id="zlatni" value="restaurant">
+	        <label style="color: darkgrey;" > Zlatni kupci</label><br/>
+	        <input type="checkbox"  @change="showOnlySilverCustomers($event)" id="srebrni" value="restaurant">
+	        <label style="color: darkgrey;" > Srebrni kupci</label><br/>
+	        <input type="checkbox"  @change="showOnlyBronzedCustomers($event)" id="bronzani" value="restaurant">
+	        <label style="color: darkgrey;" > Bronzani kupci</label><br/>
+	        
+	        <hr>
+	        <label style="color: darkgrey);" > Sortiranje restorana: </label><br/><br/>
+	        <input type="checkbox" @change="setDescendingSortMode($event)">
+	        <label style="color: darkgrey;"> Opadajuće</label><br/>
+	        <input type="checkbox" @change="setAscendingSortMode($event)">
+	        <label style="color: darkgrey;" > Rastuće</label><br/><br/>
+	        
+	        <label style="color: darkgrey;" > Parametri sortiranja: </label><br/><br/>
+	        <input type="checkbox" @change="setNameAsSortParameter($event)">
+	        <label style="color: darkgrey;"> Ime</label><br/>
+	        <input type="checkbox" @change="setSurnameAsSortParameter($event)">
+	        <label style="color: darkgrey;"> Prezime </label><br/>
+	        <input type="checkbox" @change="setUsernameAsSortParameter($event)">
+	        <label style="color: darkgrey;"> Korisničko ime</label><br/>
+	        <input type="checkbox" @change="setNumberOfPointsAsSortParameter($event)">
+	        <label style="color: darkgrey;"> Skupljeni bodovi</label><br/>
+	        
+	        <button class="search-submit" v-on:click="sortUsers" style="margin-left:50px; margin-top:15px; margin-bottom:10px; color:#fff" > Sortiraj </button>
+        </div>
+		
         <div class="show-suspect-users">
             <input type="checkbox" id="suspect-users" value="user">
-            <label style="color: rgb(30, 31, 104);"> Sumnjivi korisnici</label><br>
+            <label style="color: rgb(30, 31, 104);"> Sumnjivi korisnici</label><br>   
         </div>
 
         <div class="new-users">
@@ -61,101 +102,31 @@ Vue.component("user-profiles-page", {
         </div>
         
       <div class="search-panel">
-	        <input type="text" class="search-input" placeholder="Ime ">
-	        <input type="text" class="search-input" placeholder="Prezime ">
-	        <input type="text" class="search-input" placeholder="Korisničko ime">
+	        <input type="text" v-model="searchName"       class="search-input" placeholder="Ime ">
+	        <input type="text" v-model="searchSurname"	  class="search-input" placeholder="Prezime ">
+	        <input type="text" v-model="searchUsername"   class="search-input" placeholder="Korisničko ime">
 	  
-	        <input type="submit" class="search-submit" value="Pretrazi">
-
-     </div>
-  
+	        <input type="submit" class="search-submit" v-on:click="searchUsers" value="Pretraži">
+     </div>     
+    
         <div class="container-fluid text-center" style="position: absolute; left: 300px; top: 100px;">    
             <div class="row content">
                 <div class="col-lg-8"> 
                     <div class="users-panel">
-                        <div class="user-card">
-                            <h4 style="margin-top: 10; margin-left: 90px;">peraperic</h4><br/>
+                        <div class="user-card" v-for="user in users">
+                            <h4 style="margin-top: 10; margin-left: 90px;">{{user.username}}</h4><br/>
                             <div style="margin-top: 40px; margin-left: -150px;">                      
-                                <span style="margin-left: -31px;"><label>Ime:</label> Pera</span><br/>
-                                <span><label>Prezime:</label> Peric</span><br/>
-                                <h4 style="color: rgb(30, 31, 104); margin-left: 90px; font-weight: bolder;">KUPAC</h4>
+                                <span style="margin-left: -31px;"><label>Ime: </label> {{user.name}}</span><br/>
+                                <span><label>Prezime:</label> {{user.surname}}</span><br/>
+                                <h4 style="color: rgb(30, 31, 104); margin-left: 90px; font-weight: bolder;">{{user.role}}</h4>
                             </div>
-                            <button class="block-user-button">BLOKIRAJ</button>           
+                            <button v-on:click="blockUser(user)" class="block-user-button" v-if="!(user.isBlocked === true || user.role == 'ADMIN')">BLOKIRAJ</button>           
                         </div>
-                        <div class="user-card">
-                            <h4 style="margin-top: 0; margin-left: 90px;">peraperic</h4><br/>
-                            <div style="margin-top: 40px; margin-left: -150px;">                      
-                                <span style="margin-left: -31px;"><label>Ime:</label> Pera</span><br/>
-                                <span><label>Prezime:</label> Peric</span><br/>
-                                <h4 style="color: rgb(30, 31, 104); margin-left: 90px; font-weight: bolder;">KUPAC</h4>
-                            </div> 
-                        </div>      
-                
-                        <div class="user-card">
-                            <h4 style="margin-top: 0; margin-left: 90px;">peraperic</h4><br/>
-                            <div style="margin-top: 40px; margin-left: -150px;">                      
-                                <span style="margin-left: -31px;"><label>Ime:</label> Pera</span><br/>
-                                <span><label>Prezime:</label> Peric</span><br/>
-                                <h4 style="color: rgb(30, 31, 104); margin-left: 90px; font-weight: bolder;">KUPAC</h4>
-                            </div> 
-                        </div> 
-                        <div class="user-card">
-                            <h4 style="margin-top: 0; margin-left: 90px;">peraperic</h4><br/>
-                            <div style="margin-top: 40px; margin-left: -150px;">                      
-                                <span style="margin-left: -31px;"><label>Ime:</label> Pera</span><br/>
-                                <span><label>Prezime:</label> Peric</span><br/>
-                                <h4 style="color: rgb(30, 31, 104); margin-left: 90px; font-weight: bolder;">KUPAC</h4>
-                            </div> 
-                        </div> 
-                        <div class="user-card">
-                            <h4 style="margin-top: 0; margin-left: 90px;">peraperic</h4><br/>
-                            <div style="margin-top: 40px; margin-left: -150px;">                      
-                                <span style="margin-left: -31px;"><label>Ime:</label> Pera</span><br/>
-                                <span><label>Prezime:</label> Peric</span><br/>
-                                <h4 style="color: rgb(30, 31, 104); margin-left: 90px; font-weight: bolder;">KUPAC</h4>
-                            </div>  
-                        </div>  
-                        
-                        <div class="user-card">
-                            <h4 style="margin-top: 0; margin-left: 90px;">peraperic</h4><br/>
-                            <div style="margin-top: 40px; margin-left: -150px;">                      
-                                <span style="margin-left: -31px;"><label>Ime:</label> Pera</span><br/>
-                                <span><label>Prezime:</label> Peric</span><br/>
-                                <h4 style="color: rgb(30, 31, 104); margin-left: 90px; font-weight: bolder;">KUPAC</h4>
-                            </div> 
-                        </div>  
-
-                        <div class="user-card">
-                            <h4 style="margin-top: 0; margin-left: 90px;">peraperic</h4><br/>
-                            <div style="margin-top: 40px; margin-left: -150px;">                      
-                                <span style="margin-left: -31px;"><label>Ime:</label> Pera</span><br/>
-                                <span><label>Prezime:</label> Peric</span><br/>
-                                <h4 style="color: rgb(30, 31, 104); margin-left: 90px; font-weight: bolder;">KUPAC</h4>
-                            </div> 
-                        </div> 
-                        
-                        <div class="user-card">
-                            <h4 style="margin-top: 0; margin-left: 90px;">peraperic</h4><br/>
-                            <div style="margin-top: 40px; margin-left: -150px;">                      
-                                <span style="margin-left: -31px;"><label>Ime:</label> Pera</span><br/>
-                                <span><label>Prezime:</label> Peric</span><br/>
-                                <h4 style="color: rgb(30, 31, 104); margin-left: 90px; font-weight: bolder;">KUPAC</h4>
-                            </div> 
-                        </div> 
-
-                        <div class="user-card">
-                            <h4 style="margin-top: 0; margin-left: 90px;">peraperic</h4><br/>
-                            <div style="margin-top: 40px; margin-left: -150px;">                      
-                                <span style="margin-left: -31px;"><label>Ime:</label> Pera</span><br/>
-                                <span><label>Prezime:</label> Peric</span><br/>
-                                <h4 style="color: rgb(30, 31, 104); margin-left: 90px; font-weight: bolder;">KUPAC</h4>
-                            </div> 
-                        </div> 
+                       
                     </div>
                     </div>
                 </div>
-            </div>        
-    </div>
+           </div>        
   
     <div class="registration-manager-deliverer">
         <div class="new-manager-deliverer-reg-form">
@@ -188,6 +159,8 @@ Vue.component("user-profiles-page", {
       </div>
 `
 	, 
+	
+
 	methods : {
 		/*addToCart : function (product) {
 			axios
@@ -195,12 +168,12 @@ Vue.component("user-profiles-page", {
 			.then(response => (toast('Product ' + product.name + " added to the Shopping Cart")))
 		}*/
 		registerManager : function (event) {
-			//this.role = MANAGER;
+			this.roleRegister = 'MANAGER';
 			document.querySelector('.registration-manager-deliverer').style.display = 'flex';
 		},
 		
 		registerDeliverer : function (event) {
-			//this.role = DELIVERER;
+			this.roleRegister = 'DELIVERER';
 			document.querySelector('.registration-manager-deliverer').style.display = 'flex';			
 		},
 				
@@ -215,12 +188,12 @@ Vue.component("user-profiles-page", {
 					genderReg = 'FEMALE';
 				}
 				var dates = document.getElementById("date_input").value;
-       			var d=new Date(dates);
+       			var d=new Date(dates).toISOString().substr(0, 10);
        			
-       			var valid = true;
+       			let valid = true;
        			     		      			
        			 if(!this.usernameRegister){
-			        document.getElementById('usernameLabel').innerHTML = "Morate uneti korisnicko ime!";
+			        document.getElementById('usernameLabel').innerHTML = "Morate uneti korisničko ime!";
 					document.getElementById('usernameLabel').style.display = 'block';
 					valid = false;
 			    }
@@ -230,12 +203,12 @@ Vue.component("user-profiles-page", {
 				   valid = false;
 			    }
 			    else if(this.nameRegister[0] < 'A' || this.nameRegister[0] > 'Z' || !this.nameRegister){
-			        document.getElementById('nameLabel').innerHTML = "Morate uneti ime koje pocinje velikim slovom!";
+			        document.getElementById('nameLabel').innerHTML = "Morate uneti ime koje počinje velikim slovom!";
 					document.getElementById('nameLabel').style.display = 'block';
 					valid = false;
 			    }
 			    else if(this.surnameRegister[0] < 'A' || this.surnameRegister[0] > 'Z' || !this.surnameRegister){
-			        document.getElementById('surnameLabel').innerHTML = "Morate uneti prezime koje pocinje velikim slovom!";
+			        document.getElementById('surnameLabel').innerHTML = "Morate uneti prezime koje počinje velikim slovom!";
 					document.getElementById('surnameLabel').style.display = 'block';
 					valid = false;
 			    }
@@ -245,12 +218,13 @@ Vue.component("user-profiles-page", {
 					valid = false;
 			    }
 			    else if(!dates){
-			    	document.getElementById('dateLabel').innerHTML = "Morate izabrati datum rodjenja!";
+			    	document.getElementById('dateLabel').innerHTML = "Morate izabrati datum rođenja!";
 					document.getElementById('dateLabel').style.display = 'block';
 					valid = false;
 			    }
 			    
 			    if(valid == true){
+			    	
 			    	let newUser = {
 						username : this.usernameRegister,
 						password : this.passwordRegister,
@@ -258,22 +232,79 @@ Vue.component("user-profiles-page", {
 	    				surname : this.surnameRegister,
 	    				gender : genderReg,
 	    				dateOfBirth : d,
-	    				role : 'CUSTOMER'				
-    			}
-				axios 
-    			.post('/users/register', JSON.stringify(newUser))
-    			.then(response => {
-    				if (response.data == "") {
-						document.getElementById('usernameLabel').innerHTML = "Vec postoji uneto korisnicko ime!";
-						document.getElementById('usernameLabel').style.display = 'block';
-    				} else {
-						window.location.href = "/";
+	    				role : this.roleRegister			
     				}
-    			})
-    			.catch(error => {
-				    console.log(error.response)
-				});
-			    }
+			    	
+			    	if(this.roleRegister == 'MANAGER'){
+			    	
+				    	var newManager = {
+							username : this.usernameRegister,
+							password : this.passwordRegister,
+		    				name : this.nameRegister,
+		    				surname : this.surnameRegister,
+		    				gender : genderReg,
+		    				dateOfBirth : d,
+		    				role : 'MANAGER',
+		    				restaurant : null				
+	    				}
+    				}
+    				
+    				if(this.roleRegister == 'DELIVERER'){
+			    	
+				    	var newDeliverer = {
+							username : this.usernameRegister,
+							password : this.passwordRegister,
+		    				name : this.nameRegister,
+		    				surname : this.surnameRegister,
+		    				gender : genderReg,
+		    				dateOfBirth : d,
+		    				role : 'DELIVERER',
+		    				orders : null				
+	    				}
+    				}
+    				
+					axios 
+	    			.post('/users/register', JSON.stringify(newUser))
+	    			.then(response => {
+	    			
+	    				if (response.data == "") {
+							document.getElementById('usernameLabel').innerHTML = "Već postoji uneto korisničko ime!";
+							document.getElementById('usernameLabel').style.display = 'block';
+	    				} else {
+	    					if(this.roleRegister == 'MANAGER'){
+		    					axios
+								.post('/managers/createManager', JSON.stringify(newManager))
+								.then(response => {
+									document.querySelector('.registration-manager-deliverer').style.display = 'none';
+									 axios
+									    .get('/user/getAllUsers')
+									    .then(response => {
+										   if (response.data != null) {
+											   this.users = response.data;
+										    }
+									 });
+								});
+							}
+							else if(this.roleRegister == 'DELIVERER'){
+								axios
+								.post('/deliverer/createDeliverer', JSON.stringify(newDeliverer))
+								.then(response => {
+									document.querySelector('.registration-manager-deliverer').style.display = 'none';
+									 axios
+									    .get('/user/getAllUsers')
+									    .then(response => {
+										   if (response.data != null) {
+											   this.users = response.data;
+										    }
+									 });
+								});
+							}			
+	    				}
+	    			})
+	    			.catch(error => {
+					    console.log(error.response)
+					});
+				}
 			
 		},		
 		addManagerDelivererClose: function (event) {
@@ -288,13 +319,158 @@ Vue.component("user-profiles-page", {
 			 document.querySelector('.registration-manager-deliverer').style.display = 'none';
 		},
 		
+		showOnlyAdmins : function (event) {
+			axios
+          		.get('/user/getAllAdmins')
+          		.then(response => {
+				if (response.data != null) {
+					this.users = response.data;
+				}
+			});
+		},
+		
+		showOnlyManagers : function (event) {
+			axios
+          		.get('/user/getAllManagers')
+          		.then(response => {
+				if (response.data != null) {
+					this.users = response.data;
+				}
+			});
+		},
+		
+		showOnlyDeliverers : function (event) {
+			axios
+          		.get('/user/getAllDeliverers')
+          		.then(response => {
+				if (response.data != null) {
+					this.users = response.data;
+				}
+			});
+		},
+		
+		showOnlyCustomers : function (event) {
+			axios
+          		.get('/user/getAllCustomers')
+          		.then(response => {
+				if (response.data != null) {
+					this.users = response.data;
+				}
+			});
+		},
+		
+		showOnlyGoldenCustomers : function (event) {
+			axios
+          		.get('/user/getAllCustomers')
+          		.then(response => {
+				if (response.data != null) {
+					this.users = response.data;
+				}
+			});
+		},
+		
+		showOnlySilverCustomers : function (event) {
+			axios
+          		.get('/user/getAllCustomers')
+          		.then(response => {
+				if (response.data != null) {
+					this.users = response.data;
+				}
+			});
+		},
+		
+		showOnlyBronzedCustomers : function (event) {
+			axios
+          		.get('/user/getAllCustomers')
+          		.then(response => {
+				if (response.data != null) {
+					this.users = response.data;
+				}
+			});
+		},
+		
+		searchUsers : function (event) {
+				let searchParameters = {
+						name : this.searchName,
+						surname : this.searchSurname,
+	    				username : this.searchUsername			
+    			}
+    			
+    			axios 
+		    		.post('/user/searchUsers', JSON.stringify(searchParameters))
+		    		.then(response => {
+		    		   this.users = response.data;
+		    	})
+		},
+		
+		setAscendingSortMode : function (event) {
+			this.sortMode = 'asc';
+		},
+		
+		setDescendingSortMode : function (event) {
+			this.sortMode = 'desc'
+		},
+		
+		setNameAsSortParameter : function (event) {
+			this.sortParameter = 'name';
+		},
+		
+		setSurnameAsSortParameter : function (event) {
+			this.sortParameter = 'surname';
+		},
+		
+		setUsernameAsSortParameter : function (event) {
+			this.sortParameter = 'username';
+		},
+		
+		setNumberOfPointsAsSortParameter : function (event) {
+			this.sortParameter = 'numberOfPoints';
+		},
+		
+		sortUsers : function (event) {
+			
+				let sortParameters = {
+					mode : this.sortMode,
+					parameter : this.sortParameter		
+    			}
+    			
+    			axios 
+		    		.post('/user/sortUsers', JSON.stringify(sortParameters))
+		    		.then(response => {
+		    		   this.users = response.data;
+		    	})
+		},
+		
+		blockUser : function (user) {
+			axios 
+				.put("user/blockUser/" + user.username)
+				.then(response => {
+					if (response.data != null) {
+						this.users = response.data;
+					}
+					
+				});
+		},
+		
 		logout : function (event) {
 			window.location.href = "#/";
 		}
 	},
+	
+	computed: {
+	      isDisabled : function(user) {
+	        // you can  check your form is filled or not here.
+	         return user.isBlocked === true || user.role == "ADMIN";
+	      }
+    },
+    
 	mounted () {
-     /*   axios
-          .get('rest/proizvodi/getJustProducts')
-          .then(response => (this.products = response.data))*/
+          axios
+          	.get('/user/getAllUsers')
+          	.then(response => {
+				 if (response.data != null) {
+					this.users = response.data;
+			 }
+		   });
     }
 });

@@ -5,12 +5,15 @@ import static spark.Spark.post;
 import static spark.Spark.put;
 import spark.Session;
 
-import javax.ws.rs.core.Response;
+import java.util.ArrayList;
+
 import com.google.gson.Gson;
 
-import beans.Gender;
+import beans.Restaurant;
 import beans.User;
 import dto.LoginDTO;
+import dto.SortDTO;
+import dto.UserSearchDTO;
 import services.UsersService;
 
 public class UsersController {
@@ -78,7 +81,7 @@ public class UsersController {
 				return "";
 			}
 		});
-		
+
 		put("/users/edit", (req,res) -> {
 			res.type("application/json");
 			
@@ -86,11 +89,73 @@ public class UsersController {
 				User newUser = gson.fromJson(req.body(), User.class);
 				
 				usersService.editUser(newUser);
-				Session session = req.session(true);
-							
+				Session session = req.session(true);			
 				session.attribute("user", newUser);
 				
 				return true;
+			} catch (Exception e) {
+				e.printStackTrace();
+				return null;
+			}
+		});
+
+		get("/user/getAllUsers", (req, res) -> {
+			res.type("application/json");
+			try {
+				return gson.toJson(usersService.getAllUsers());
+			} catch (Exception e) {
+				e.printStackTrace();
+				return null;
+			}
+		});
+		
+		get("/user/getAllAdmins", (req, res) -> {
+			res.type("application/json");
+			try {
+				return gson.toJson(usersService.getAllAdmins());
+			} catch (Exception e) {
+				e.printStackTrace();
+				return null;
+			}
+		});
+		
+		get("/user/getAllManagers", (req, res) -> {
+			res.type("application/json");
+			try {
+				return gson.toJson(usersService.getAllManagers());
+			} catch (Exception e) {
+				e.printStackTrace();
+				return null;
+			}
+		});
+		
+		get("/user/getAllDeliverers", (req, res) -> {
+			res.type("application/json");
+			try {
+				return gson.toJson(usersService.getAllDeliverers());
+			} catch (Exception e) {
+				e.printStackTrace();
+				return null;
+			}
+		});
+		
+		get("/user/getAllCustomers", (req, res) -> {
+			res.type("application/json");
+			try {
+				return gson.toJson(usersService.getAllCustomers());
+			} catch (Exception e) {
+				e.printStackTrace();
+				return null;
+			}
+		});
+		
+		post("/user/searchUsers", (req,res) -> {
+			res.type("application/json");
+			
+			try {
+				UserSearchDTO searchParameters = gson.fromJson(req.body(), UserSearchDTO.class);
+				ArrayList<User> users =	usersService.getSuitableUsers(searchParameters);		
+				return gson.toJson(users);
 				
 			} catch(Exception e) {
 				e.printStackTrace();
@@ -108,6 +173,34 @@ public class UsersController {
 				session.invalidate();
 			}
 			return true;
+		});
+		
+		post("/user/sortUsers", (req,res) -> {
+			res.type("application/json");
+			
+			try {
+				SortDTO sortParameters = gson.fromJson(req.body(), SortDTO.class);
+				ArrayList<User> users =	usersService.getSortedUsers(sortParameters);		
+				return gson.toJson(users);
+				
+			} catch(Exception e) {
+				e.printStackTrace();
+				return null;
+			}
+		});
+		
+		put("user/blockUser/:id", (req, res) -> {
+			res.type("application/json");
+			try {
+				User user = usersService.getUserByUserName(req.params("id"));
+				user.setBlocked(true);
+				usersService.updateUser(user);
+				return gson.toJson(usersService.getAllUsers());
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+				return null;
+			}
 		});
 		
 	}	

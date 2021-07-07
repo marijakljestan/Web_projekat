@@ -365,6 +365,9 @@ Vue.component("home-page", {
 	    				if (response.data == "") {
 							this.errorMessage="Neispravno korisničko ime ili lozinka.";
 						}
+						else if (response.data.isBlocked){
+							this.errorMessage="Pristup vašem nalogu je blokiran.";
+						}
 						else {
 							if(response.data.role == "CUSTOMER"){
 								window.location.href = "#/customer";
