@@ -10,8 +10,24 @@ public class Customer extends User implements Serializable{
    private CustomerType customerType;
    private ShoppingCart cart;
    private ArrayList<Order> orders;
+         
    
-   
+	public Customer() {
+		super();
+		this.points = 0;
+		this.customerType = new CustomerType();
+		this.cart = new ShoppingCart();
+		this.orders = new ArrayList<Order>();
+	}
+
+	public Customer(double points, CustomerType customerType, ShoppingCart cart, ArrayList<Order> orders) {
+		super();
+		this.points = points;
+		this.customerType = customerType;
+		this.cart = cart;
+		this.orders = orders;
+	}
+	
 	public double getPoints() {
 		return points;
 	}

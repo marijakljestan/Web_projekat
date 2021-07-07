@@ -318,6 +318,16 @@ Vue.component("home-page", {
 	    				dateOfBirth : d,
 	    				role : 'CUSTOMER'				
     				}
+    				
+    				let newCustomer = {
+						username : this.usernameRegister,
+						password : this.passwordRegister,
+	    				name : this.nameRegister,
+	    				surname : this.surnameRegister,
+	    				gender : genderReg,
+	    				dateOfBirth : d,
+	    				role : 'CUSTOMER'			
+    				}
     					
 						axios 
 		    			.post('/users/register', JSON.stringify(newUser))
@@ -326,8 +336,12 @@ Vue.component("home-page", {
 								document.getElementById('usernameLabel').innerHTML = "Vec postoji uneto korisnicko ime!";
 								document.getElementById('usernameLabel').style.display = 'block';
 		    				} else {
-								window.location.href = "/";
-		    				}
+		    					axios
+								.post('/customer/createCustomer', JSON.stringify(newCustomer))
+								.then(response => {
+									document.querySelector('.registracija').style.display = 'none';
+								});
+							}
 		    			})
 		    			.catch(error => {
 						    console.log(error.response)
