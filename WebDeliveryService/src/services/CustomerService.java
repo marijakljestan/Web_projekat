@@ -115,6 +115,7 @@ public class CustomerService {
 		customer.getOrders().add(newOrder);
 		updateCustomer(customer);
 		return customer;
+	}
 
 	public void reduceItemQuantity(Customer customer, ShoppingCartItem item) throws JsonSyntaxException, IOException {
 		double total = customer.getCart().getTotal();
