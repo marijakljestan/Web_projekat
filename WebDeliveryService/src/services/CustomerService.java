@@ -103,11 +103,11 @@ public class CustomerService {
 		double newPoints = newOrder.getPrice()/1000 * 133;
 		customer.setPoints(newPoints + points);
 		
-		if(customer.getPoints() > 3000) {
+		if(customer.getPoints() >= 3000) {
 			CustomerType silverType = new CustomerType("SILVER", 3, 3000);
 			customer.setCustomerType(silverType);
 		}
-		else if (customer.getPoints() > 4000) {
+		else if (customer.getPoints() >= 4000) {
 			CustomerType goldenType = new CustomerType("GOLDEN", 5, 4000);
 			customer.setCustomerType(goldenType);
 		}
@@ -169,6 +169,15 @@ public class CustomerService {
 		double points = customer.getPoints();
 		double newPoints = points - order.getPrice()/1000 * 133 * 4;
 		customer.setPoints(newPoints);
+		
+		if(customer.getPoints() < 4000 && customer.getPoints() >= 3000) {
+			CustomerType silverType = new CustomerType("SILVER", 3, 3000);
+			customer.setCustomerType(silverType);
+		}
+		else if (customer.getPoints() < 3000) {
+			CustomerType bronzedType = new CustomerType("BRONZED", 0, 0);
+			customer.setCustomerType(bronzedType);
+		}
 		
 		customer.setOrders(newOrders);
 		updateCustomer(customer);
