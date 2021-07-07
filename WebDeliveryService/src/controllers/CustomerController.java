@@ -3,6 +3,7 @@ package controllers;
 import static spark.Spark.get;
 import static spark.Spark.post;
 import static spark.Spark.put;
+import static spark.Spark.delete;
 
 import java.io.IOException;
 
@@ -116,6 +117,18 @@ public class CustomerController {
 				ShoppingCartItem item = gson.fromJson(req.body(), ShoppingCartItem.class);
 				Customer customer = findCustomer(req);
 				customerService.reduceItemQuantity(customer, item);
+				return gson.toJson(customer.getCart());
+			} catch (Exception e) {
+				e.printStackTrace();
+				return null;
+			}
+		});
+		
+		delete("/customer/removeItem/:id", (req,res) -> {
+			res.type("application/json");
+			try {
+				Customer customer = findCustomer(req);
+				customerService.removeItemFromCart(customer, req.params("id"));
 				return gson.toJson(customer.getCart());
 			} catch (Exception e) {
 				e.printStackTrace();

@@ -57,7 +57,7 @@ Vue.component("shopping-cart", {
 
                <div v-for="item in shoppingCart.items" class="menu-item">
                    <img class="menu-item-image" v-bind:src= "item.product.picture" alt="Food">
-                   <div v-on:click="moveToTrash" class="removeFromCart">+</div>
+                   <div v-on:click="removeItem(item)" class="removeFromCart">+</div>
                    <div class="menu-item-text">
                        <h3 class="menu-item-heading-cart">
                            <span class="menu-item-name"> {{ item.product.name }}</span>
@@ -91,24 +91,32 @@ Vue.component("shopping-cart", {
 		
 		increaseQuantity: function (item) {
 			axios
-	       .put('/customer/increaseQuantity/', JSON.stringify(item))
-	       .then(response => {
-	       		this.shoppingCart = response.data;
-	       		location.reload();
-		    })
+		       .put('/customer/increaseQuantity/', JSON.stringify(item))
+		       .then(response => {
+		       		this.shoppingCart = response.data;
+		       		location.reload();
+			    })
 		},
 		
 		reduceQuantity: function (item) {
 			axios
-	       .put('/customer/reduceQuantity/', JSON.stringify(item))
-	       .then(response => {
-	       		this.shoppingCart = response.data;
-	       		location.reload();
-		    })
+		       .put('/customer/reduceQuantity/', JSON.stringify(item))
+		       .then(response => {
+		       		this.shoppingCart = response.data;
+		       		location.reload();
+			    })
 		},
 		
 		logout : function (){
 			window.location.href = "#/";
+		},
+		
+		removeItem: function(item) {
+			axios
+				.delete('/customer/removeItem/' + item.product.name + item.product.restaurantName)
+				.then(response => {
+					this.shoppingCart = response.data;
+				})
 		}
 	}
 });
