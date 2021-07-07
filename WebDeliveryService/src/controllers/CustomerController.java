@@ -4,13 +4,17 @@ import static spark.Spark.get;
 import static spark.Spark.post;
 import static spark.Spark.put;
 
+import java.io.IOException;
+
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 
 import beans.Customer;
 import beans.Product;
 import beans.ShoppingCartItem;
 import beans.User;
 import services.CustomerService;
+import spark.Request;
 import spark.Session;
 
 public class CustomerController {
@@ -97,15 +101,33 @@ public class CustomerController {
 			res.type("application/json");
 			try {
 				ShoppingCartItem item = gson.fromJson(req.body(), ShoppingCartItem.class);
-				Session session = req.session(true);
-				User loggedUser = session.attribute("user");
-				Customer customer = customerService.getCustomerByUsername(loggedUser.getUsername());
-				customerService.editCustomerItem(customer, item);
+				Customer customer = findCustomer(req);
+				customerService.increaseItemQuantity(customer, item);
 				return gson.toJson(customer.getCart());
 			} catch (Exception e) {
 				e.printStackTrace();
 				return null;
 			}
 		});
+		
+		put("/customer/reduceQuantity/", (req,res) -> {
+			res.type("application/json");
+			try {
+				ShoppingCartItem item = gson.fromJson(req.body(), ShoppingCartItem.class);
+				Customer customer = findCustomer(req);
+				customerService.reduceItemQuantity(customer, item);
+				return gson.toJson(customer.getCart());
+			} catch (Exception e) {
+				e.printStackTrace();
+				return null;
+			}
+		});
+	}
+
+	private Customer findCustomer(Request req) throws JsonSyntaxException, IOException {
+		Session session = req.session(true);
+		User loggedUser = session.attribute("user");
+		Customer customer = customerService.getCustomerByUsername(loggedUser.getUsername());
+		return customer;
 	}
 }
