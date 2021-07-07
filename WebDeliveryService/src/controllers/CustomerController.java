@@ -7,9 +7,11 @@ import static spark.Spark.put;
 import com.google.gson.Gson;
 
 import beans.Customer;
+import beans.Order;
 import beans.Product;
 import beans.ShoppingCartItem;
 import beans.User;
+import dto.OrderDTO;
 import services.CustomerService;
 import spark.Session;
 
@@ -106,6 +108,31 @@ public class CustomerController {
 				e.printStackTrace();
 				return null;
 			}
+		});
+		
+		post("/customer/createOrder", (req,res) -> {
+			res.type("application/json");
+			
+			try {
+				Session session = req.session(true);
+				User loggedUser = session.attribute("user");
+				Customer customer = customerService.getCustomerByUsername(loggedUser.getUsername());
+				
+				OrderDTO orderParams = gson.fromJson(req.body(), OrderDTO.class);
+				Order newOrder = customerService.createNewOrder(orderParams, customer);
+				
+				customer.getCart().getItems().clear();
+				customer.getCart().setTotal(0);
+				customer.getOrders().add(newOrder);
+				customerService.updateCustomer(customer);
+				
+				return gson.toJson(customer.getCart());
+				
+			} catch(Exception e) {
+				e.printStackTrace();
+				return null;
+			}
+			
 		});
 	}
 }

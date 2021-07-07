@@ -91,8 +91,15 @@ Vue.component("shopping-cart", {
 		}*/
 		
 		orderItemsInCart : function (item) {
+		
+			let newOrder = {
+				price : this.shoppingCart.total,
+				products : this.shoppingCart.items
+			}
 			
-			
+			axios
+			.post('/customer/createOrder', JSON.stringify(newOrder))
+			.then(response => (this.shoppingCart = response.data))
 		},
 		
 		increaseQuantity: function (item) {

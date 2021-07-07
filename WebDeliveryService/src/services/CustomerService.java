@@ -6,8 +6,10 @@ import java.util.ArrayList;
 import com.google.gson.JsonSyntaxException;
 
 import beans.Customer;
+import beans.Order;
 import beans.ShoppingCartItem;
 import dao.CustomerDAO;
+import dto.OrderDTO;
 
 public class CustomerService {
 	
@@ -56,5 +58,28 @@ public class CustomerService {
 	
 	private boolean isEqual(ShoppingCartItem i, ShoppingCartItem item) {
 		return i.getProduct().getName().equals(item.getProduct().getName()) && i.getProduct().getRestaurantName().equals(item.getProduct().getRestaurantName());
+	}
+	
+	private ArrayList<Integer> getAllOrdersIDs() throws JsonSyntaxException, IOException{
+		return customerDAO.getAllOrdersIDs();
+	}
+	
+	 private String generateOrderID() throws JsonSyntaxException, IOException {
+         ArrayList<Integer> allOrdersIDs = getAllOrdersIDs();
+         int id = 1;
+         while (true)
+         {
+             if (!allOrdersIDs.contains(id))
+                 break;
+
+             id += 1;
+         }
+         return String.valueOf(id);
+     }
+
+	public Order createNewOrder(OrderDTO orderParams, Customer customer) throws JsonSyntaxException, IOException {
+		// TODO Auto-generated method stub
+		String restaurant = orderParams.getProducts().get(0).getRestaurantName();
+		return new Order(generateOrderID(), orderParams.getPrice(), customer.getUsername(), orderParams.getProducts(), restaurant);
 	}
 }

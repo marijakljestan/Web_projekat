@@ -14,6 +14,7 @@ import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
 
 import beans.Customer;
+import beans.Order;
 
 public class CustomerDAO implements IDao<Customer, String>{
 	
@@ -112,5 +113,16 @@ public class CustomerDAO implements IDao<Customer, String>{
 		writer.println(allEntities);
 		writer.close();
 	}
+	
+	public ArrayList<Integer> getAllOrdersIDs() throws JsonSyntaxException, IOException{
+		
+		ArrayList<Integer> allIDs = new ArrayList<Integer>();
+		ArrayList<Customer> allCustomers = getAll();
+        for (Customer customer : allCustomers) 
+        	for(Order order : customer.getOrders()) 
+        		allIDs.add(Integer.parseInt(order.getId()));
+        
+        return allIDs;
+    }
 
 }
