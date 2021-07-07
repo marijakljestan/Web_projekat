@@ -78,5 +78,18 @@ public class CustomerController {
 			}
 			
 		});
+		
+		get("/customer/getShoppingCart/", (req, res) -> {
+			res.type("application/json");
+			try {
+				Session session = req.session(true);
+				User loggedUser = session.attribute("user");
+				Customer customer = customerService.getCustomerByUsername(loggedUser.getUsername());
+				return gson.toJson(customer.getCart());
+			} catch (Exception e) {
+				e.printStackTrace();
+				return "";
+			}
+		});
 	}
 }

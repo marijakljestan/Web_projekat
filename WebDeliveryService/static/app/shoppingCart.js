@@ -1,7 +1,7 @@
 Vue.component("shopping-cart", {
 	data: function () {
 		    return {
-		      items: null
+		      shoppingCart: null
 		    }
 	},
 	template: ` 
@@ -44,110 +44,29 @@ Vue.component("shopping-cart", {
 
           <div class="col-sm-2 sidenav" style="margin-left: -10px;">
               <label style="font-family: sans-serif; font-size: 18px;">Ukupno: </label><br/>
-              <span style="font-size: 16px;">$19.98</span><br/>
+              <span style="font-size: 16px;">{{ shoppingCart.total }}</span><br/>
               <button class="order-button">Poruči</button>
           </div>
 
           <div class="col-lg-8"> 
            <div class="menu-group-cart">
 
-               <div class="menu-item">
-                   <img class="menu-item-image" src="https://media-cdn.tripadvisor.com/media/photo-s/18/6d/ac/19/variety-pack-original.jpg" alt="Food">
+               <div v-for="item in shoppingCart.items" class="menu-item">
+                   <img class="menu-item-image" v-bind:src= "item.product.picture" alt="Food">
                    <div v-on:click="moveToTrash" class="removeFromCart">+</div>
                    <div class="menu-item-text">
                        <h3 class="menu-item-heading-cart">
-                           <span class="menu-item-name"> Burger</span>
-                           <span class="menu-item-price"> $9.99</span>
+                           <span class="menu-item-name"> {{ item.product.name }}</span>
+                           <span class="menu-item-price"> $ </span>
+                           <span class="menu-item-price"> {{ item.product.price }}</span>
                        </h3>
                        <br/>
-                       <span class="shopping-cart-label">Količina: <span style="margin-left: 10px;">2 </span></span><br/>
+                       <span class="shopping-cart-label">Količina: <span style="margin-left: 10px;"> {{ item.quantity}} </span></span><br/>
                        <hr/>
                    </div>
                    <button class="plus-cart-button">+</button>       
                    <button class="minus-cart-button">-</button>  <br/> 
                </div>
-
-               <div class="menu-item">
-                    <img class="menu-item-image" src="https://post.healthline.com/wp-content/uploads/2020/07/pizza-beer-1200x628-facebook-1200x628.jpg" alt="Food">
-                    <div v-on:click="moveToTrash" class="removeFromCart">+</div>
-                    <div class="menu-item-text">
-                        <h3 class="menu-item-heading-cart">
-                            <span class="menu-item-name"> Pizza</span>
-                            <span class="menu-item-price"> $19.99</span>
-                        </h3>
-                        <br/>
-                        <span class="shopping-cart-label">Količina: <span style="margin-left: 10px;">2 </span></span><br/>
-                        <hr/>
-                    </div>
-                    <button class="plus-cart-button">+</button>       
-                    <button class="minus-cart-button">-</button>  <br/> 
-                </div>
-
-                <div class="menu-item">
-                    <img class="menu-item-image" src="https://metmunch.com/wp-content/uploads/2021/02/pexels-photo-376464-1.jpeg" alt="Food">
-                    <div v-on:click="moveToTrash" class="removeFromCart">+</div>
-                    <div class="menu-item-text">
-                        <h3 class="menu-item-heading-cart">
-                            <span class="menu-item-name"> American pancakes</span>
-                            <span class="menu-item-price"> $5.99</span>
-                          </h3>
-                          <br/>
-                          <span class="shopping-cart-label">Količina: <span style="margin-left: 10px;">2 </span></span><br/>
-                          <hr/>
-                      </div>
-                      <button class="plus-cart-button">+</button>       
-                      <button class="minus-cart-button">-</button>  <br/> 
-                </div>
-
-                <div class="menu-item">
-                    <img class="menu-item-image" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS29YsvHevLUvSigi9yb71M7VyYaQ5-eLiN-BmduywGJPkW22aRXRmsU0UL9uKalzY5Vig&usqp=CAU" alt="Food">
-                    <div v-on:click="moveToTrash" class="removeFromCart">+</div>
-                    <div class="menu-item-text">
-                        <h3 class="menu-item-heading-cart">
-                            <span class="menu-item-name"> Pasta</span>
-                            <span class="menu-item-price"> $25.99</span>
-                        </h3>
-                        <br/>
-                        <span class="shopping-cart-label">Količina: <span style="margin-left: 10px;">2 </span></span><br/>
-                        <hr/>
-                    </div>
-                    <button class="plus-cart-button">+</button>       
-                    <button class="minus-cart-button">-</button>  <br/> 
-                </div> 
-                
-                
-                <div class="menu-item">
-                    <img class="menu-item-image" src="https://static.onecms.io/wp-content/uploads/sites/35/2021/01/11/med-diet-plan-fb-GettyImages-1175355677-2000.jpg" alt="Food">
-                    <div v-on:click="moveToTrash" class="removeFromCart">+</div>
-                    <div class="menu-item-text">
-                        <h3 class="menu-item-heading-cart">
-                            <span class="menu-item-name"> Salad</span>
-                            <span class="menu-item-price"> $19.99</span>
-                        </h3>
-                        <br/>
-                        <span class="shopping-cart-label">Količina: <span style="margin-left: 10px;">2 </span></span><br/>
-                        <hr/>
-                    </div>
-                    <button class="plus-cart-button">+</button>       
-                    <button class="minus-cart-button">-</button>  <br/> 
-                </div>
-                
-                <div class="menu-item">
-                    <img class="menu-item-image" src="https://images.immediate.co.uk/production/volatile/sites/30/2020/08/processed-food700-350-e6d0f0f.jpg?quality=90&resize=385%2C350" alt="Food">
-                    <div v-on:click="moveToTrash" class="removeFromCart">+</div>
-                    <div class="menu-item-text">
-                        <h3 class="menu-item-heading-cart">
-                            <span class="menu-item-name"> Hot dog</span>
-                            <span class="menu-item-price"> $6.99</span>
-                        </h3>
-                        <br/>
-                        <span class="shopping-cart-label">Količina: <span style="margin-left: 10px;">2 </span></span><br/>
-                        <hr/>
-                    </div>
-                    <button class="plus-cart-button">+</button>       
-                    <button class="minus-cart-button">-</button>  <br/> 
-                </div>   
-
             </div>
            </div>
           </div>
@@ -158,7 +77,12 @@ Vue.component("shopping-cart", {
     </footer>
     </div>
 `
-	, 
+	,
+	mounted () {
+       axios
+	       .get('/customer/getShoppingCart/')
+	       .then(response => (this.shoppingCart = response.data))
+    },
 	methods : {
 		/*addToCart : function (product) {
 			axios
@@ -170,10 +94,5 @@ Vue.component("shopping-cart", {
 		logout : function (){
 			window.location.href = "#/";
 		}
-	},
-	mounted () {
-     /*   axios
-          .get('rest/proizvodi/getJustProducts')
-          .then(response => (this.products = response.data))*/
-    }
+	}
 });
