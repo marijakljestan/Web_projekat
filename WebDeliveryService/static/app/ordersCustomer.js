@@ -61,9 +61,9 @@ Vue.component("customer-orders", {
         <div class="row content">
 
           <div class="col-sm-2 sidenav" style="background-color: rgb(220, 235, 240); border-radius:25px; margin-left: -38px; position: relative; top: 100px; align-items: flex-start">
-            <label style="color: darkgrey; position: relative; left: -22px;">FILTERI</label><br/>
+            <label style="color: darkgrey; position: relative; top: 15px; left: 1px;">FILTERI</label><br/>
             <hr/>
-            <label style="color: darkgrey; position: relative; left: 7px;">STATUS PORDUZBINE</label><br/><br/>
+            <label style="color: darkgrey; position: relative; left: 14px;">STATUS PORDUZBINE:</label><br/><br/>
             <input type="checkbox" @change="showUndeliveredOrders($event)" style="position: relative; left: -10px;">
            	<label style="color: darkgrey; position: relative; left: 9px;"> NEDOSTAVLJENE </label><br/><br/>
             
@@ -78,6 +78,7 @@ Vue.component("customer-orders", {
             <input type="checkbox" @change="showDeliveredOrders($event)" style="position: relative; left: -21px;">
             <label style="color: darkgrey; position: relative; left: -3px;"> DOSTAVLJENA</label><br/><br/>
             
+             <label style="color: darkgrey; position: relative; top:20px; left: 17px;">TIP RESTORANA:</label><br/><br/>
             <select v-model="filterType" @change="filterByRestaurantType($event)" class="search-input" style="position : relative; width:195px; left:15px">
 	        	<option disabled selected>Izaberite tip restorana</option>
 				<option v-for="type in restaurantTypes" v-bind:value="type">
@@ -86,7 +87,23 @@ Vue.component("customer-orders", {
 			</select>
 			<br/><br/>
 			
-			<button class="search-submit" style="position : relative; left:75px; top:5px; color:#fff;"> Filtriraj </button>
+			
+			<label style="color: darkgrey; position:relative; top:35px" > SORTIRANJE: </label><br/><br/>
+			<hr/>
+	        <input type="checkbox"  @change="setDescendingSortMode($event)">
+	        <label style="color: darkgrey; position:relative; left:8px"> Opadajuće</label><br/>
+	        <input style=" position:relative; left:-10px" type="checkbox" @change="setAscendingSortMode($event)">
+	        <label style="color: darkgrey; position:relative; left:-2px" > Rastuće</label><br/><br/>
+	        
+	        <label style="color: darkgrey;" > Parametri sortiranja: </label><br/><br/>
+	        <input type="checkbox" @change="setRestaurantAsSortParameter($event)">
+	        <label style="color: darkgrey; position:relative; left:8px"> Restoran</label><br/>
+	        <input type="checkbox" @change="setPriceAsSortParameter($event)" style="position: relative; left: -16px;">
+	        <label style="color: darkgrey; position:relative; left:-7px"> Cena </label><br/>
+	        <input type="checkbox" @change="setDateAsSortParameter($event)" style="position: relative; left: -9px;">
+	        <label style="color: darkgrey;"> Datum </label><br/>
+	        
+	        <button class="search-submit" @click="sortOrders" style="position : relative; left:10px; top:10px;  color:#fff;"> Sortiraj </button><br/>
 
             <button class="change-status-button" style="position: relative;  top:70px">CEKA DOSTAVLJACA</button>
           </div>
@@ -151,19 +168,19 @@ Vue.component("customer-orders", {
 			this.sortMode = 'desc'
 		},
 		
-		setNameAsSortParameter : function (event) {
-			this.sortParameter = 'name';
+		setRestaurantAsSortParameter : function (event) {
+			this.sortParameter = 'restaurant';
 		},
 		
-		setLocationAsSortParameter : function (event) {
-			this.sortParameter = 'location';
+		setPriceAsSortParameter : function (event) {
+			this.sortParameter = 'price';
 		},
 		
-		setGradeAsSortParameter : function (event) {
-			this.sortParameter = 'grade';
+		setDateAsSortParameter : function (event) {
+			this.sortParameter = 'date';
 		},
 		
-		sortRestaurants : function (event) {
+		sortOrders : function (event) {
 			
 					let sortParameters = {
 						mode : this.sortMode,
@@ -171,9 +188,9 @@ Vue.component("customer-orders", {
     			}
     			
     			axios 
-		    		.post('/restaurants/sortRestaurants', JSON.stringify(sortParameters))
+		    		.post('/customer/getSortedOrders', JSON.stringify(sortParameters))
 		    		.then(response => {
-		    		   this.restaurants = response.data;
+		    		   this.orders = response.data;
 		    	})
 		},
 		

@@ -18,10 +18,12 @@ import beans.OrderStatus;
 import beans.Product;
 import beans.Restaurant;
 import beans.ShoppingCartItem;
+import beans.User;
 import dao.CustomerDAO;
 import dao.RestaurantDAO;
 import dto.OrderDTO;
 import dto.OrderSearchDTO;
+import dto.SortDTO;
 
 public class CustomerService {
 	
@@ -355,5 +357,29 @@ public class CustomerService {
 		}
 		
 		return suitableOrders;
+	}
+	
+	public ArrayList<Order> getSortedOrders(Customer customer, SortDTO sortParameters) throws JsonSyntaxException, IOException {
+		ArrayList<Order> sortedOrders = customer.getOrders();
+		
+		if(sortParameters.getParameter().equals("restaurant"))
+			if(sortParameters.getMode().equals("asc"))
+				sortedOrders.sort((o1, o2)-> o1.getRestaurant().compareTo( o2.getRestaurant()));
+			else
+				sortedOrders.sort((o1, o2)-> o2.getRestaurant().compareTo( o1.getRestaurant()));
+		
+		else if(sortParameters.getParameter().equals("price"))
+			if(sortParameters.getMode().equals("asc"))
+				sortedOrders.sort((o1, o2) -> Double.compare(o1.getPrice(), o2.getPrice()));
+			else
+				sortedOrders.sort((o1, o2) -> Double.compare(o2.getPrice(), o1.getPrice()));
+		
+		else if(sortParameters.getParameter().equals("date"))
+			if(sortParameters.getMode().equals("asc"))
+				sortedOrders.sort((o1, o2)-> o1.getDateAndTime().compareTo( o2.getDateAndTime()));
+			else
+				sortedOrders.sort((o1, o2)-> o2.getDateAndTime().compareTo( o1.getDateAndTime()));
+
+		return sortedOrders;
 	}
 }

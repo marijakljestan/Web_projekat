@@ -17,6 +17,7 @@ import beans.ShoppingCartItem;
 import beans.User;
 import dto.OrderDTO;
 import dto.OrderSearchDTO;
+import dto.SortDTO;
 import services.CustomerService;
 import spark.Request;
 import spark.Session;
@@ -283,10 +284,25 @@ public class CustomerController {
 				Customer customer = customerService.getCustomerByUsername(loggedUser.getUsername());
 				
 				OrderSearchDTO orderParams = gson.fromJson(req.body(), OrderSearchDTO.class);
-				//Order newOrder = customerService.createNewOrder(orderParams, customer);	
-				//customerService.editCustomerOrders(customer, newOrder);
-				
 				return gson.toJson(customerService.getSuitableOrders(customer, orderParams));
+				
+			} catch(Exception e) {
+				e.printStackTrace();
+				return null;
+			}
+			
+		});
+		
+		post("/customer/getSortedOrders", (req,res) -> {
+			res.type("application/json");
+			
+			try {
+				Session session = req.session(true);
+				User loggedUser = session.attribute("user");
+				Customer customer = customerService.getCustomerByUsername(loggedUser.getUsername());
+				
+				SortDTO sortParameters = gson.fromJson(req.body(), SortDTO.class);
+				return gson.toJson(customerService.getSortedOrders(customer, sortParameters));
 				
 			} catch(Exception e) {
 				e.printStackTrace();
