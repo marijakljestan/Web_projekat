@@ -61,7 +61,7 @@ Vue.component("comments-manager", {
 	                            <div style="margin-top: 40px; margin-left: -150px;">                      
 	                                <span style=" position: relative; margin-left: -100px;"><label>Restoran:</label> {{ comment.restaurant }}</span><br/>
 	                                <span style="margin-left: -145px;"><label>Ocena: </label> {{ comment.grade }}</span><br/>
-	                                <p class="comment-text" style="width:280px">
+	                                <p class="comment-text" style="width:280px; margin-left:50px;">
 	                                    {{ comment.content }}
 	                                </p>
 	                            </div>

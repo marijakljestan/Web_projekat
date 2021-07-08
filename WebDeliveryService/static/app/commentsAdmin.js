@@ -1,7 +1,7 @@
 Vue.component("comments-admin", {
 	data: function () {
 		    return {
-		      comments: null,
+		      comments: null
 		    }
 	},
 	template: ` 
@@ -52,6 +52,18 @@ Vue.component("comments-admin", {
             <div class="row content">
                 <div class="col-lg-8"> 
                     <div class="comments-panel">
+                        <div v-for="comment in comments" v-if="comment.status != 'PENDDING'" class="comment-panel">
+	                            <h4 style="margin-top: 10; margin-left: 90px;">{{ comment.customer }}</h4><br/>
+	                            <div style="margin-top: 40px; margin-left: -150px;">                      
+	                                <span style=" position: relative; margin-left: -100px;"><label>Restoran:</label> {{ comment.restaurant }}</span><br/>
+	                                <span style="margin-left: -145px;"><label>Ocena: </label> {{ comment.grade }}</span><br/>
+	                                <p class="comment-text" style="width:280px; margin-left:50px;">
+	                                    {{ comment.content }}
+	                                </p>
+	                            </div>
+	                            <h4 v-if="comment.status == 'APPROVED'" style="margin-left:-80px; color: rgb(156, 200, 156);"><b>ODOBREN</b></h4><br/>
+	                            <h4 v-if="comment.status == 'REJECTED'" style="margin-left:-80px; margin-top: 10; color: rgb(233, 149, 149);"><b>ODBIJEN</b></h4><br/>
+	                        </div>
                         <div class="comment-panel">
                             <h4 style="margin-top: 10; margin-left: 90px;">peraperic</h4><br/>
                             <div style="margin-top: 40px; margin-left: -150px;">                      
@@ -61,17 +73,7 @@ Vue.component("comments-admin", {
                                     Lorem ipsum dolor.Lorem ipsum dolor.Lorem ipsum dolor.Lorem ipsum dolor.Lorem ipsum dolor.
                                 </p>
                             </div>       
-                        </div>
-                        <div class="comment-panel">
-                            <h4 style="margin-top: 10; margin-left: 90px;">peraperic</h4><br/>
-                            <div style="margin-top: 40px; margin-left: -150px;">                      
-                                <span style="margin-left: -141px;"><label>Restoran:</label> Tortilla cassa</span><br/>
-                                <span style="margin-left: -220px;"><label>Ocena: </label> 4.6</span><br/>
-                                <p class="comment-text">
-                                    Lorem ipsum dolor.Lorem ipsum dolor.Lorem ipsum dolor.Lorem ipsum dolor.Lorem ipsum dolor.
-                                </p>
-                            </div>       
-                        </div>     
+                        </div>       
                 
                         <div class="comment-panel">
                             <h4 style="margin-top: 10; margin-left: 90px;">peraperic</h4><br/>
@@ -157,21 +159,15 @@ Vue.component("comments-admin", {
     </div>
 </div>
 `
-	, 
+	,
+	mounted () {
+     axios
+          .get('/comments/getAllComments/')
+          .then(response => (this.comments = response.data))
+    },
 	methods : {
-		/*addToCart : function (product) {
-			axios
-			.post('rest/proizvodi/add', {"id":''+product.id, "count":parseInt(product.count)})
-			.then(response => (toast('Product ' + product.name + " added to the Shopping Cart")))
-		}*/
-		
 		logout : function (event) {
 			window.location.href = "#/";
 		}
-	},
-	mounted () {
-     /*   axios
-          .get('rest/proizvodi/getJustProducts')
-          .then(response => (this.products = response.data))*/
-    }
+	}
 });

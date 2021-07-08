@@ -1,1 +1,1 @@
-[{"id":0, "customer":"Mika", "restaurant":"KFC", "content":"Odlicna usluga", "grade": 5, "status":"REJECTED"}]
+[{"id":0, "customer":"Mika", "restaurant":"KFC", "content":"Odlicna usluga", "grade": 5, "status":"APPROVED"},{"id":1, "customer":"Mika", "restaurant":"KFC", "content":"Losa klopa necu vise nikada naruciti", "grade": 1, "status":"REJECTED"},{"id":2, "customer":"Mika", "restaurant":"KFC", "content":"Nije losa klopa, ali skupa", "grade": 3, "status":"PENDDING"}]

@@ -40,5 +40,16 @@ public class CommentController {
 				return "";
 			}
 		});
+		
+		get("/comments/getAllComments/", (req, res) -> {
+			res.type("application/json");
+			try {
+				ArrayList<Comment> comments = commentService.getAllComments();
+				return gson.toJson(comments);
+			} catch (Exception e) {
+				e.printStackTrace();
+				return "";
+			}
+		});
 	}
 }

@@ -37,4 +37,8 @@ public class CommentService {
 		
 		return restaurantComments;
 	}
+
+	public ArrayList<Comment> getAllComments() throws JsonSyntaxException, IOException {
+		return commentDAO.getAll();
+	}
 }

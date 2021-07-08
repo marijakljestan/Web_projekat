@@ -31,7 +31,7 @@ Vue.component("manager-orders", {
 	            <li><a v-on:click="showRestaurant"><span class="glyphicon glyphicon-tasks"></span> Moj restoran</a></li>
 	            <li><a v-on:click="showOrders"><span class="glyphicon glyphicon-cutlery"></span> Porudžbine</a></li>
 	            <li><a v-on:click="showCustomers"><span class="glyphicon glyphicon-globe"></span> Kupci</a></li>
-	            <li><a href="#/commentsManager"><span class="glyphicon glyphicon-comment"></span> Komentari</a></li>
+	            <li><a v-on:click="showRestaurantComments" ><span class="glyphicon glyphicon-comment"></span> Komentari</a></li>
           	 </ul>
 	          <ul class="nav navbar-nav navbar-right">
 	            <li><a href="#/"><span class="glyphicon glyphicon-log-out"></span> Odjavite se</a></li>
@@ -124,6 +124,15 @@ Vue.component("manager-orders", {
 	          .then(response => {
 		    		window.location.href = "#/customersManger?id="+ response.data.restaurant;
 		      })
+		},
+		
+		showRestaurantComments : function (product) {
+			axios
+			  .get('/manager/')
+	          .then(response => {
+		    		window.location.href = "#/commentsManager?id="+ response.data.restaurant;
+		      })
+			
 		},
 		
 		showOrders: function() {
