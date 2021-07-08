@@ -347,6 +347,18 @@ public class CustomerController {
 				return null;
 			}
 		});
+		
+		post("/customer/changeOrderStatusToWaitingForManager", (req,res) -> {
+			res.type("application/json");
+			try {
+				Order order = gson.fromJson(req.body(), Order.class);
+				customerService.changeOrderStatusToWaitingForManager(order);
+				return true;
+			} catch (Exception e) {
+				e.printStackTrace();
+				return null;
+			}
+		});
 	}
 
 	private Customer findCustomer(Request req) throws JsonSyntaxException, IOException {

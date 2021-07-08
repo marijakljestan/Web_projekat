@@ -255,11 +255,12 @@ public class CustomerService {
 		ArrayList<Order> waitingForDeliveryOrders = new ArrayList<Order>();
 		
 		for (Order order : customer.getOrders()) 
-			if(order.getStatus().equals(OrderStatus.WAITING_FOR_DELIVERY))
+			if(order.getStatus().equals(OrderStatus.WAITING_FOR_DELIVERY) || order.getStatus().equals(OrderStatus.WAITING_FOR_MANAGER))
 				waitingForDeliveryOrders.add(order);
 		
 		return waitingForDeliveryOrders;
 	}
+
 	
 	public ArrayList<Order> getAllInTransportOrders(Customer customer){
 		ArrayList<Order> inTransportOrders = new ArrayList<Order>();
@@ -413,6 +414,19 @@ public class CustomerService {
 			for(Order o : customer.getOrders()) {
 				if(o.getId().equals(order.getId())) {
 					o.setStatus(OrderStatus.DELIVERED);
+					updateCustomer(customer);
+					break;
+				}
+			}
+		}	
+	}
+
+	public void changeOrderStatusToWaitingForManager(Order order) throws JsonSyntaxException, IOException {
+		// TODO Auto-generated method stub
+		for(Customer customer: customerDAO.getAll()) {
+			for(Order o : customer.getOrders()) {
+				if(o.getId().equals(order.getId())) {
+					o.setStatus(OrderStatus.WAITING_FOR_MANAGER);
 					updateCustomer(customer);
 					break;
 				}

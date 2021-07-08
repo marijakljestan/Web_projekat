@@ -48,7 +48,7 @@ public class DelivererService {
 		return delivererDAO.getByID(username);
 	}
 
-	public void changeOrderStatus(Deliverer deliverer, Order order) throws JsonSyntaxException, IOException {
+	public void changeOrderStatusToDelivered(Deliverer deliverer, Order order) throws JsonSyntaxException, IOException {
 		// TODO Auto-generated method stub
 		for (Order o : deliverer.getOrders()) {
 			if(order.getId().equals(o.getId())) {
@@ -64,7 +64,7 @@ public class DelivererService {
 		
 		for(Customer customer : customerDAO.getAllNonDeleted()) {
 			for(Order order : customer.getOrders()) {
-				if(order.getStatus().equals(OrderStatus.WAITING_FOR_DELIVERY)) {
+				if(order.getStatus().equals(OrderStatus.WAITING_FOR_DELIVERY) || order.getStatus().equals(OrderStatus.WAITING_FOR_MANAGER)) {
 					waitingForDeliveryOrders.add(order);
 				}
 			}
@@ -207,5 +207,16 @@ public class DelivererService {
 				sortedOrders.sort((o1, o2)-> o2.getDateAndTime().compareTo( o1.getDateAndTime()));
 
 		return sortedOrders;
+	}
+
+	public void changeOrderStatusToWaitingForManager(Deliverer deliverer, Order order) throws JsonSyntaxException, IOException {
+		// TODO Auto-generated method stub
+		for (Order o : deliverer.getOrders()) {
+			if(order.getId().equals(o.getId())) {
+				o.setStatus(OrderStatus.WAITING_FOR_MANAGER);
+				break;
+			}
+		}
+		updateDeliverer(deliverer);
 	}
 }

@@ -80,7 +80,22 @@ public class DelivererController {
 				Session session = req.session(true);
 				User loggedUser = session.attribute("user");
 				Deliverer deliverer = delivererService.getDelivererByUsername(loggedUser.getUsername());
-				delivererService.changeOrderStatus(deliverer, order);
+				delivererService.changeOrderStatusToDelivered(deliverer, order);
+				return gson.toJson(deliverer.getOrders());
+			} catch (Exception e) {
+				e.printStackTrace();
+				return null;
+			}
+		});
+		
+		post("/deliverer/changeOrderStatusToWaitingForManager", (req,res) -> {
+			res.type("application/json");
+			try {
+				Order order = gson.fromJson(req.body(), Order.class);
+				Session session = req.session(true);
+				User loggedUser = session.attribute("user");
+				Deliverer deliverer = delivererService.getDelivererByUsername(loggedUser.getUsername());
+				delivererService.changeOrderStatusToWaitingForManager(deliverer, order);
 				return gson.toJson(deliverer.getOrders());
 			} catch (Exception e) {
 				e.printStackTrace();
