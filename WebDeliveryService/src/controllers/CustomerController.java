@@ -1,9 +1,9 @@
 package controllers;
 
+import static spark.Spark.delete;
 import static spark.Spark.get;
 import static spark.Spark.post;
 import static spark.Spark.put;
-import static spark.Spark.delete;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -12,12 +12,13 @@ import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 
 import beans.Customer;
-import beans.CustomerType;
 import beans.Order;
 import beans.Product;
 import beans.ShoppingCartItem;
 import beans.User;
 import dto.OrderDTO;
+import dto.OrderSearchDTO;
+import dto.SortDTO;
 import services.CustomerService;
 import spark.Request;
 import spark.Session;
@@ -180,6 +181,52 @@ public class CustomerController {
 				return gson.toJson(orders);
 			} catch (Exception e) {
 				e.printStackTrace();
+				return null;
+			}
+		});
+
+		delete("/customer/removeOrder", (req,res) -> {
+			res.type("application/json");
+			try {
+				Customer customer = findCustomer(req);
+				Order order = gson.fromJson(req.body(), Order.class);
+				customerService.removeOrder(customer, order);
+				return gson.toJson(customer.getOrders());
+			} catch (Exception e) {
+				e.printStackTrace();
+				return null;
+			}
+		});
+		
+		get("/customer/getUndeliveredOrders", (req, res) -> {
+			res.type("application/json");
+			try {
+				Customer customer = findCustomer(req);
+				return gson.toJson(customerService.getAllUndeliveredOrders(customer));
+			} catch (Exception e) {
+				e.printStackTrace();
+				return "";
+			}
+		});
+		
+		get("/customer/getProcessingOrders", (req, res) -> {
+			res.type("application/json");
+			try {
+				Customer customer = findCustomer(req);
+				return gson.toJson(customerService.getAllProcessingOrders(customer));
+			} catch (Exception e) {
+				e.printStackTrace();
+				return "";
+			}
+		});
+		
+		get("/customer/getInPreparationOrders", (req, res) -> {
+			res.type("application/json");
+			try {
+				Customer customer = findCustomer(req);
+				return gson.toJson(customerService.getAllInPreparationOrders(customer));
+			} catch (Exception e) {
+				e.printStackTrace();
 				return "";
 			}
 		});
@@ -193,6 +240,99 @@ public class CustomerController {
 				e.printStackTrace();
 				return "";
 			}
+		});
+
+		get("/customer/getWaitingForDeliveryOrders", (req, res) -> {
+			res.type("application/json");
+			try {
+				Customer customer = findCustomer(req);
+				return gson.toJson(customerService.getAllWaitingForDeliveryOrders(customer));
+			} catch (Exception e) {
+				e.printStackTrace();
+				return "";
+			}
+		});
+
+		
+		get("/customer/getInTransportOrders", (req, res) -> {
+			res.type("application/json");
+			try {
+				Customer customer = findCustomer(req);
+				return gson.toJson(customerService.getAllInTransportOrders(customer));
+			} catch (Exception e) {
+				e.printStackTrace();
+				return "";
+			}
+		});
+		
+		get("/customer/getDeliveredOrders", (req, res) -> {
+			res.type("application/json");
+			try {
+				Customer customer = findCustomer(req);
+				return gson.toJson(customerService.getAllDeliveredOrders(customer));
+			} catch (Exception e) {
+				e.printStackTrace();
+				return "";
+			}
+		});
+		
+		get("/customer/getCanceledOrders", (req, res) -> {
+			res.type("application/json");
+			try {
+				Customer customer = findCustomer(req);
+				return gson.toJson(customerService.getAllCanceledOrders(customer));
+			} catch (Exception e) {
+				e.printStackTrace();
+				return "";
+			}
+		});
+		
+		get("/customer/getOrdersByRestaurantType/:id", (req, res) -> {
+			res.type("application/json");
+			try {
+				Customer customer = findCustomer(req);
+				String restType =  req.params("id");
+				return gson.toJson(customerService.getAllOrdersFilteredByRestaurantType(customer, restType));
+			} catch (Exception e) {
+				e.printStackTrace();
+				return "";
+			}
+		});
+		
+		post("/customer/searchOrders", (req,res) -> {
+			res.type("application/json");
+			
+			try {
+				Session session = req.session(true);
+				User loggedUser = session.attribute("user");
+				Customer customer = customerService.getCustomerByUsername(loggedUser.getUsername());
+				
+				OrderSearchDTO orderParams = gson.fromJson(req.body(), OrderSearchDTO.class);
+				return gson.toJson(customerService.getSuitableOrders(customer, orderParams));
+				
+			} catch(Exception e) {
+				e.printStackTrace();
+				return null;
+			}
+			
+		});
+		
+		post("/customer/getSortedOrders", (req,res) -> {
+			res.type("application/json");
+			
+			try {
+				Session session = req.session(true);
+				User loggedUser = session.attribute("user");
+				Customer customer = customerService.getCustomerByUsername(loggedUser.getUsername());
+				
+				SortDTO sortParameters = gson.fromJson(req.body(), SortDTO.class);
+				return gson.toJson(customerService.getSortedOrders(customer, sortParameters));
+				
+			} catch(Exception e) {
+				e.printStackTrace();
+				return null;
+			}
+			
 		});
 	}
 

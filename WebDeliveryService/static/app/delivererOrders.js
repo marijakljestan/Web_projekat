@@ -1,4 +1,4 @@
-Vue.component("customer-orders", {
+Vue.component("deliverer-orders", {
 	data: function () {
 		    return {
 		      orders: null,
@@ -31,14 +31,12 @@ Vue.component("customer-orders", {
           </button>
         </div>
         <div class="collapse navbar-collapse" id="myNavbar">
-       		<ul class="nav navbar-nav">
-                <li class="active"><a href="#/customer"><span class="glyphicon glyphicon-home"></span> Početna</a></li>
-                <li><a href="#/customerProfile"><span class="glyphicon glyphicon-user"></span> Moj Profil</a></li>
-                <li><a href="#/ordersCustomer"><span class="glyphicon glyphicon-cutlery"></span> Moje porudžbine</a></li>
-                <li><a href="#/customerComments"><span class="glyphicon glyphicon-comment"></span> Komentari</a></li>   
+       		  <ul class="nav navbar-nav">
+                <li class="active"><a href="#/deliverer"><span class="glyphicon glyphicon-home"></span> Početna</a></li>
+                <li><a href="#/delivererProfile"><span class="glyphicon glyphicon-user"></span> Moj Profil</a></li>
+                <li><a href="#/delivererOrders"><span class="glyphicon glyphicon-cutlery"></span> Porudžbine</a></li>
               </ul>
               <ul class="nav navbar-nav navbar-right">
-                <li><a href="#/shoppingCart"><span class="glyphicon glyphicon-shopping-cart"></span> Korpa</a></li>
             	<li><a href="#/"><span class="glyphicon glyphicon-log-out"></span> Odjavite se</a></li>
               </ul>
         </div>
@@ -67,10 +65,6 @@ Vue.component("customer-orders", {
             <input type="checkbox" @change="showUndeliveredOrders($event)" style="position: relative; left: -10px;">
            	<label style="color: darkgrey; position: relative; left: 9px;"> NEDOSTAVLJENE </label><br/><br/>
             
-            <input type="checkbox" @change="showInProcessingOrders($event)" style="position: relative; left: -42px;" >
-            <label style="color: darkgrey; position: relative; left: -22px;"> OBRADA</label><br/>
-            <input type="checkbox" @change="showInPreparationOrders($event)" style="position: relative; left: -31px;">
-            <label style="color: darkgrey; position: relative; left: -14px;"> U PRIPREMI</label><br/>
             <input type="checkbox" @change="showWaitingForTransportOrders($event)" style="position: relative; left: 0px;">
             <label style="color: darkgrey; position: relative; left: 15px;"> CEKA DOSTAVLJACA</label><br/>
             <input type="checkbox" @change="showInTransportOrders($event)" style="position: relative; left: -16px;">
@@ -113,7 +107,7 @@ Vue.component("customer-orders", {
             <div class="orders-group">
 
                 <div class="restaurant-info-orders"  v-for="order in orders">
-                	<span v-if="!(order.status != 'IN_PREPARATION')" v-on:click="removeOrder(order)" style="position:relative; top:5%; transform: rotate(45deg);" class="cancelOrderBtn">x</span>
+                	<span v-if="(order.status == 'IN_TRANSPORT')" v-on:click="changeOrderStatusToDelivered(order)" style="position:relative; top:5%"  class="cancelOrderBtn">&check;</span>
                     <h4 style="position: relative; left: -35%; top: 2%;">{{order.status}}</h4>
                     <img src="https://promenadanovisad.rs/wp-content/uploads/2018/10/TortillaCasa-logo.jpg" alt="" class="restaurant-logo-order">
                     <h1>{{order.restaurant}}</h1> 
@@ -143,7 +137,7 @@ Vue.component("customer-orders", {
 	,
 	mounted () {
 	    axios
-	     	.get('/customer/getAllOrders')
+	     	.get('/deliverer/getAllOrders')
 	        .then(response => {
 			if (response.data != null) {
 				this.orders = response.data;
@@ -188,7 +182,7 @@ Vue.component("customer-orders", {
     			}
     			
     			axios 
-		    		.post('/customer/getSortedOrders', JSON.stringify(sortParameters))
+		    		.post('/deliverer/getSortedOrders', JSON.stringify(sortParameters))
 		    		.then(response => {
 		    		   this.orders = response.data;
 		    	})
@@ -200,43 +194,23 @@ Vue.component("customer-orders", {
 		
 		filterByRestaurantType(event) {
             axios
-	          .get('/customer/getOrdersByRestaurantType/' + this.filterType)
+	          .get('/deliverer/getOrdersByRestaurantType/' + this.filterType)
 	          .then(response => (this.orders = response.data))
         },
 		
 		showUndeliveredOrders : function (event) {
 			axios
-          		.get('/customer/getUndeliveredOrders')
+          		.get('/deliverer/getUndeliveredOrders')
           		.then(response => {
 					if (response.data != null) {
 						this.orders = response.data;
 					}
 				});
 		},
-		
-		showInProcessingOrders : function (event) {
-			axios
-          		.get('/customer/getProcessingOrders')
-          		.then(response => {
-					if (response.data != null) {
-						this.orders = response.data;
-					}
-				});
-		},
-		
-		showInPreparationOrders: function (event) {
-			axios
-          		.get('/customer/getInPreparationOrders')
-          		.then(response => {
-					if (response.data != null) {
-						this.orders = response.data;
-					}
-				});
-		},
-		
+			
 		showInTransportOrders: function (event) {
 			axios
-          		.get('/customer/getInTransportOrders')
+          		.get('/deliverer/getInTransportOrders')
           		.then(response => {
 					if (response.data != null) {
 						this.orders = response.data;
@@ -246,7 +220,7 @@ Vue.component("customer-orders", {
 		
 		showDeliveredOrders: function (event) {
 			axios
-          		.get('/customer/getDeliveredOrders')
+          		.get('/deliverer/getDeliveredOrders')
           		.then(response => {
 					if (response.data != null) {
 						this.orders = response.data;
@@ -256,7 +230,7 @@ Vue.component("customer-orders", {
 		
 		showWaitingForTransportOrders: function (event) {
 			axios
-          		.get('/customer/getWaitingForDeliveryOrders')
+          		.get('/deliverer/getWaitingForDeliveryOrders')
           		.then(response => {
 					if (response.data != null) {
 						this.orders = response.data;
@@ -264,19 +238,11 @@ Vue.component("customer-orders", {
 				});
 		},
 		
-		showCanceledOrders: function (event) {
-			axios
-          		.get('/customer/getCanceledOrders')
-          		.then(response => {
-					if (response.data != null) {
-						this.orders = response.data;
-					}
-				});
-		},
 		
-		removeOrder : function (order) {
+		changeOrderStatusToDelivered : function (order) {
+			//alert(order.status + ' ' + order.id)
 			axios
-			.delete('/customer/removeOrder', { data: order })
+			.post('/deliverer/changeOrderStatusToDelivered', JSON.stringify(order))
 			.then(response => {
 				if (response.data != null) {
 					this.orders = response.data;
@@ -306,7 +272,7 @@ Vue.component("customer-orders", {
     			}
     			
     			axios 
-		    		.post('/customer/searchOrders', JSON.stringify(searchParameters))
+		    		.post('/deliverer/searchOrders', JSON.stringify(searchParameters))
 		    		.then(response => {
 		    		   this.orders = response.data;
 		    	})

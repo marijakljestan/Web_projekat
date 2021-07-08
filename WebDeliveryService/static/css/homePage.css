@@ -188,6 +188,12 @@
       top: 38%;
       left: 20%;
     }
+    
+      .search-orders{
+      position: absolute;
+      top: 38%;
+      left: 10%;
+    }
 
     .search-input{
       background-color: cornsilk;
