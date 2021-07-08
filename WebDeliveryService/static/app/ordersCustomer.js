@@ -49,16 +49,22 @@ Vue.component("customer-orders", {
     <div class="container-fluid text-center">    
         <div class="row content">
 
-          <div class="col-sm-2 sidenav" style="margin-left: -38px; position: relative; top: 100px; align-items: flex-start">
-            <input type="checkbox" style="position: relative; left: -42px;" >
+          <div class="col-sm-2 sidenav" style="background-color: cornsilk; margin-left: -38px; position: relative; top: 100px; align-items: flex-start">
+            <label style="color: darkgrey; position: relative; left: -22px;">FILTERI</label><br/>
+            <hr/>
+            
+            <input type="checkbox" @change="showUndeliveredOrders($event)" style="position: relative; left: -10px;">
+           	<label style="color: darkgrey; position: relative; left: 11px;"> NEDOSTAVLJENE </label><br/><br/>
+            
+            <input type="checkbox" @change="showInProcessingOrders($event)" style="position: relative; left: -42px;" >
             <label style="color: darkgrey; position: relative; left: -22px;"> OBRADA</label><br/>
-            <input type="checkbox" style="position: relative; left: -33px;">
+            <input type="checkbox" @change="showInPreparationOrders($event)" style="position: relative; left: -31px;">
             <label style="color: darkgrey; position: relative; left: -14px;"> U PRIPREMI</label><br/>
-            <input type="checkbox" style="position: relative; left: -1px;">
+            <input type="checkbox" @change="showWaitingForTransportOrders($event)" style="position: relative; left: 0px;">
             <label style="color: darkgrey; position: relative; left: 15px;"> CEKA DOSTAVLJACA</label><br/>
-            <input type="checkbox" style="position: relative; left: -18px;">
+            <input type="checkbox" @change="showInTransportOrders($event)" style="position: relative; left: -16px;">
             <label style="color: darkgrey; position: relative; left: -1px;"> U TRANSPORTU</label><br/>
-            <input type="checkbox" style="position: relative; left: -22px;">
+            <input type="checkbox" @change="showDeliveredOrders($event)" style="position: relative; left: -21px;">
             <label style="color: darkgrey; position: relative; left: -3px;"> DOSTAVLJENA</label><br/>
 
             <button class="change-status-button" style="position: relative;  top:70px">CEKA DOSTAVLJACA</button>
@@ -146,9 +152,69 @@ Vue.component("customer-orders", {
 			window.location.href = "#/restaurantCustomer?id=" + restaurant.name;
 		},
 		
-		showOnlyOpenRestaurants : function (event) {
+		showUndeliveredOrders : function (event) {
 			axios
-          		.get('/restaurants/getAllOpenedRestaurants')
+          		.get('/customer/getUndeliveredOrders')
+          		.then(response => {
+					if (response.data != null) {
+						this.orders = response.data;
+					}
+				});
+		},
+		
+		showInProcessingOrders : function (event) {
+			axios
+          		.get('/customer/getProcessingOrders')
+          		.then(response => {
+					if (response.data != null) {
+						this.orders = response.data;
+					}
+				});
+		},
+		
+		showInPreparationOrders: function (event) {
+			axios
+          		.get('/customer/getInPreparationOrders')
+          		.then(response => {
+					if (response.data != null) {
+						this.orders = response.data;
+					}
+				});
+		},
+		
+		showInTransportOrders: function (event) {
+			axios
+          		.get('/customer/getInTransportOrders')
+          		.then(response => {
+					if (response.data != null) {
+						this.orders = response.data;
+					}
+				});
+		},
+		
+		showDeliveredOrders: function (event) {
+			axios
+          		.get('/customer/getDeliveredOrders')
+          		.then(response => {
+					if (response.data != null) {
+						this.orders = response.data;
+					}
+				});
+		},
+		
+		showWaitingForTransportOrders: function (event) {
+			axios
+          		.get('/customer/getWaitingForDeliveryOrders')
+          		.then(response => {
+					if (response.data != null) {
+						this.orders = response.data;
+					}
+				});
+		},
+		
+		showCanceledOrders: function (event) {
+			axios
+          		.get('/customer/getCanceledOrders')
           		.then(response => {
 					if (response.data != null) {
 						this.orders = response.data;

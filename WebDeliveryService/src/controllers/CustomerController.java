@@ -184,6 +184,83 @@ public class CustomerController {
 				return null;
 			}
 		});
+		
+		get("/customer/getUndeliveredOrders", (req, res) -> {
+			res.type("application/json");
+			try {
+				Customer customer = findCustomer(req);
+				return gson.toJson(customerService.getAllUndeliveredOrders(customer));
+			} catch (Exception e) {
+				e.printStackTrace();
+				return "";
+			}
+		});
+		
+		get("/customer/getProcessingOrders", (req, res) -> {
+			res.type("application/json");
+			try {
+				Customer customer = findCustomer(req);
+				return gson.toJson(customerService.getAllProcessingOrders(customer));
+			} catch (Exception e) {
+				e.printStackTrace();
+				return "";
+			}
+		});
+		
+		get("/customer/getInPreparationOrders", (req, res) -> {
+			res.type("application/json");
+			try {
+				Customer customer = findCustomer(req);
+				return gson.toJson(customerService.getAllInPreparationOrders(customer));
+			} catch (Exception e) {
+				e.printStackTrace();
+				return "";
+			}
+		});
+		
+		get("/customer/getWaitingForDeliveryOrders", (req, res) -> {
+			res.type("application/json");
+			try {
+				Customer customer = findCustomer(req);
+				return gson.toJson(customerService.getAllWaitingForDeliveryOrders(customer));
+			} catch (Exception e) {
+				e.printStackTrace();
+				return "";
+			}
+		});
+		
+		get("/customer/getInTransportOrders", (req, res) -> {
+			res.type("application/json");
+			try {
+				Customer customer = findCustomer(req);
+				return gson.toJson(customerService.getAllInTransportOrders(customer));
+			} catch (Exception e) {
+				e.printStackTrace();
+				return "";
+			}
+		});
+		
+		get("/customer/getDeliveredOrders", (req, res) -> {
+			res.type("application/json");
+			try {
+				Customer customer = findCustomer(req);
+				return gson.toJson(customerService.getAllDeliveredOrders(customer));
+			} catch (Exception e) {
+				e.printStackTrace();
+				return "";
+			}
+		});
+		
+		get("/customer/getCanceledOrders", (req, res) -> {
+			res.type("application/json");
+			try {
+				Customer customer = findCustomer(req);
+				return gson.toJson(customerService.getAllCanceledOrders(customer));
+			} catch (Exception e) {
+				e.printStackTrace();
+				return "";
+			}
+		});
 	}
 
 	private Customer findCustomer(Request req) throws JsonSyntaxException, IOException {

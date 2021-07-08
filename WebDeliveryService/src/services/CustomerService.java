@@ -8,6 +8,7 @@ import com.google.gson.JsonSyntaxException;
 import beans.Customer;
 import beans.CustomerType;
 import beans.Order;
+import beans.OrderStatus;
 import beans.Product;
 import beans.ShoppingCartItem;
 import dao.CustomerDAO;
@@ -161,7 +162,7 @@ public class CustomerService {
 		
 		for (Order o : newOrders) {
 			if(o.getId().equals(order.getId())) {
-				newOrders.remove(o);
+				o.setStatus(OrderStatus.CANCELED);
 				break;
 			}
 		}
@@ -181,5 +182,75 @@ public class CustomerService {
 		
 		customer.setOrders(newOrders);
 		updateCustomer(customer);
+	}
+	
+	public ArrayList<Order> getAllUndeliveredOrders(Customer customer){
+		ArrayList<Order> undeliveredOrders = new ArrayList<Order>();
+		
+		for (Order order : customer.getOrders()) 
+			if(!order.getStatus().equals(OrderStatus.DELIVERED))
+				undeliveredOrders.add(order);
+		
+		return undeliveredOrders;
+	}
+	
+	public ArrayList<Order> getAllProcessingOrders(Customer customer){
+		ArrayList<Order> processingOrders = new ArrayList<Order>();
+		
+		for (Order order : customer.getOrders()) 
+			if(order.getStatus().equals(OrderStatus.PROCESSING))
+				processingOrders.add(order);
+		
+		return processingOrders;
+	}
+	
+	public ArrayList<Order> getAllInPreparationOrders(Customer customer){
+		ArrayList<Order> inPreparationOrders = new ArrayList<Order>();
+		
+		for (Order order : customer.getOrders()) 
+			if(order.getStatus().equals(OrderStatus.IN_PREPARATION))
+				inPreparationOrders.add(order);
+		
+		return inPreparationOrders;
+	}
+	
+	public ArrayList<Order> getAllWaitingForDeliveryOrders(Customer customer){
+		ArrayList<Order> waitingForDeliveryOrders = new ArrayList<Order>();
+		
+		for (Order order : customer.getOrders()) 
+			if(order.getStatus().equals(OrderStatus.WAITING_FOR_DELIVERY))
+				waitingForDeliveryOrders.add(order);
+		
+		return waitingForDeliveryOrders;
+	}
+	
+	public ArrayList<Order> getAllInTransportOrders(Customer customer){
+		ArrayList<Order> inTransportOrders = new ArrayList<Order>();
+		
+		for (Order order : customer.getOrders()) 
+			if(order.getStatus().equals(OrderStatus.IN_TRANSPORT))
+				inTransportOrders.add(order);
+		
+		return inTransportOrders;
+	}
+	
+	public ArrayList<Order> getAllDeliveredOrders(Customer customer){
+		ArrayList<Order> deliveredOrders = new ArrayList<Order>();
+		
+		for (Order order : customer.getOrders()) 
+			if(order.getStatus().equals(OrderStatus.DELIVERED))
+				deliveredOrders.add(order);
+		
+		return deliveredOrders;
+	}
+	
+	public ArrayList<Order> getAllCanceledOrders(Customer customer){
+		ArrayList<Order> canceledOrders = new ArrayList<Order>();
+		
+		for (Order order : customer.getOrders()) 
+			if(order.getStatus().equals(OrderStatus.CANCELED))
+				canceledOrders.add(order);
+		
+		return canceledOrders;
 	}
 }
