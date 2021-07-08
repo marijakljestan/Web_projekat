@@ -12,6 +12,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 
 import beans.Customer;
+import beans.Deliverer;
 import beans.Order;
 import beans.Product;
 import beans.ShoppingCartItem;
@@ -333,6 +334,18 @@ public class CustomerController {
 				return null;
 			}
 			
+		});
+		
+		post("/customer/changeOrderStatusToDelivered", (req,res) -> {
+			res.type("application/json");
+			try {
+				Order order = gson.fromJson(req.body(), Order.class);
+				customerService.changeOrderStatusToDelivered(order);
+				return true;
+			} catch (Exception e) {
+				e.printStackTrace();
+				return null;
+			}
 		});
 	}
 

@@ -192,6 +192,7 @@ public class CustomerService {
 			}
 		}
 		return restaurantCustomers;
+	}
 
 	public void removeOrder(Customer customer, Order order) throws JsonSyntaxException, IOException {
 		// TODO Auto-generated method stub
@@ -405,5 +406,18 @@ public class CustomerService {
 				sortedOrders.sort((o1, o2)-> o2.getDateAndTime().compareTo( o1.getDateAndTime()));
 
 		return sortedOrders;
+	}
+
+	public void changeOrderStatusToDelivered(Order order) throws JsonSyntaxException, IOException {
+		
+		for(Customer customer: customerDAO.getAll()) {
+			for(Order o : customer.getOrders()) {
+				if(o.getId().equals(order.getId())) {
+					o.setStatus(OrderStatus.DELIVERED);
+					updateCustomer(customer);
+					break;
+				}
+			}
+		}	
 	}
 }

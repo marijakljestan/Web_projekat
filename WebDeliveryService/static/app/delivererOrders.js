@@ -246,8 +246,13 @@ Vue.component("deliverer-orders", {
 			.then(response => {
 				if (response.data != null) {
 					this.orders = response.data;
+					axios
+						.post('/customer/changeOrderStatusToDelivered', JSON.stringify(order))
+						.then();
 				}
 			});
+			
+			
 		},
 		
 		searchOrders : function (event) {
