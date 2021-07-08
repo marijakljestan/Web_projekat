@@ -37,11 +37,9 @@ public class DelivererService {
 
 	public void changeOrderStatus(Deliverer deliverer, Order order) throws JsonSyntaxException, IOException {
 		// TODO Auto-generated method stub
-		System.out.println(order.getStatus() + " " + order.getId());
 		for (Order o : deliverer.getOrders()) {
 			if(order.getId().equals(o.getId())) {
 				o.setStatus(OrderStatus.DELIVERED);
-				System.out.println(o.getStatus());
 				break;
 			}
 		}

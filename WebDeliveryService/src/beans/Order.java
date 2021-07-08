@@ -28,7 +28,7 @@ public class Order implements Serializable{
 		this.products = new ArrayList<Product>();
 		this.restaurant = "";
 	}
-   /*
+
 	public Order(String id, double price, String customer, ArrayList<Product> products,
 				String restaurant)  {
 		super();
@@ -40,8 +40,7 @@ public class Order implements Serializable{
 		this.products = products;
 		this.restaurant = restaurant;
 	}
-	
-	*/
+		
 	public Order(String id, String dateAndTime, double price, String customer, OrderStatus status,
 				ArrayList<Product> products, String restaurant) {
 		super();

@@ -70,11 +70,10 @@ public class DelivererController {
 			}
 		});
 		
-		put("/deliverer/changeOrderStatusToDelivered", (req,res) -> {
+		post("/deliverer/changeOrderStatusToDelivered", (req,res) -> {
 			res.type("application/json");
 			try {
 				Order order = gson.fromJson(req.body(), Order.class);
-				System.out.println("***" + order.getId() + " " + order.getStatus());
 				Session session = req.session(true);
 				User loggedUser = session.attribute("user");
 				Deliverer deliverer = delivererService.getDelivererByUsername(loggedUser.getUsername());

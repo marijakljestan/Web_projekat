@@ -242,7 +242,7 @@ Vue.component("deliverer-orders", {
 		changeOrderStatusToDelivered : function (order) {
 			//alert(order.status + ' ' + order.id)
 			axios
-			.put('/deliverer/changeOrderStatusToDelivered', { data: order })
+			.post('/deliverer/changeOrderStatusToDelivered', JSON.stringify(order))
 			.then(response => {
 				if (response.data != null) {
 					this.orders = response.data;
