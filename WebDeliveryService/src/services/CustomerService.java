@@ -107,7 +107,7 @@ public class CustomerService {
 			orderPrice *= 0.97; 
 		
 		String restaurant = products.get(0).getRestaurantName();
-		return new Order(generateOrderID(), orderPrice, customer.getUsername(), products, restaurant);
+		return new Order(generateOrderID(), new SimpleDateFormat("yyyy-MM-dd").format(new Date()), orderPrice, customer.getUsername(), OrderStatus.PROCESSING, products, restaurant);
 	}
 	
 	public Customer editCustomerOrders (Customer customer, Order newOrder) throws JsonSyntaxException, IOException {
