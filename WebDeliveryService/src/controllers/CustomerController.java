@@ -183,6 +183,17 @@ public class CustomerController {
 				return "";
 			}
 		});
+		
+		get("/customer/getRestaurantCustomers/:id", (req, res) -> {
+			res.type("application/json");
+			try {
+				ArrayList<Customer> customers = customerService.getRestaurantCustomers(req.params("id"));
+				return gson.toJson(customers);
+			} catch (Exception e) {
+				e.printStackTrace();
+				return "";
+			}
+		});
 	}
 
 	private Customer findCustomer(Request req) throws JsonSyntaxException, IOException {

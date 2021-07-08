@@ -30,7 +30,7 @@ Vue.component("manager-orders", {
 	            <li><a href="#/managerProfile"><span class="glyphicon glyphicon-user"></span> Moj Profil</a></li>
 	            <li><a v-on:click="showRestaurant"><span class="glyphicon glyphicon-tasks"></span> Moj restoran</a></li>
 	            <li><a v-on:click="showOrders"><span class="glyphicon glyphicon-cutlery"></span> Porudžbine</a></li>
-	            <li><a><span class="glyphicon glyphicon-globe"></span> Kupci</a></li>
+	            <li><a v-on:click="showCustomers"><span class="glyphicon glyphicon-globe"></span> Kupci</a></li>
 	            <li><a href="#/commentsManager"><span class="glyphicon glyphicon-comment"></span> Komentari</a></li>
           	 </ul>
 	          <ul class="nav navbar-nav navbar-right">
@@ -63,7 +63,7 @@ Vue.component("manager-orders", {
 
             <div class="orders-group">
 
-                <div class="restaurant-info-orders"  v-for="order in orders">
+                <div v-for="order in orders" class="restaurant-info-orders">
                     <h4 style="position: relative; left: -35%; top: 2%;">{{order.status}}</h4>
                     <img v-bind:src= "restaurant.logo" alt="" class="restaurant-logo">
                     <h1>{{order.restaurant}}</h1> 
@@ -101,11 +101,28 @@ Vue.component("manager-orders", {
 		
     },
 	methods : {
+		
 		showRestaurant : function() {
 			axios
 	          .get('/manager/')
 	          .then(response => {
 		    		window.location.href = "#/restaurantManager?id="+ response.data.restaurant;
+		      })
+		},
+		
+		showOrders: function() {
+			axios
+	          .get('/manager/')
+	          .then(response => {
+		    		window.location.href = "#/ordersManager?id="+ response.data.restaurant;
+		      })
+		},
+		
+		showCustomers: function() {
+			axios
+	          .get('/manager/')
+	          .then(response => {
+		    		window.location.href = "#/customersManger?id="+ response.data.restaurant;
 		      })
 		},
 		

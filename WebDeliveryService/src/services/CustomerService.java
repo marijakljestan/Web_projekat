@@ -166,4 +166,17 @@ public class CustomerService {
 		}
 		return restaurantOrders;
 	}
+
+	public ArrayList<Customer> getRestaurantCustomers(String restaurant) throws JsonSyntaxException, IOException {
+		ArrayList<Customer> restaurantCustomers = new ArrayList<Customer>();
+		for(Customer customer : customerDAO.getAll()) {
+			for(Order order : customer.getOrders()) {
+				if(order.getRestaurant().equals(restaurant)) {
+					restaurantCustomers.add(customer);
+					break;
+				}
+			}
+		}
+		return restaurantCustomers;
+	}
 }

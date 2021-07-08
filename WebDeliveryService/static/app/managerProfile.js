@@ -31,7 +31,7 @@ Vue.component("manager-profile", {
             <li><a href="#/managerProfile"><span class="glyphicon glyphicon-user"></span> Moj Profil</a></li>
             <li><a v-on:click="showRestaurant"><span class="glyphicon glyphicon-tasks"></span> Moj restoran</a></li>
 	        <li><a v-on:click="showOrders"><span class="glyphicon glyphicon-cutlery"></span> Porudžbine</a></li>
-	        <li><a href="#/customersManger"><span class="glyphicon glyphicon-globe"></span> Kupci</a></li>
+	        <li><a v-on:click="showCustomers"><span class="glyphicon glyphicon-globe"></span> Kupci</a></li>
             <li><a href="#/commentsManager"><span class="glyphicon glyphicon-comment"></span> Komentari</a></li>
       
           </ul>
@@ -91,6 +91,7 @@ Vue.component("manager-profile", {
 	      .then(response => (this.restaurant = response.data.restaurant))
     }, 
 	methods : {
+	
 		showRestaurant : function() {
 			axios
 	          .get('/manager/')
@@ -104,6 +105,14 @@ Vue.component("manager-profile", {
 	          .get('/manager/')
 	          .then(response => {
 		    		window.location.href = "#/ordersManager?id="+ response.data.restaurant;
+		      })
+		},
+		
+		showCustomers: function() {
+			axios
+	          .get('/manager/')
+	          .then(response => {
+		    		window.location.href = "#/customersManger?id="+ response.data.restaurant;
 		      })
 		},
 				
