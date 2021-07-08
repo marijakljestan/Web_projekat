@@ -8,7 +8,8 @@ Vue.component("customer-orders", {
 		      searchType: '',
 		      searchGrade: '',
 		      sortMode : '',
-		      sortParameter : ''
+		      sortParameter : '',
+		      filterType: ''
 		    }
 	},
 	template: ` 
@@ -49,12 +50,12 @@ Vue.component("customer-orders", {
     <div class="container-fluid text-center">    
         <div class="row content">
 
-          <div class="col-sm-2 sidenav" style="background-color: cornsilk; margin-left: -38px; position: relative; top: 100px; align-items: flex-start">
+          <div class="col-sm-2 sidenav" style="background-color: rgb(220, 235, 240); border-radius:25px; margin-left: -38px; position: relative; top: 100px; align-items: flex-start">
             <label style="color: darkgrey; position: relative; left: -22px;">FILTERI</label><br/>
             <hr/>
-            
+            <label style="color: darkgrey; position: relative; left: 7px;">STATUS PORDUZBINE</label><br/><br/>
             <input type="checkbox" @change="showUndeliveredOrders($event)" style="position: relative; left: -10px;">
-           	<label style="color: darkgrey; position: relative; left: 11px;"> NEDOSTAVLJENE </label><br/><br/>
+           	<label style="color: darkgrey; position: relative; left: 9px;"> NEDOSTAVLJENE </label><br/><br/>
             
             <input type="checkbox" @change="showInProcessingOrders($event)" style="position: relative; left: -42px;" >
             <label style="color: darkgrey; position: relative; left: -22px;"> OBRADA</label><br/>
@@ -65,7 +66,17 @@ Vue.component("customer-orders", {
             <input type="checkbox" @change="showInTransportOrders($event)" style="position: relative; left: -16px;">
             <label style="color: darkgrey; position: relative; left: -1px;"> U TRANSPORTU</label><br/>
             <input type="checkbox" @change="showDeliveredOrders($event)" style="position: relative; left: -21px;">
-            <label style="color: darkgrey; position: relative; left: -3px;"> DOSTAVLJENA</label><br/>
+            <label style="color: darkgrey; position: relative; left: -3px;"> DOSTAVLJENA</label><br/><br/>
+            
+            <select v-model="filterType" @change="filterByRestaurantType($event)" class="search-input" style="position : relative; width:195px; left:15px">
+	        	<option disabled selected>Izaberite tip restorana</option>
+				<option v-for="type in restaurantTypes" v-bind:value="type">
+					 {{ type }} 
+				</option>
+			</select>
+			<br/><br/>
+			
+			<button class="search-submit" style="position : relative; left:75px; top:5px; color:#fff;"> Filtriraj </button>
 
             <button class="change-status-button" style="position: relative;  top:70px">CEKA DOSTAVLJACA</button>
           </div>
@@ -112,6 +123,14 @@ Vue.component("customer-orders", {
 			}
 		});
 		
+		axios
+          	.get('/restaurants/getAllTypes')
+          	.then(response => {
+			if (response.data != null) {
+				this.restaurantTypes= response.data;
+			}
+		});
+		
     }, 
 	methods : {
 		setAscendingSortMode : function (event) {
@@ -151,6 +170,12 @@ Vue.component("customer-orders", {
 		showRestaurant : function (restaurant) {
 			window.location.href = "#/restaurantCustomer?id=" + restaurant.name;
 		},
+		
+		filterByRestaurantType(event) {
+            axios
+	          .get('/customer/getOrdersByRestaurantType/' + this.filterType)
+	          .then(response => (this.orders = response.data))
+        },
 		
 		showUndeliveredOrders : function (event) {
 			axios

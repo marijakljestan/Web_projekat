@@ -10,17 +10,21 @@ import beans.CustomerType;
 import beans.Order;
 import beans.OrderStatus;
 import beans.Product;
+import beans.Restaurant;
 import beans.ShoppingCartItem;
 import dao.CustomerDAO;
+import dao.RestaurantDAO;
 import dto.OrderDTO;
 
 public class CustomerService {
 	
 	private CustomerDAO customerDAO;
+	private RestaurantDAO restaurantDAO;
 
 	public CustomerService(CustomerDAO customerDAO) {
 		super();
 		this.customerDAO = customerDAO;
+		this.restaurantDAO = new RestaurantDAO("./files/restaurants.json");
 	}
 	
 	public ArrayList<Customer> getAllCustomers() throws JsonSyntaxException, IOException{
@@ -252,5 +256,19 @@ public class CustomerService {
 				canceledOrders.add(order);
 		
 		return canceledOrders;
+	}
+
+	public ArrayList<Order> getAllOrdersFilteredByRestaurantType(Customer customer, String restType) throws JsonSyntaxException, IOException {
+		// TODO Auto-generated method stub
+		ArrayList<Order> allOrders = customer.getOrders();
+		ArrayList<Order> filteredOrders = new ArrayList<Order>();
+		
+		for (Order order : allOrders) {
+			Restaurant orderRestaurant = restaurantDAO.getByID(order.getRestaurant());
+			if(orderRestaurant.getType().equals(restType))
+				filteredOrders.add(order);
+		}
+		
+		return filteredOrders;
 	}
 }
