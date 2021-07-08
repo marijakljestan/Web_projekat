@@ -1,7 +1,13 @@
 package services;
 
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 
 import com.google.gson.JsonSyntaxException;
 
@@ -273,7 +279,7 @@ public class CustomerService {
 		return filteredOrders;
 	}
 	
-	public ArrayList<Order> getSuitableOrders (Customer customer, OrderSearchDTO searchParameters) throws JsonSyntaxException, IOException {
+	public ArrayList<Order> getSuitableOrders (Customer customer, OrderSearchDTO searchParameters) throws JsonSyntaxException, IOException, ParseException {
 		// TODO Auto-generated method stub
 		ArrayList<Order> allOrders = customer.getOrders();
 		ArrayList<Order> suitableOrders = new ArrayList<Order>();
@@ -309,6 +315,40 @@ public class CustomerService {
 			for (Order order : allOrders) 
 				if(order.getPrice() < maxPrice) 
 					suitableOrders.add(order);
+			
+			allOrders.clear();
+			allOrders.addAll(suitableOrders);
+		}
+		
+		if(!searchParameters.getToDate().trim().isEmpty()) {
+			
+			Date dateTo=new SimpleDateFormat("yyyy-mm-dd").parse(searchParameters.getToDate()); 
+			Date dateOrder;
+			
+			suitableOrders.clear();
+			for (Order order : allOrders) {
+				dateOrder = new SimpleDateFormat("yyyy-mm-dd").parse(order.getDateAndTime());
+				if(dateOrder.before(dateTo)) {
+					suitableOrders.add(order);
+				}
+			}
+			
+			allOrders.clear();
+			allOrders.addAll(suitableOrders);
+		}
+		
+		if(!searchParameters.getFromDate().trim().isEmpty()) {
+			
+			Date dateFrom=new SimpleDateFormat("yyyy-mm-dd").parse(searchParameters.getFromDate()); 
+			Date dateOrder;
+			
+			suitableOrders.clear();
+			for (Order order : allOrders) {
+				dateOrder = new SimpleDateFormat("yyyy-mm-dd").parse(order.getDateAndTime());
+				if(dateOrder.after(dateFrom)) {
+					suitableOrders.add(order);
+				}
+			}
 			
 			allOrders.clear();
 			allOrders.addAll(suitableOrders);

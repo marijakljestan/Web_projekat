@@ -96,7 +96,7 @@ Vue.component("customer-orders", {
             <div class="orders-group">
 
                 <div class="restaurant-info-orders"  v-for="order in orders">
-                	<div v-on:click="removeOrder(order)" class="cancelOrderBtn">+</div>
+                	<span v-on:click="removeOrder(order)" style="position:relative; top:5%"  class="cancelOrderBtn">+</span>
                     <h4 style="position: relative; left: -35%; top: 2%;">{{order.status}}</h4>
                     <img src="https://promenadanovisad.rs/wp-content/uploads/2018/10/TortillaCasa-logo.jpg" alt="" class="restaurant-logo-order">
                     <h1>{{order.restaurant}}</h1> 
@@ -270,11 +270,15 @@ Vue.component("customer-orders", {
 		searchOrders : function (event) {
 				
 				let dateFrom = document.getElementById("date_from").value;
-       			let dFrom=new Date(dateFrom).toISOString().substr(0, 10);
+				let dFrom = '';
+				if(dateFrom)
+       				 dFrom=new Date(dateFrom).toISOString().substr(0, 10);
        			
        			let dateTo = document.getElementById("date_to").value;
-       			let dTo	=new Date(dateTo).toISOString().substr(0, 10);
-				
+       			let dTo = '';
+       			if(dateTo)
+       				 dTo = new Date(dateTo).toISOString().substr(0, 10);
+       		
 				
 				let searchParameters = {
 						restaurant : this.searchRestaurant,

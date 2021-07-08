@@ -1,13 +1,15 @@
 package beans;
 
 import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
 public class Order implements Serializable{
 
    private String id;
-   private Date dateAndTime;
+   private String dateAndTime;
    private double price;
    private String customer;
    private OrderStatus status;
@@ -15,10 +17,11 @@ public class Order implements Serializable{
    private ArrayList<Product> products;
    private String restaurant;
    
-   public Order() {
+   
+   public Order()  {
 		super();
 		this.id = "";
-		this.dateAndTime = new Date();
+		this.dateAndTime = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
 		this.price = 0;
 		this.customer = "";
 		this.status = OrderStatus.PROCESSING;
@@ -27,10 +30,10 @@ public class Order implements Serializable{
 	}
    
 	public Order(String id, double price, String customer, ArrayList<Product> products,
-				String restaurant) {
+				String restaurant)  {
 		super();
 		this.id = id;
-		this.dateAndTime = new Date();
+		this.dateAndTime = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
 		this.price = price;
 		this.customer = customer;
 		this.status = OrderStatus.PROCESSING;
@@ -44,10 +47,10 @@ public class Order implements Serializable{
 	public void setId(String id) {
 		this.id = id;
 	}
-	public Date getDateAndTime() {
+	public String getDateAndTime() {
 		return dateAndTime;
 	}
-	public void setDateAndTime(Date dateAndTime) {
+	public void setDateAndTime(String dateAndTime) {
 		this.dateAndTime = dateAndTime;
 	}
 	public double getPrice() {
