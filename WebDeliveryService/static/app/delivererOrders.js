@@ -58,19 +58,18 @@ Vue.component("deliverer-orders", {
     <div class="container-fluid text-center">    
         <div class="row content">
 
-          <div class="col-sm-2 sidenav" style="background-color: rgb(220, 235, 240); border-radius:25px; margin-left: -38px; position: relative; top: 100px; align-items: flex-start">
+          <div class="col-sm-2 sidenav" style="background-color: rgb(220, 235, 240); border-radius:25px; margin-left: -38px; position: relative; top: 25px; align-items: flex-start">
             <label style="color: darkgrey; position: relative; top: 15px; left: 1px;">FILTERI</label><br/>
             <hr/>
-            <label style="color: darkgrey; position: relative; left: 14px;">STATUS PORDUZBINE:</label><br/><br/>
-            <input type="checkbox" @change="showUndeliveredOrders($event)" style="position: relative; left: -10px;">
-           	<label style="color: darkgrey; position: relative; left: 9px;"> NEDOSTAVLJENE </label><br/><br/>
+            <label style="color: darkgrey; position: relative; left: 14px;">SVE PORDUŽBINE:</label><br/><br/>  
             
             <input type="checkbox" @change="showWaitingForTransportOrders($event)" style="position: relative; left: 0px;">
-            <label style="color: darkgrey; position: relative; left: 15px;"> CEKA DOSTAVLJACA</label><br/>
+            <label style="color: darkgrey; position: relative; left: 15px;"> ČEKA DOSTAVLJAČA</label><br/><br/>
+			<label style="color: darkgrey; position: relative; left: 14px;">MOJE PORDUŽBINE:</label><br/><br/>
             <input type="checkbox" @change="showInTransportOrders($event)" style="position: relative; left: -16px;">
             <label style="color: darkgrey; position: relative; left: -1px;"> U TRANSPORTU</label><br/>
-            <input type="checkbox" @change="showDeliveredOrders($event)" style="position: relative; left: -21px;">
-            <label style="color: darkgrey; position: relative; left: -3px;"> DOSTAVLJENA</label><br/><br/>
+            <input type="checkbox" @change="showDeliveredOrders($event)" style="position: relative; left: -22px;">
+            <label style="color: darkgrey; position: relative; left: -5px;"> DOSTAVLJENE</label><br/><br/>
             
              <label style="color: darkgrey; position: relative; top:20px; left: 17px;">TIP RESTORANA:</label><br/><br/>
             <select v-model="filterType" @change="filterByRestaurantType($event)" class="search-input" style="position : relative; width:195px; left:15px">
@@ -79,9 +78,8 @@ Vue.component("deliverer-orders", {
 					 {{ type }} 
 				</option>
 			</select>
-			<br/><br/>
-			
-			
+			<br/>
+					
 			<label style="color: darkgrey; position:relative; top:35px" > SORTIRANJE: </label><br/><br/>
 			<hr/>
 	        <input type="checkbox"  @change="setDescendingSortMode($event)">
@@ -98,8 +96,7 @@ Vue.component("deliverer-orders", {
 	        <label style="color: darkgrey;"> Datum </label><br/>
 	        
 	        <button class="search-submit" @click="sortOrders" style="position : relative; left:10px; top:10px;  color:#fff;"> Sortiraj </button><br/>
-
-            <button class="change-status-button" style="position: relative;  top:70px">CEKA DOSTAVLJACA</button>
+			<span></span>
           </div>
 
           <div class="col-lg-9" style="position: relative; left: 0%;"> 

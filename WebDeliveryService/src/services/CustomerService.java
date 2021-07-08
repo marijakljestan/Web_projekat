@@ -18,7 +18,6 @@ import beans.OrderStatus;
 import beans.Product;
 import beans.Restaurant;
 import beans.ShoppingCartItem;
-import beans.User;
 import dao.CustomerDAO;
 import dao.RestaurantDAO;
 import dto.OrderDTO;
