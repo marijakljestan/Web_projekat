@@ -15,6 +15,7 @@ import beans.ShoppingCartItem;
 import dao.CustomerDAO;
 import dao.RestaurantDAO;
 import dto.OrderDTO;
+import dto.OrderSearchDTO;
 
 public class CustomerService {
 	
@@ -270,5 +271,23 @@ public class CustomerService {
 		}
 		
 		return filteredOrders;
+	}
+	
+	public ArrayList<Order> getSuitableOrders (Customer customer, OrderSearchDTO searchParameters) throws JsonSyntaxException, IOException {
+		// TODO Auto-generated method stub
+		ArrayList<Order> allOrders = customer.getOrders();
+		ArrayList<Order> suitableOrders = new ArrayList<Order>();
+		
+		if(!searchParameters.getRestaurant().trim().isEmpty()) {
+			suitableOrders.clear();
+			for (Order order : allOrders) 
+				if(order.getRestaurant().toLowerCase().contains(searchParameters.getRestaurant().toLowerCase().trim()))
+					suitableOrders.add(order);
+				
+			allOrders.clear();
+			allOrders.addAll(suitableOrders);
+		}
+		
+		return suitableOrders;
 	}
 }

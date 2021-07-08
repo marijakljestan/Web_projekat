@@ -1,9 +1,9 @@
 package controllers;
 
+import static spark.Spark.delete;
 import static spark.Spark.get;
 import static spark.Spark.post;
 import static spark.Spark.put;
-import static spark.Spark.delete;
 
 import java.io.IOException;
 
@@ -11,12 +11,12 @@ import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 
 import beans.Customer;
-import beans.CustomerType;
 import beans.Order;
 import beans.Product;
 import beans.ShoppingCartItem;
 import beans.User;
 import dto.OrderDTO;
+import dto.OrderSearchDTO;
 import services.CustomerService;
 import spark.Request;
 import spark.Session;
@@ -272,6 +272,27 @@ public class CustomerController {
 				e.printStackTrace();
 				return "";
 			}
+		});
+		
+		post("/customer/searchOrders", (req,res) -> {
+			res.type("application/json");
+			
+			try {
+				Session session = req.session(true);
+				User loggedUser = session.attribute("user");
+				Customer customer = customerService.getCustomerByUsername(loggedUser.getUsername());
+				
+				OrderSearchDTO orderParams = gson.fromJson(req.body(), OrderSearchDTO.class);
+				//Order newOrder = customerService.createNewOrder(orderParams, customer);	
+				//customerService.editCustomerOrders(customer, newOrder);
+				
+				return gson.toJson(customerService.getSuitableOrders(customer, orderParams));
+				
+			} catch(Exception e) {
+				e.printStackTrace();
+				return null;
+			}
+			
 		});
 	}
 

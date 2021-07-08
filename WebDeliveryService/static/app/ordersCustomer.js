@@ -3,10 +3,9 @@ Vue.component("customer-orders", {
 		    return {
 		      orders: null,
 		      restaurantTypes : null,
-		      searchName : '',
-		      searchLocation: '',
-		      searchType: '',
-		      searchGrade: '',
+		      searchRestaurant : '',
+		      searchMinPrice: null,
+		      searchMaxPrice: null,
 		      sortMode : '',
 		      sortParameter : '',
 		      filterType: ''
@@ -45,6 +44,17 @@ Vue.component("customer-orders", {
         </div>
       </div>
     </nav>
+    
+    <div class="search-orders">
+        <input type="text" 	 v-model="searchRestaurant" 	class="search-input" placeholder="Restoran">
+        <input type="number" v-model="searchMinPrice" class="search-input" placeholder="Cena - od">
+        <input type="number" v-model="searchMaxPrice" class="search-input" placeholder="Cena - do">
+             
+ 		<input type="date" class="search-input" style="margin-top: 1px;" id="date_from">
+ 		<input type="date" class="search-input" style="margin-top: 1px;" id="date_to">
+    
+        <button class="search-submit" v-on:click="searchOrders"> Pretraži </button>
+    </div>
     
     
     <div class="container-fluid text-center">    
@@ -257,19 +267,29 @@ Vue.component("customer-orders", {
 			});
 		},
 		
-		searchRestaurants : function (event) {
+		searchOrders : function (event) {
+				
+				let dateFrom = document.getElementById("date_from").value;
+       			let dFrom=new Date(dateFrom).toISOString().substr(0, 10);
+       			
+       			let dateTo = document.getElementById("date_to").value;
+       			let dTo	=new Date(dateTo).toISOString().substr(0, 10);
+				
+				
 				let searchParameters = {
-						name : this.searchName,
-						location : this.searchLocation,
-	    				type : this.searchType,
-	    				grade : this.searchGrade			
+						restaurant : this.searchRestaurant,
+						minPrice : this.searchMinPrice,
+						maxPrice : this.searchMaxPrice,
+						fromDate : dFrom,
+						toDate : dTo	
     			}
     			
     			axios 
-		    		.post('/restaurants/searchRestaurants', JSON.stringify(searchParameters))
+		    		.post('/customer/searchOrders', JSON.stringify(searchParameters))
 		    		.then(response => {
-		    		   this.restaurants = response.data;
+		    		   this.orders = response.data;
 		    	})
+		    	
 		}
 	}
 });
