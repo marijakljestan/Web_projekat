@@ -288,6 +288,32 @@ public class CustomerService {
 			allOrders.addAll(suitableOrders);
 		}
 		
+		if(Double.compare(searchParameters.getMinPrice(), 0d) != 0) {
+	
+			double minPrice = searchParameters.getMinPrice();
+			
+			suitableOrders.clear();
+			for (Order order : allOrders) 
+				if(order.getPrice() > minPrice) 
+					suitableOrders.add(order);
+			
+			allOrders.clear();
+			allOrders.addAll(suitableOrders);
+		}
+		
+		if(Double.compare(searchParameters.getMaxPrice(), 0d) != 0) {
+
+			double maxPrice = searchParameters.getMaxPrice();
+			
+			suitableOrders.clear();
+			for (Order order : allOrders) 
+				if(order.getPrice() < maxPrice) 
+					suitableOrders.add(order);
+			
+			allOrders.clear();
+			allOrders.addAll(suitableOrders);
+		}
+		
 		return suitableOrders;
 	}
 }
