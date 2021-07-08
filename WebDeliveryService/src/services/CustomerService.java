@@ -538,5 +538,75 @@ public class CustomerService {
 
 		return sortedOrders;
 	}
+	
+	public ArrayList<Order> getAllWaitingForManagerOrders(String restaurant) throws JsonSyntaxException, IOException{
+		ArrayList<Order> undeliveredOrders = new ArrayList<Order>();
+		ArrayList<Order> restaurantOrders = getRestaurantOrders(restaurant);
+		for (Order order : restaurantOrders) 
+			if(order.getStatus().equals(OrderStatus.WAITING_FOR_MANAGER))
+				undeliveredOrders.add(order);
+		
+		return undeliveredOrders;
+	}
+	
+	public ArrayList<Order> getAllProcessingOrdersForManager(String restaurant) throws JsonSyntaxException, IOException{
+		ArrayList<Order> processingOrders = new ArrayList<Order>();
+		ArrayList<Order> restaurantOrders = getRestaurantOrders(restaurant);
+		for (Order order : restaurantOrders) 
+			if(order.getStatus().equals(OrderStatus.PROCESSING))
+				processingOrders.add(order);
+		
+		return processingOrders;
+	}
+	
+	public ArrayList<Order> getAllInPreparationOrdersForManager(String restaurant) throws JsonSyntaxException, IOException{
+		ArrayList<Order> inPreparationOrders = new ArrayList<Order>();
+		ArrayList<Order> restaurantOrders = getRestaurantOrders(restaurant);
+		for (Order order : restaurantOrders) 
+			if(order.getStatus().equals(OrderStatus.IN_PREPARATION))
+				inPreparationOrders.add(order);
+		
+		return inPreparationOrders;
+	}
+	
+	public ArrayList<Order> getAllWaitingForDeliveryOrdersForManager(String restaurant) throws JsonSyntaxException, IOException{
+		ArrayList<Order> waitingForDeliveryOrders = new ArrayList<Order>();
+		ArrayList<Order> restaurantOrders = getRestaurantOrders(restaurant);
+		for (Order order : restaurantOrders) 
+			if(order.getStatus().equals(OrderStatus.WAITING_FOR_DELIVERY))
+				waitingForDeliveryOrders.add(order);
+		
+		return waitingForDeliveryOrders;
+	}
 
+	
+	public ArrayList<Order> getAllInTransportOrdersForManager(String restaurant) throws JsonSyntaxException, IOException{
+		ArrayList<Order> inTransportOrders = new ArrayList<Order>();
+		ArrayList<Order> restaurantOrders = getRestaurantOrders(restaurant);
+		for (Order order : restaurantOrders) 
+			if(order.getStatus().equals(OrderStatus.IN_TRANSPORT))
+				inTransportOrders.add(order);
+		
+		return inTransportOrders;
+	}
+	
+	public ArrayList<Order> getAllDeliveredOrdersForManager(String restaurant) throws JsonSyntaxException, IOException{
+		ArrayList<Order> deliveredOrders = new ArrayList<Order>();
+		ArrayList<Order> restaurantOrders = getRestaurantOrders(restaurant);
+		for (Order order : restaurantOrders) 
+			if(order.getStatus().equals(OrderStatus.DELIVERED))
+				deliveredOrders.add(order);
+		
+		return deliveredOrders;
+	}
+	
+	public ArrayList<Order> getAllCanceledOrdersForManager(String restaurant) throws JsonSyntaxException, IOException{
+		ArrayList<Order> canceledOrders = new ArrayList<Order>();
+		ArrayList<Order> restaurantOrders = getRestaurantOrders(restaurant);
+		for (Order order : restaurantOrders) 
+			if(order.getStatus().equals(OrderStatus.CANCELED))
+				canceledOrders.add(order);
+		
+		return canceledOrders;
+	}
 }

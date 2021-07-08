@@ -100,7 +100,7 @@ Vue.component("manager-orders", {
             <div class="orders-group">
 
                 <div v-for="order in orders" class="restaurant-info-orders">
-                    <h4 style="position: relative; left: -35%; top: 2%;">{{order.status}}</h4>
+                    <h4 style="position: relative; left: -28%; top: 2%;">{{order.status}}</h4>
                     <img v-bind:src= "restaurant.logo" alt="" class="restaurant-logo-order-manager">
                     <h1>{{order.restaurant}}</h1> 
                     <h4>{{order.dateAndTime}} </h4> 
@@ -207,7 +207,7 @@ Vue.component("manager-orders", {
 				
 		showWaitingForManagerOrders : function (event) {
 			axios
-          		.get('/customer/getUndeliveredOrdersForManager')
+          		.get('/customer/getWaitingForManagerOrders')
           		.then(response => {
 					if (response.data != null) {
 						this.orders = response.data;

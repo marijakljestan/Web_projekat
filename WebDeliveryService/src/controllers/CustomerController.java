@@ -388,8 +388,114 @@ public class CustomerController {
 			} catch(Exception e) {
 				e.printStackTrace();
 				return null;
+			}			
+		});
+		
+		get("/customer/getForManagerOrders", (req, res) -> {
+			res.type("application/json");
+			try {
+				Session session = req.session(true);
+				User loggedUser = session.attribute("user");
+				Manager manager = customerService.getManagerByUsername(loggedUser.getUsername());
+				
+				return gson.toJson(customerService.getAllWaitingForManagerOrders(manager.getRestaurant()));
+			} catch (Exception e) {
+				e.printStackTrace();
+				return "";
 			}
-			
+		});
+		
+		get("/customer/getWaitingForManagerOrders", (req, res) -> {
+			res.type("application/json");
+			try {
+				Session session = req.session(true);
+				User loggedUser = session.attribute("user");
+				Manager manager = customerService.getManagerByUsername(loggedUser.getUsername());
+				return gson.toJson(customerService.getAllWaitingForManagerOrders(manager.getRestaurant()));
+			} catch (Exception e) {
+				e.printStackTrace();
+				return "";
+			}
+		});
+		
+		get("/customer/getProcessingOrdersForManager", (req, res) -> {
+			res.type("application/json");
+			try {
+				Session session = req.session(true);
+				User loggedUser = session.attribute("user");
+				Manager manager = customerService.getManagerByUsername(loggedUser.getUsername());
+				return gson.toJson(customerService.getAllProcessingOrdersForManager(manager.getRestaurant()));
+			} catch (Exception e) {
+				e.printStackTrace();
+				return "";
+			}
+		});
+		
+		get("/customer/getInPreparationOrdersForManager", (req, res) -> {
+			res.type("application/json");
+			try {
+				Session session = req.session(true);
+				User loggedUser = session.attribute("user");
+				Manager manager = customerService.getManagerByUsername(loggedUser.getUsername());
+				return gson.toJson(customerService.getAllInPreparationOrdersForManager(manager.getRestaurant()));
+			} catch (Exception e) {
+				e.printStackTrace();
+				return "";
+			}
+		});
+		
+
+		get("/customer/getWaitingForDeliveryOrdersForManager", (req, res) -> {
+			res.type("application/json");
+			try {
+				Session session = req.session(true);
+				User loggedUser = session.attribute("user");
+				Manager manager = customerService.getManagerByUsername(loggedUser.getUsername());
+				return gson.toJson(customerService.getAllWaitingForDeliveryOrdersForManager(manager.getRestaurant()));
+			} catch (Exception e) {
+				e.printStackTrace();
+				return "";
+			}
+		});
+
+		
+		get("/customer/getInTransportOrdersForManager", (req, res) -> {
+			res.type("application/json");
+			try {
+				Session session = req.session(true);
+				User loggedUser = session.attribute("user");
+				Manager manager = customerService.getManagerByUsername(loggedUser.getUsername());
+				return gson.toJson(customerService.getAllInTransportOrdersForManager(manager.getRestaurant()));
+			} catch (Exception e) {
+				e.printStackTrace();
+				return "";
+			}
+		});
+		
+		get("/customer/getDeliveredOrdersForManager", (req, res) -> {
+			res.type("application/json");
+			try {
+				Session session = req.session(true);
+				User loggedUser = session.attribute("user");
+				Manager manager = customerService.getManagerByUsername(loggedUser.getUsername());
+				return gson.toJson(customerService.getAllDeliveredOrdersForManager(manager.getRestaurant()));
+			} catch (Exception e) {
+				e.printStackTrace();
+				return "";
+			}
+		});
+		
+		get("/customer/getCanceledOrdersForManager", (req, res) -> {
+			res.type("application/json");
+			try {
+				Session session = req.session(true);
+				User loggedUser = session.attribute("user");
+				Manager manager = customerService.getManagerByUsername(loggedUser.getUsername());
+				return gson.toJson(customerService.getAllCanceledOrdersForManager(manager.getRestaurant()));
+			} catch (Exception e) {
+				e.printStackTrace();
+				return "";
+			}
 		});
 	}
 
