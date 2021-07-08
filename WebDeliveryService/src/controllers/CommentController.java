@@ -29,5 +29,16 @@ public class CommentController {
 				return "";
 			}
 		});
+		
+		get("/comments/getRestaurantComments/:id", (req, res) -> {
+			res.type("application/json");
+			try {
+				ArrayList<Comment> comments = commentService.getRestaurantComments(req.params("id"));
+				return gson.toJson(comments);
+			} catch (Exception e) {
+				e.printStackTrace();
+				return "";
+			}
+		});
 	}
 }

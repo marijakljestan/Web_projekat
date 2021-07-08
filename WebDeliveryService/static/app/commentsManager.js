@@ -1,10 +1,9 @@
 Vue.component("comments-manager", {
 	data: function () {
 		    return {
-		      comments: null,
+		      comments: null
 		    }
 	},
-	
 	template: ` 
 	 <div id="home" style="background : #fff">
 	
@@ -28,10 +27,10 @@ Vue.component("comments-manager", {
 	          <ul class="nav navbar-nav">
 	            <li class="active"><a href="#/manager"><span class="glyphicon glyphicon-home"></span> Početna</a></li>
 	            <li><a href="#/managerProfile"><span class="glyphicon glyphicon-user"></span> Moj Profil</a></li>
-	            <li><a href="#/restaurantManager"><span class="glyphicon glyphicon-tasks"></span> Moj restoran</a></li>
-	            <li><a href="#/ordersManager"><span class="glyphicon glyphicon-cutlery"></span> Porudžbine</a></li>
-	            <li><a href="#/customersManger"><span class="glyphicon glyphicon-globe"></span> Kupci</a></li>
-	            <li><a href="#/commentsManager"><span class="glyphicon glyphicon-comment"></span> Komentari</a></li>
+	            <li><a v-on:click="showRestaurant"><span class="glyphicon glyphicon-tasks"></span> Moj restoran</a></li>
+	            <li><a v-on:click="showOrders"><span class="glyphicon glyphicon-cutlery"></span> Porudžbine</a></li>
+	            <li><a v-on:click="showCustomers"><span class="glyphicon glyphicon-globe"></span> Kupci</a></li>
+	            <li><a v-on:click="showComments"><span class="glyphicon glyphicon-comment"></span> Komentari</a></li>
           	 </ul>
 	          <ul class="nav navbar-nav navbar-right">
 	            <li><a href="#/"><span class="glyphicon glyphicon-log-out"></span> Odjavite se</a></li>
@@ -54,133 +53,126 @@ Vue.component("comments-manager", {
 	        </div>
 	  
 	        <div class="container-fluid text-center" style="position: absolute; left: 250px; top: 100px;">    
-	            <div class="row content">
-	                <div class="col-lg-8"> 
-	                    <div class="comments-panel">
-	                        <div class="comment-panel">
-	                            <h4 style="margin-top: 10; margin-left: 90px;">peraperic</h4><br/>
+            <div class="row content">
+                <div class="col-lg-8"> 
+                    <div class="comments-panel">
+                        <div v-for="comment in comments" class="comment-panel">
+	                            <h4 style="margin-top: 10; margin-left: 90px;">{{ comment.customer }}</h4><br/>
 	                            <div style="margin-top: 40px; margin-left: -150px;">                      
-	                                <span style=" position: relative; margin-left: -100px;"><label>Restoran:</label> Tortilla cassa</span><br/>
-	                                <span style="margin-left: -195px;"><label>Ocena: </label> 4.6</span><br/>
+	                                <span style=" position: relative; margin-left: -100px;"><label>Restoran:</label> {{ comment.restaurant }}</span><br/>
+	                                <span style="margin-left: -145px;"><label>Ocena: </label> {{ comment.grade }}</span><br/>
 	                                <p class="comment-text" style="width:280px">
-	                                    Lorem ipsum dolor.Lorem ipsum dolor.Lorem ipsum dolor.Lorem ipsum dolor.Lorem ipsum dolor.
+	                                    {{ comment.content }}
 	                                </p>
-	                            </div> 
-	                            <button class="rate-comment" style="margin-left:-80px; background-color: rgb(156, 231, 156);">+</button> <br/>
-	                            <button class="rate-comment" style="margin-left: 5px;background-color: rgb(233, 149, 149);">-</button>       
+	                            </div>
+	                            <div v-if="comment.status == 'PENDDING'">
+	                            	<button class="rate-comment" style="margin-left:-80px; background-color: rgb(156, 231, 156);">+</button>
+	                            	<button class="rate-comment" style="margin-left: 5px;background-color: rgb(233, 149, 149);">-</button>
+	                            </div>
+	                            <h4 v-if="comment.status == 'APPROVED'" style="margin-left:-80px; color: rgb(156, 200, 156);"><b>ODOBREN</b></h4><br/>
+	                            <h4 v-if="comment.status == 'REJECTED'" style="margin-left:-80px; margin-top: 10; color: rgb(233, 149, 149);"><b>ODBIJEN</b></h4><br/>
 	                        </div>
-	
-	                        <div class="comment-panel">
-	                            <h4 style="margin-top: 10; margin-left: 90px;">peraperic</h4><br/>
-	                            <div style="margin-top: 40px; margin-left: -150px;">                      
-	                                <span style=" position: relative; margin-left: -100px;"><label>Restoran:</label> Tortilla cassa</span><br/>
-	                                <span style="margin-left: -195px;"><label>Ocena: </label> 4.6</span><br/>
-	                                <p class="comment-text" style="width:280px">
-	                                    Lorem ipsum dolor.Lorem ipsum dolor.Lorem ipsum dolor.Lorem ipsum dolor.Lorem ipsum dolor.
-	                                </p>
-	                            </div> 
-	                       		<button class="rate-comment" style="margin-left:-80px; background-color: rgb(156, 231, 156);">+</button> <br/>
-	                            <button class="rate-comment" style="margin-left: 5px;background-color: rgb(233, 149, 149);">-</button>       
-	                        </div>  
-	                
-	                        <div class="comment-panel">
-	                            <h4 style="margin-top: 10; margin-left: 90px;">peraperic</h4><br/>
-	                            <div style="margin-top: 40px; margin-left: -150px;">                      
-	                                <span style=" position: relative; margin-left: -100px;"><label>Restoran:</label> Tortilla cassa</span><br/>
-	                                <span style="margin-left: -195px;"><label>Ocena: </label> 4.6</span><br/>
-	                                <p class="comment-text" style="width:280px">
-	                                    Lorem ipsum dolor.Lorem ipsum dolor.Lorem ipsum dolor.Lorem ipsum dolor.Lorem ipsum dolor.
-	                                </p>
-	                            </div> 
-	                           <button class="rate-comment" style="margin-left:-80px; background-color: rgb(156, 231, 156);">+</button> <br/>
-	                            <button class="rate-comment" style="margin-left: 5px;background-color: rgb(233, 149, 149);">-</button>      
-	                        </div>
-	
-	                        <div class="comment-panel">
-	                            <h4 style="margin-top: 10; margin-left: 90px;">peraperic</h4><br/>
-	                            <div style="margin-top: 40px; margin-left: -150px;">                      
-	                                <span style=" position: relative; margin-left: -100px;"><label>Restoran:</label> Tortilla cassa</span><br/>
-	                                <span style="margin-left: -195px;"><label>Ocena: </label> 4.6</span><br/>
-	                                <p class="comment-text" style="width:280px">
-	                                    Lorem ipsum dolor.Lorem ipsum dolor.Lorem ipsum dolor.Lorem ipsum dolor.Lorem ipsum dolor.
-	                                </p>
-	                            </div> 
-	                            <button class="rate-comment" style="margin-left:-70px; background-color: rgb(156, 231, 156); display : none;">+</button> <br/>
-	                            <button class="rate-comment" style="background-color: rgb(233, 149, 149); display : none;">-</button>       
-	                        </div>
-	
-	                        <div class="comment-panel">
-	                            <h4 style="margin-top: 10; margin-left: 90px;">peraperic</h4><br/>
-	                            <div style="margin-top: 40px; margin-left: -150px;">                      
-	                                <span style=" position: relative; margin-left: -100px;"><label>Restoran:</label> Tortilla cassa</span><br/>
-	                                <span style="margin-left: -195px;"><label>Ocena: </label> 4.6</span><br/>
-	                                <p class="comment-text" style="width:280px">
-	                                    Lorem ipsum dolor.Lorem ipsum dolor.Lorem ipsum dolor.Lorem ipsum dolor.Lorem ipsum dolor.
-	                                </p>
-	                            </div> 
-	                            <button class="rate-comment" style="margin-left:-80px; background-color: rgb(156, 231, 156);">+</button> <br/>
-	                            <button class="rate-comment" style="margin-left: 5px;background-color: rgb(233, 149, 149);">-</button>      
-	                        </div>
-	                        
-	                        <div class="comment-panel">
-	                            <h4 style="margin-top: 10; margin-left: 90px;">peraperic</h4><br/>
-	                            <div style="margin-top: 40px; margin-left: -150px;">                      
-	                                <span style=" position: relative; margin-left: -100px;"><label>Restoran:</label> Tortilla cassa</span><br/>
-	                                <span style="margin-left: -195px;"><label>Ocena: </label> 4.6</span><br/>
-	                                <p class="comment-text" style="width:280px">
-	                                    Lorem ipsum dolor.Lorem ipsum dolor.Lorem ipsum dolor.Lorem ipsum dolor.Lorem ipsum dolor.
-	                                </p>
-	                            </div> 
-	                            <button class="rate-comment" style="margin-left:-80px; background-color: rgb(156, 231, 156);">+</button> <br/>
-	                            <button class="rate-comment" style="margin-left: 5px;background-color: rgb(233, 149, 149);">-</button>       
-	                        </div>
-	
-	                        <div class="comment-panel">
-	                            <h4 style="margin-top: 10; margin-left: 90px;">peraperic</h4><br/>
-	                            <div style="margin-top: 40px; margin-left: -150px;">                      
-	                                <span style=" position: relative; margin-left: -100px;"><label>Restoran:</label> Tortilla cassa</span><br/>
-	                                <span style="margin-left: -195px;"><label>Ocena: </label> 4.6</span><br/>
-	                                <p class="comment-text" style="width:280px">
-	                                    Lorem ipsum dolor.Lorem ipsum dolor.Lorem ipsum dolor.Lorem ipsum dolor.Lorem ipsum dolor.
-	                                </p>
-	                            </div> 
-	                         	<button class="rate-comment" style="display:none; margin-left:-80px; background-color: rgb(156, 231, 156);">+</button> <br/>
-	                            <button class="rate-comment" style="display:none; margin-left: 5px;background-color: rgb(233, 149, 149);">-</button>          
-	                        </div>
-	                        
-	                        <div class="comment-panel">
-	                            <h4 style="margin-top: 10; margin-left: 90px;">peraperic</h4><br/>
-	                            <div style="margin-top: 40px; margin-left: -150px;">                      
-	                                <span style=" position: relative; margin-left: -100px;"><label>Restoran:</label> Tortilla cassa</span><br/>
-	                                <span style="margin-left: -195px;"><label>Ocena: </label> 4.6</span><br/>
-	                                <p class="comment-text" style="width:280px">
-	                                    Lorem ipsum dolor.Lorem ipsum dolor.Lorem ipsum dolor.Lorem ipsum dolor.Lorem ipsum dolor.
-	                                </p>
-	                            </div> 
-	                          	<button class="rate-comment" style="display:none; margin-left:-80px; background-color: rgb(156, 231, 156);">+</button> <br/>
-	                            <button class="rate-comment" style="display:none; margin-left: 5px;background-color: rgb(233, 149, 149);">-</button>            
-	                        </div>
-	
-	                     <div class="comment-panel">
-	                            <h4 style="margin-top: 10; margin-left: 90px;">peraperic</h4><br/>
-	                            <div style="margin-top: 40px; margin-left: -150px;">                      
-	                                <span style=" position: relative; margin-left: -100px;"><label>Restoran:</label> Tortilla cassa</span><br/>
-	                                <span style="margin-left: -195px;"><label>Ocena: </label> 4.6</span><br/>
-	                                <p class="comment-text" style="width:280px">
-	                                    Lorem ipsum dolor.Lorem ipsum dolor.Lorem ipsum dolor.Lorem ipsum dolor.Lorem ipsum dolor.
-	                                </p>
-	                            </div> 
-	                            <button class="rate-comment" style="display:none; margin-left:-80px; background-color: rgb(156, 231, 156);">+</button> <br/>
-	                            <button class="rate-comment" style="display:none; margin-left: 5px;background-color: rgb(233, 149, 149);">-</button>     
-	                        </div>
-	                    </div>
-	                 </div>
-	            </div>
-	         </div>        
-	    </div>
-	</div>
+                        <div class="comment-panel">
+                            <h4 style="margin-top: 10; margin-left: 90px;">peraperic</h4><br/>
+                            <div style="margin-top: 40px; margin-left: -150px;">                      
+                                <span style="margin-left: -141px;"><label>Restoran:</label> Tortilla cassa</span><br/>
+                                <span style="margin-left: -220px;"><label>Ocena: </label> 4.6</span><br/>
+                                <p class="comment-text">
+                                    Lorem ipsum dolor.Lorem ipsum dolor.Lorem ipsum dolor.Lorem ipsum dolor.Lorem ipsum dolor.
+                                </p>
+                            </div>       
+                        </div>     
+                
+                        <div class="comment-panel">
+                            <h4 style="margin-top: 10; margin-left: 90px;">peraperic</h4><br/>
+                            <div style="margin-top: 40px; margin-left: -150px;">                      
+                                <span style="margin-left: -141px;"><label>Restoran:</label> Tortilla cassa</span><br/>
+                                <span style="margin-left: -220px;"><label>Ocena: </label> 4.6</span><br/>
+                                <p class="comment-text">
+                                    Lorem ipsum dolor.Lorem ipsum dolor.Lorem ipsum dolor.Lorem ipsum dolor.Lorem ipsum dolor.
+                                </p>
+                            </div>       
+                        </div>
+
+                        <div class="comment-panel">
+                            <h4 style="margin-top: 10; margin-left: 90px;">peraperic</h4><br/>
+                            <div style="margin-top: 40px; margin-left: -150px;">                      
+                                <span style="margin-left: -141px;"><label>Restoran:</label> Tortilla cassa</span><br/>
+                                <span style="margin-left: -220px;"><label>Ocena: </label> 4.6</span><br/>
+                                <p class="comment-text">
+                                    Lorem ipsum dolor.Lorem ipsum dolor.Lorem ipsum dolor.Lorem ipsum dolor.Lorem ipsum dolor.
+                                </p>
+                            </div>       
+                        </div> 
+
+                        <div class="comment-panel">
+                            <h4 style="margin-top: 10; margin-left: 90px;">peraperic</h4><br/>
+                            <div style="margin-top: 40px; margin-left: -150px;">                      
+                                <span style="margin-left: -141px;"><label>Restoran:</label> Tortilla cassa</span><br/>
+                                <span style="margin-left: -220px;"><label>Ocena: </label> 4.6</span><br/>
+                                <p class="comment-text">
+                                    Lorem ipsum dolor.Lorem ipsum dolor.Lorem ipsum dolor.Lorem ipsum dolor.Lorem ipsum dolor.
+                                </p>
+                            </div>       
+                        </div>
+
+                        
+                        <div class="comment-panel">
+                            <h4 style="margin-top: 10; margin-left: 90px;">peraperic</h4><br/>
+                            <div style="margin-top: 40px; margin-left: -150px;">                      
+                                <span style="margin-left: -141px;"><label>Restoran:</label> Tortilla cassa</span><br/>
+                                <span style="margin-left: -220px;"><label>Ocena: </label> 4.6</span><br/>
+                                <p class="comment-text">
+                                    Lorem ipsum dolor.Lorem ipsum dolor.Lorem ipsum dolor.Lorem ipsum dolor.Lorem ipsum dolor.
+                                </p>
+                            </div>       
+                        </div>
+
+                        <div class="comment-panel">
+                            <h4 style="margin-top: 10; margin-left: 90px;">peraperic</h4><br/>
+                            <div style="margin-top: 40px; margin-left: -150px;">                      
+                                <span style="margin-left: -141px;"><label>Restoran:</label> Tortilla cassa</span><br/>
+                                <span style="margin-left: -220px;"><label>Ocena: </label> 4.6</span><br/>
+                                <p class="comment-text">
+                                    Lorem ipsum dolor.Lorem ipsum dolor.Lorem ipsum dolor.Lorem ipsum dolor.Lorem ipsum dolor.
+                                </p>
+                            </div>       
+                        </div>
+                        
+                        <div class="comment-panel">
+                            <h4 style="margin-top: 10; margin-left: 90px;">peraperic</h4><br/>
+                            <div style="margin-top: 40px; margin-left: -150px;">                      
+                                <span style="margin-left: -141px;"><label>Restoran:</label> Tortilla cassa</span><br/>
+                                <span style="margin-left: -220px;"><label>Ocena: </label> 4.6</span><br/>
+                                <p class="comment-text">
+                                    Lorem ipsum dolor.Lorem ipsum dolor.Lorem ipsum dolor.Lorem ipsum dolor.Lorem ipsum dolor.
+                                </p>
+                            </div>       
+                        </div>
+
+                        <div class="comment-panel">
+                            <h4 style="margin-top: 10; margin-left: 90px;">peraperic</h4><br/>
+                            <div style="margin-top: 40px; margin-left: -150px;">                      
+                                <span style="margin-left: -141px;"><label>Restoran:</label> Tortilla cassa</span><br/>
+                                <span style="margin-left: -220px;"><label>Ocena: </label> 4.6</span><br/>
+                                <p class="comment-text">
+                                    Lorem ipsum dolor.Lorem ipsum dolor.Lorem ipsum dolor.Lorem ipsum dolor.Lorem ipsum dolor.
+                                </p>
+                            </div>       
+                        </div>
+                    </div>
+                 </div>
+            </div>
+         </div>        
+    </div>
+</div>
 `
-	, 
+	,
+	mounted () {
+     	axios
+          .get('/comments/getRestaurantComments/' + this.$route.query.id)
+          .then(response => (this.comments = response.data))
+    },
 	methods : {
 		/*addToCart : function (product) {
 			axios
@@ -188,15 +180,40 @@ Vue.component("comments-manager", {
 			.then(response => (toast('Product ' + product.name + " added to the Shopping Cart")))
 		}*/
 		
+		showRestaurant : function() {
+			axios
+	          .get('/manager/')
+	          .then(response => {
+		    		window.location.href = "#/restaurantManager?id="+ response.data.restaurant;
+		      })
+		},
+		
+		showOrders: function() {
+			axios
+	          .get('/manager/')
+	          .then(response => {
+		    		window.location.href = "#/ordersManager?id="+ response.data.restaurant;
+		      })
+		},
+		
+		showCustomers: function() {
+			axios
+	          .get('/manager/')
+	          .then(response => {
+		    		window.location.href = "#/customersManger?id="+ response.data.restaurant;
+		      })
+		},
+		
+		showComments : function (product) {
+			axios
+			  .get('/manager/')
+	          .then(response => {
+		    		window.location.href = "#/commentsManager?id="+ response.data.restaurant;
+		      })
+		},
+		
 		logout : function (event) {
 			window.location.href = "#/";
 		}
-	},
-	mounted () {
-     /*   axios
-          .get('rest/proizvodi/getJustProducts')
-          .then(response => (this.products = response.data))*/
-    }
-});/**
- * 
- */
+	}
+});

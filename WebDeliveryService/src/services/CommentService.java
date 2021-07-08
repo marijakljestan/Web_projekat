@@ -27,4 +27,14 @@ public class CommentService {
 		
 		return approvedComments;
 	}
+
+	public ArrayList<Comment> getRestaurantComments(String restaurant) throws JsonSyntaxException, IOException {
+		ArrayList<Comment> restaurantComments = new ArrayList<Comment>();
+		for(Comment comment : commentDAO.getAll()) {
+			if(comment.getRestaurant().equals(restaurant))
+				restaurantComments.add(comment);
+		}
+		
+		return restaurantComments;
+	}
 }
