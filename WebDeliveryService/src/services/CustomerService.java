@@ -384,6 +384,8 @@ public class CustomerService {
 		return suitableOrders;
 	}
 	
+	
+	
 	public ArrayList<Order> getSortedOrders(Customer customer, SortDTO sortParameters) throws JsonSyntaxException, IOException {
 		ArrayList<Order> sortedOrders = customer.getOrders();
 		
@@ -432,5 +434,85 @@ public class CustomerService {
 				}
 			}
 		}	
+	}
+	
+	public ArrayList<Order> getAllOrders() throws JsonSyntaxException, IOException{
+		
+		ArrayList<Order> allOrders = new ArrayList<Order>();
+		
+		for (Customer customer : customerDAO.getAll()) 
+			allOrders.addAll(customer.getOrders());
+				
+		return allOrders;
+	}
+	
+	public ArrayList<Order> getSuitableOrdersForManager (OrderSearchDTO searchParameters) throws JsonSyntaxException, IOException, ParseException {
+		// TODO Auto-generated method stub
+		
+		
+		ArrayList<Order> allOrders = getRestaurantOrders(searchParameters.getRestaurant());
+		ArrayList<Order> suitableOrders = new ArrayList<Order>();
+		
+		if(Double.compare(searchParameters.getMinPrice(), 0d) != 0) {
+	
+			double minPrice = searchParameters.getMinPrice();
+			
+			suitableOrders.clear();
+			for (Order order : allOrders) 
+				if(order.getPrice() > minPrice) 
+					suitableOrders.add(order);
+			
+			allOrders.clear();
+			allOrders.addAll(suitableOrders);
+		}
+		
+		if(Double.compare(searchParameters.getMaxPrice(), 0d) != 0) {
+
+			double maxPrice = searchParameters.getMaxPrice();
+			
+			suitableOrders.clear();
+			for (Order order : allOrders) 
+				if(order.getPrice() < maxPrice) 
+					suitableOrders.add(order);
+			
+			allOrders.clear();
+			allOrders.addAll(suitableOrders);
+		}
+		
+		if(!searchParameters.getToDate().trim().isEmpty()) {
+			
+			Date dateTo=new SimpleDateFormat("yyyy-mm-dd").parse(searchParameters.getToDate()); 
+			Date dateOrder;
+			
+			suitableOrders.clear();
+			for (Order order : allOrders) {
+				dateOrder = new SimpleDateFormat("yyyy-mm-dd").parse(order.getDateAndTime());
+				if(dateOrder.before(dateTo)) {
+					suitableOrders.add(order);
+				}
+			}
+			
+			allOrders.clear();
+			allOrders.addAll(suitableOrders);
+		}
+		
+		if(!searchParameters.getFromDate().trim().isEmpty()) {
+			
+			Date dateFrom=new SimpleDateFormat("yyyy-mm-dd").parse(searchParameters.getFromDate()); 
+			Date dateOrder;
+			
+			suitableOrders.clear();
+			for (Order order : allOrders) {
+				dateOrder = new SimpleDateFormat("yyyy-mm-dd").parse(order.getDateAndTime());
+				if(dateOrder.after(dateFrom)) {
+					suitableOrders.add(order);
+				}
+			}
+			
+			allOrders.clear();
+			allOrders.addAll(suitableOrders);
+		}
+		
+		return suitableOrders;
 	}
 }

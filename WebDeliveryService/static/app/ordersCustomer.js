@@ -3,7 +3,6 @@ Vue.component("customer-orders", {
 		    return {
 		      orders: null,
 		      restaurantTypes : null,
-		      searchRestaurant : '',
 		      searchMinPrice: null,
 		      searchMaxPrice: null,
 		      sortMode : '',
@@ -298,7 +297,6 @@ Vue.component("customer-orders", {
        		
 				
 				let searchParameters = {
-						restaurant : this.searchRestaurant,
 						minPrice : this.searchMinPrice,
 						maxPrice : this.searchMaxPrice,
 						fromDate : dFrom,

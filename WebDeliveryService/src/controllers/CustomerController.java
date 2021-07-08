@@ -359,6 +359,20 @@ public class CustomerController {
 				return null;
 			}
 		});
+		
+		post("/customer/searchOrdersForManager", (req,res) -> {
+			res.type("application/json");
+			
+			try {				
+				OrderSearchDTO orderParams = gson.fromJson(req.body(), OrderSearchDTO.class);
+				return gson.toJson(customerService.getSuitableOrdersForManager(orderParams));
+				
+			} catch(Exception e) {
+				e.printStackTrace();
+				return null;
+			}
+			
+		});
 	}
 
 	private Customer findCustomer(Request req) throws JsonSyntaxException, IOException {

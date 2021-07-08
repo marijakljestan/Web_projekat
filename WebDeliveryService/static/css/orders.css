@@ -31,6 +31,15 @@
       left: 0%;
       top: 0%;
     }
+    
+      .restaurant-logo-order-manager{
+      width: 125px;
+      height: 125px;
+      flex-shrink: 0;
+      position: relative;
+      left: 0%;
+      top: 0%;
+    }
 
     .orders-group{
         display: grid;
