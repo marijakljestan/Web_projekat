@@ -1,11 +1,8 @@
 package services;
 
 import java.io.IOException;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -13,12 +10,14 @@ import com.google.gson.JsonSyntaxException;
 
 import beans.Customer;
 import beans.CustomerType;
+import beans.Manager;
 import beans.Order;
 import beans.OrderStatus;
 import beans.Product;
 import beans.Restaurant;
 import beans.ShoppingCartItem;
 import dao.CustomerDAO;
+import dao.ManagersDAO;
 import dao.RestaurantDAO;
 import dto.OrderDTO;
 import dto.OrderSearchDTO;
@@ -28,11 +27,13 @@ public class CustomerService {
 	
 	private CustomerDAO customerDAO;
 	private RestaurantDAO restaurantDAO;
+	private ManagersDAO managersDAO;
 
 	public CustomerService(CustomerDAO customerDAO) {
 		super();
 		this.customerDAO = customerDAO;
 		this.restaurantDAO = new RestaurantDAO("./files/restaurants.json");
+		this.managersDAO = new ManagersDAO("./files/managers.json");
 	}
 	
 	public ArrayList<Customer> getAllCustomers() throws JsonSyntaxException, IOException{
@@ -49,6 +50,10 @@ public class CustomerService {
 	public void updateCustomer(Customer customer) throws JsonSyntaxException, IOException {
 		// TODO Auto-generated method stub
 		customerDAO.update(customer);
+	}
+	
+	public Manager getManagerByUsername (String username) throws JsonSyntaxException, IOException {
+		return managersDAO.getByID(username);
 	}
 
 	public void increaseItemQuantity(Customer customer, ShoppingCartItem item) throws JsonSyntaxException, IOException {
@@ -515,4 +520,23 @@ public class CustomerService {
 		
 		return suitableOrders;
 	}
+	
+	public ArrayList<Order> getSortedOrdersForManager(String restaurant, SortDTO sortParameters) throws JsonSyntaxException, IOException {
+		ArrayList<Order> sortedOrders = getRestaurantOrders(restaurant);
+		
+		if(sortParameters.getParameter().equals("price"))
+			if(sortParameters.getMode().equals("asc"))
+				sortedOrders.sort((o1, o2) -> Double.compare(o1.getPrice(), o2.getPrice()));
+			else
+				sortedOrders.sort((o1, o2) -> Double.compare(o2.getPrice(), o1.getPrice()));
+		
+		else if(sortParameters.getParameter().equals("date"))
+			if(sortParameters.getMode().equals("asc"))
+				sortedOrders.sort((o1, o2)-> o1.getDateAndTime().compareTo( o2.getDateAndTime()));
+			else
+				sortedOrders.sort((o1, o2)-> o2.getDateAndTime().compareTo( o1.getDateAndTime()));
+
+		return sortedOrders;
+	}
+
 }

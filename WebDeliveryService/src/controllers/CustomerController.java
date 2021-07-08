@@ -12,7 +12,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 
 import beans.Customer;
-import beans.Deliverer;
+import beans.Manager;
 import beans.Order;
 import beans.Product;
 import beans.ShoppingCartItem;
@@ -366,6 +366,24 @@ public class CustomerController {
 			try {				
 				OrderSearchDTO orderParams = gson.fromJson(req.body(), OrderSearchDTO.class);
 				return gson.toJson(customerService.getSuitableOrdersForManager(orderParams));
+				
+			} catch(Exception e) {
+				e.printStackTrace();
+				return null;
+			}
+			
+		});
+		
+		post("/customer/getSortedOrdersForManager", (req,res) -> {
+			res.type("application/json");
+			
+			try {
+				Session session = req.session(true);
+				User loggedUser = session.attribute("user");
+				Manager manager = customerService.getManagerByUsername(loggedUser.getUsername());
+				
+				SortDTO sortParameters = gson.fromJson(req.body(), SortDTO.class);
+				return gson.toJson(customerService.getSortedOrdersForManager(manager.getRestaurant(), sortParameters));
 				
 			} catch(Exception e) {
 				e.printStackTrace();

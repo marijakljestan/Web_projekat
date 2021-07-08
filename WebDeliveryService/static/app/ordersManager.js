@@ -198,7 +198,7 @@ Vue.component("manager-orders", {
     			}
     			
     			axios 
-		    		.post('/customer/getSortedOrders', JSON.stringify(sortParameters))
+		    		.post('/customer/getSortedOrdersForManager', JSON.stringify(sortParameters))
 		    		.then(response => {
 		    		   this.orders = response.data;
 		    	})
