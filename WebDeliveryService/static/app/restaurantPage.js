@@ -30,6 +30,7 @@
         <div class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
             <li class="active"><a href="#/"><span class="glyphicon glyphicon-home"></span>  Restorani</a></li>
+            <li><a v-on:click="showRestaurantComments"><span class="glyphicon glyphicon-comment"></span> Komentari </a></li>
           </ul>
         </div>
       </div>
@@ -75,10 +76,8 @@
           .then(response => (this.products = response.data))
     },
 	methods : {
-		/*addToCart : function (product) {
-			axios
-			.post('rest/proizvodi/add', {"id":''+product.id, "count":parseInt(product.count)})
-			.then(response => (toast('Product ' + product.name + " added to the Shopping Cart")))
-		}*/
+		showRestaurantComments : function (product) {
+			window.location.href = "#/restaurantComments?id="+ this.$route.query.id;
+		}
 	}
 });

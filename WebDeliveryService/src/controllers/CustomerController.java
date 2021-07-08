@@ -12,7 +12,6 @@ import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 
 import beans.Customer;
-import beans.Deliverer;
 import beans.Order;
 import beans.Product;
 import beans.ShoppingCartItem;

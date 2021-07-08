@@ -8,18 +8,21 @@ import java.io.File;
 
 import com.google.gson.Gson;
 
+import controllers.CommentController;
 import controllers.CustomerController;
 import controllers.DelivererController;
 import controllers.ManagerController;
 import controllers.ProductController;
 import controllers.RestaurantController;
 import controllers.UsersController;
+import dao.CommentDAO;
 import dao.CustomerDAO;
 import dao.DelivererDAO;
 import dao.ManagersDAO;
 import dao.ProductDAO;
 import dao.RestaurantDAO;
 import dao.UsersDAO;
+import services.CommentService;
 import services.CustomerService;
 import services.DelivererService;
 import services.ManagerService;
@@ -63,5 +66,9 @@ public class Main {
 		CustomerDAO customerDAO = new CustomerDAO("./files/customers.json");
 		CustomerService customerService = new CustomerService(customerDAO);
 		CustomerController customerController = new CustomerController(customerService);
+		
+		CommentDAO commentDAO = new CommentDAO("./files/comments.json");
+		CommentService commentService = new CommentService(commentDAO);
+		CommentController commentController = new CommentController(commentService);
 	}
 }

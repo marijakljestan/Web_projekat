@@ -4,20 +4,49 @@ import java.io.Serializable;
 
 public class Comment implements Serializable{
 
+   private Integer id;
+   private String customer;
+   private String restaurant;
    private String content;
    private int grade;
+   private CommentStatus status;
    
-   private Order order;
-
 	public Comment() {
 		super();
 	}
 
-	public Comment(String content, int grade, Order order) {
+	public Comment(Integer id, String customer, String restaurant, String content, int grade, CommentStatus status) {
 		super();
+		this.id = id;
+		this.customer = customer;
+		this.restaurant = restaurant;
 		this.content = content;
 		this.grade = grade;
-		this.order = order;
+		this.status = status;
+	}
+	
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public String getCustomer() {
+		return customer;
+	}
+
+	public void setCustomer(String customer) {
+		this.customer = customer;
+	}
+
+	public String getRestaurant() {
+		return restaurant;
+	}
+
+	public void setRestaurant(String restaurant) {
+		this.restaurant = restaurant;
 	}
 
 	public String getContent() {
@@ -36,12 +65,12 @@ public class Comment implements Serializable{
 		this.grade = grade;
 	}
 
-	public Order getOrder() {
-		return order;
+	public CommentStatus getStatus() {
+		return status;
 	}
 
-	public void setOrder(Order order) {
-		this.order = order;
+	public void setStatus(CommentStatus status) {
+		this.status = status;
 	}
 
 }
