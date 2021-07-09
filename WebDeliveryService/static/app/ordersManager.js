@@ -2,7 +2,12 @@ Vue.component("manager-orders", {
 	data: function () {
 		    return {
 		      orders: null,
-			  restaurant: null
+			  restaurant: null,
+		      searchMinPrice: null,
+		      searchMaxPrice: null,
+		      sortMode : '',
+		      sortParameter : '',
+		      filterType: ''
 		    }
 	},
 	template: ` 
@@ -39,24 +44,55 @@ Vue.component("manager-orders", {
             </div>
           </div>
         </nav>
+        
+    <div class="search-orders" style="left:20%">
+        <input type="number" v-model="searchMinPrice" class="search-input" placeholder="Cena - od">
+        <input type="number" v-model="searchMaxPrice" class="search-input" placeholder="Cena - do">
+             
+ 		<input type="date" class="search-input" style="margin-top: 1px;" id="date_from">
+ 		<input type="date" class="search-input" style="margin-top: 1px;" id="date_to">
+    
+        <button class="search-submit" v-on:click="searchOrders"> Pretraži </button>
+    </div>
     
     
     <div class="container-fluid text-center">    
         <div class="row content">
 
-          <div class="col-sm-2 sidenav" style="margin-left: -38px; position: relative; top: 100px; align-items: flex-start">
-            <input type="checkbox" style="position: relative; left: -42px;" >
+          <div class="col-sm-2 sidenav" style="background-color: rgb(220, 235, 240); border-radius:25px; margin-left: -38px; position: relative; top: 25px; align-items: flex-start">
+                     <label style="color: darkgrey; position: relative; top: 15px; left: 1px;">FILTERI</label><br/>
+            <hr/>
+            <label style="color: darkgrey; position: relative; left: 14px;">STATUS PORDUZBINE:</label><br/><br/>
+            <input type="checkbox" @change="showWaitingForManagerOrders($event)" style="position: relative; left: 8px;">
+           	<label style="color: darkgrey; position: relative; left: 15px;"> ZAHTEVI ZA DOSTAVU </label><br/><br/>
+            
+            <input type="checkbox" @change="showInProcessingOrders($event)" style="position: relative; left: -42px;" >
             <label style="color: darkgrey; position: relative; left: -22px;"> OBRADA</label><br/>
-            <input type="checkbox" style="position: relative; left: -33px;">
+            <input type="checkbox" @change="showInPreparationOrders($event)" style="position: relative; left: -31px;">
             <label style="color: darkgrey; position: relative; left: -14px;"> U PRIPREMI</label><br/>
-            <input type="checkbox" style="position: relative; left: -1px;">
+            <input type="checkbox" @change="showWaitingForTransportOrders($event)" style="position: relative; left: 0px;">
             <label style="color: darkgrey; position: relative; left: 15px;"> CEKA DOSTAVLJACA</label><br/>
-            <input type="checkbox" style="position: relative; left: -18px;">
+            <input type="checkbox" @change="showInTransportOrders($event)" style="position: relative; left: -16px;">
             <label style="color: darkgrey; position: relative; left: -1px;"> U TRANSPORTU</label><br/>
-            <input type="checkbox" style="position: relative; left: -22px;">
-            <label style="color: darkgrey; position: relative; left: -3px;"> DOSTAVLJENA</label><br/>
+            <input type="checkbox" @change="showDeliveredOrders($event)" style="position: relative; left: -21px;">
+            <label style="color: darkgrey; position: relative; left: -3px;"> DOSTAVLJENA</label><br/><br/>
+		
+			<label style="color: darkgrey; position:relative; top:35px" > SORTIRANJE: </label><br/><br/>
+			<hr/>
+	        <input type="checkbox"  @change="setDescendingSortMode($event)">
+	        <label style="color: darkgrey; position:relative; left:8px"> Opadajuće</label><br/>
+	        <input style=" position:relative; left:-10px" type="checkbox" @change="setAscendingSortMode($event)">
+	        <label style="color: darkgrey; position:relative; left:-2px" > Rastuće</label><br/><br/>
+	        
+	        <label style="color: darkgrey;" > Parametri sortiranja: </label><br/><br/>
+	       
+	        <input type="checkbox" @change="setPriceAsSortParameter($event)" style="position: relative; left: -16px;">
+	        <label style="color: darkgrey; position:relative; left:-7px"> Cena </label><br/>
+	        <input type="checkbox" @change="setDateAsSortParameter($event)" style="position: relative; left: -9px;">
+	        <label style="color: darkgrey;"> Datum </label><br/>
+	        
+	        <button class="search-submit" @click="sortOrders" style="position : relative; left:10px; top:10px;  color:#fff;"> Sortiraj </button><br/>
 
-            <button class="change-status-button" style="position: relative;  top:70px">CEKA DOSTAVLJACA</button>
           </div>
 
           <div class="col-lg-9" style="position: relative; left: 0%;"> 
@@ -64,8 +100,13 @@ Vue.component("manager-orders", {
             <div class="orders-group">
 
                 <div v-for="order in orders" class="restaurant-info-orders">
-                    <h4 style="position: relative; left: -35%; top: 2%;">{{order.status}}</h4>
-                    <img v-bind:src= "restaurant.logo" alt="" class="restaurant-logo">
+					<span v-if="(order.status == 'PROCESSING')"  		  v-on:click="changeOrderStatusToInPreparation(order)"		style="position:relative; top:13%; left:-28%; font-size:20px"  class="cancelOrderBtn"> &#9658 U PRIPREMI</span>                   
+					<span v-if="(order.status == 'IN_PREPARATION')"  	  v-on:click="changeOrderStatusToWaitingForDelivery(order)"	style="position:relative; top:13%; left:-30%; font-size:20px"  class="cancelOrderBtn"> &#9658 ČEKA DOSTAVLJAČA</span>   	
+                    <span v-if="(order.status == 'WAITING_FOR_MANAGER')"  v-on:click="acceptDelivererRequestForOrder(order)"		style="position:relative; top:13%; left:-30%; font-size:27px; font-weight:bolder; color:green;"  class="cancelOrderBtn">&#10003</span>                   
+					<span v-if="(order.status == 'WAITING_FOR_MANAGER')"  v-on:click="rejectDelivererRequestForOrder(order)"		style="position:relative; top:13%; left:-28%; font-size:25px; font-weight:bolder;" class="cancelOrderBtn">  X </span>   
+                    
+                    <h4 style="position: relative; left: -28%; top: 2%;">{{order.status}}</h4>
+                    <img v-bind:src= "restaurant.logo" alt="" class="restaurant-logo-order-manager">
                     <h1>{{order.restaurant}}</h1> 
                     <h4>{{order.dateAndTime}} </h4> 
                     <h4>{{order.customer}}</h4><br/>
@@ -110,12 +151,190 @@ Vue.component("manager-orders", {
 		      })
 		},
 		
-		showOrders: function() {
+		changeOrderStatusToInPreparation : function (order) {
+		   axios
+			.post('/customer/changeOrderStatusToInPreparation', JSON.stringify(order))
+			.then(response => {
+				axios
+				.get('/customer/getRestaurantOrders/' + this.$route.query.id)
+          		.then(response => (this.orders = response.data))
+			});
+			
+		},
+		
+		changeOrderStatusToWaitingForDelivery : function (order) {
+		   axios
+			.post('/customer/changeOrderStatusToWaitingForDelivery', JSON.stringify(order))
+			.then(response => {
+				axios
+				.get('/customer/getRestaurantOrders/' + this.$route.query.id)
+          		.then(response => (this.orders = response.data))
+			});
+				
+		},
+		
+		
+		acceptDelivererRequestForOrder : function (order) {
 			axios
-	          .get('/manager/')
-	          .then(response => {
-		    		window.location.href = "#/ordersManager?id="+ response.data.restaurant;
-		      })
+			.post('/deliverer/changeOrderStatusToInTransport', JSON.stringify(order))
+			.then(response => {
+				if (response.data != null) {;
+					axios
+						.post('/customer/changeOrderStatusToInTransport', JSON.stringify(order))
+						.then(response => {
+							axios
+							.get('/customer/getRestaurantOrders/' + this.$route.query.id)
+			          		.then(response => (this.orders = response.data))
+						});
+				}
+			});
+		},
+		
+		rejectDelivererRequestForOrder : function (order) {
+			
+			axios
+			.post('/deliverer/changeOrderStatusToWaitingForDelivery', JSON.stringify(order))
+			.then(response => {
+				if (response.data != null) {;
+					axios
+						.post('/customer/changeOrderStatusToWaitingForDelivery', JSON.stringify(order))
+						.then(response => {
+							axios
+							.get('/customer/getRestaurantOrders/' + this.$route.query.id)
+			          		.then(response => (this.orders = response.data))
+						});
+				}
+			});
+			
+		},
+		
+		searchOrders: function() {
+		
+			let dateFrom = document.getElementById("date_from").value;
+				let dFrom = '';
+				if(dateFrom)
+       				 dFrom=new Date(dateFrom).toISOString().substr(0, 10);
+       			
+       			let dateTo = document.getElementById("date_to").value;
+       			let dTo = '';
+       			if(dateTo)
+       				 dTo = new Date(dateTo).toISOString().substr(0, 10);
+       		
+				
+				let searchParameters = {
+						restaurant : this.restaurant.name,
+						minPrice : this.searchMinPrice,
+						maxPrice : this.searchMaxPrice,
+						fromDate : dFrom,
+						toDate : dTo	
+    			}
+    			
+    			axios 
+		    		.post('/customer/searchOrdersForManager', JSON.stringify(searchParameters))
+		    		.then(response => {
+		    		   this.orders = response.data;
+		    	})
+		},
+		
+		setAscendingSortMode : function (event) {
+			this.sortMode = 'asc';
+		},
+		
+		setDescendingSortMode : function (event) {
+			this.sortMode = 'desc'
+		},
+				
+		setPriceAsSortParameter : function (event) {
+			this.sortParameter = 'price';
+		},
+		
+		setDateAsSortParameter : function (event) {
+			this.sortParameter = 'date';
+		},
+		
+		sortOrders : function (event) {
+			
+					let sortParameters = {
+						mode : this.sortMode,
+						parameter : this.sortParameter		
+    			}
+    			
+    			axios 
+		    		.post('/customer/getSortedOrdersForManager', JSON.stringify(sortParameters))
+		    		.then(response => {
+		    		   this.orders = response.data;
+		    	})
+		},
+		
+				
+		showWaitingForManagerOrders : function (event) {
+			axios
+          		.get('/customer/getWaitingForManagerOrders')
+          		.then(response => {
+					if (response.data != null) {
+						this.orders = response.data;
+					}
+				});
+		},
+		
+		showInProcessingOrders : function (event) {
+			axios
+          		.get('/customer/getProcessingOrdersForManager')
+          		.then(response => {
+					if (response.data != null) {
+						this.orders = response.data;
+					}
+				});
+		},
+		
+		showInPreparationOrders: function (event) {
+			axios
+          		.get('/customer/getInPreparationOrdersForManager')
+          		.then(response => {
+					if (response.data != null) {
+						this.orders = response.data;
+					}
+				});
+		},
+		
+		showInTransportOrders: function (event) {
+			axios
+          		.get('/customer/getInTransportOrdersForManager')
+          		.then(response => {
+					if (response.data != null) {
+						this.orders = response.data;
+					}
+				});
+		},
+		
+		showDeliveredOrders: function (event) {
+			axios
+          		.get('/customer/getDeliveredOrdersForManager')
+          		.then(response => {
+					if (response.data != null) {
+						this.orders = response.data;
+					}
+				});
+		},
+		
+		showWaitingForTransportOrders: function (event) {
+			axios
+          		.get('/customer/getWaitingForDeliveryOrdersForManager')
+          		.then(response => {
+					if (response.data != null) {
+						this.orders = response.data;
+					}
+				});
+		},
+		
+		showCanceledOrders: function (event) {
+			axios
+          		.get('/customer/getCanceledOrdersForManager')
+          		.then(response => {
+					if (response.data != null) {
+						this.orders = response.data;
+					}
+				});
 		},
 		
 		showCustomers: function() {

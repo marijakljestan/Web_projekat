@@ -58,19 +58,18 @@ Vue.component("deliverer-orders", {
     <div class="container-fluid text-center">    
         <div class="row content">
 
-          <div class="col-sm-2 sidenav" style="background-color: rgb(220, 235, 240); border-radius:25px; margin-left: -38px; position: relative; top: 100px; align-items: flex-start">
+          <div class="col-sm-2 sidenav" style="background-color: rgb(220, 235, 240); border-radius:25px; margin-left: -38px; position: relative; top: 25px; align-items: flex-start">
             <label style="color: darkgrey; position: relative; top: 15px; left: 1px;">FILTERI</label><br/>
             <hr/>
-            <label style="color: darkgrey; position: relative; left: 14px;">STATUS PORDUZBINE:</label><br/><br/>
-            <input type="checkbox" @change="showUndeliveredOrders($event)" style="position: relative; left: -10px;">
-           	<label style="color: darkgrey; position: relative; left: 9px;"> NEDOSTAVLJENE </label><br/><br/>
+            <label style="color: darkgrey; position: relative; left: 14px;">SVE PORDUŽBINE:</label><br/><br/>  
             
             <input type="checkbox" @change="showWaitingForTransportOrders($event)" style="position: relative; left: 0px;">
-            <label style="color: darkgrey; position: relative; left: 15px;"> CEKA DOSTAVLJACA</label><br/>
+            <label style="color: darkgrey; position: relative; left: 15px;"> ČEKA DOSTAVLJAČA</label><br/><br/>
+			<label style="color: darkgrey; position: relative; left: 14px;">MOJE PORDUŽBINE:</label><br/><br/>
             <input type="checkbox" @change="showInTransportOrders($event)" style="position: relative; left: -16px;">
             <label style="color: darkgrey; position: relative; left: -1px;"> U TRANSPORTU</label><br/>
-            <input type="checkbox" @change="showDeliveredOrders($event)" style="position: relative; left: -21px;">
-            <label style="color: darkgrey; position: relative; left: -3px;"> DOSTAVLJENA</label><br/><br/>
+            <input type="checkbox" @change="showDeliveredOrders($event)" style="position: relative; left: -22px;">
+            <label style="color: darkgrey; position: relative; left: -5px;"> DOSTAVLJENE</label><br/><br/>
             
              <label style="color: darkgrey; position: relative; top:20px; left: 17px;">TIP RESTORANA:</label><br/><br/>
             <select v-model="filterType" @change="filterByRestaurantType($event)" class="search-input" style="position : relative; width:195px; left:15px">
@@ -79,9 +78,8 @@ Vue.component("deliverer-orders", {
 					 {{ type }} 
 				</option>
 			</select>
-			<br/><br/>
-			
-			
+			<br/>
+					
 			<label style="color: darkgrey; position:relative; top:35px" > SORTIRANJE: </label><br/><br/>
 			<hr/>
 	        <input type="checkbox"  @change="setDescendingSortMode($event)">
@@ -98,8 +96,7 @@ Vue.component("deliverer-orders", {
 	        <label style="color: darkgrey;"> Datum </label><br/>
 	        
 	        <button class="search-submit" @click="sortOrders" style="position : relative; left:10px; top:10px;  color:#fff;"> Sortiraj </button><br/>
-
-            <button class="change-status-button" style="position: relative;  top:70px">CEKA DOSTAVLJACA</button>
+			<span></span>
           </div>
 
           <div class="col-lg-9" style="position: relative; left: 0%;"> 
@@ -108,7 +105,10 @@ Vue.component("deliverer-orders", {
 
                 <div class="restaurant-info-orders"  v-for="order in orders">
                 	<span v-if="(order.status == 'IN_TRANSPORT')" v-on:click="changeOrderStatusToDelivered(order)" style="position:relative; top:5%"  class="cancelOrderBtn">&check;</span>
-                    <h4 style="position: relative; left: -35%; top: 2%;">{{order.status}}</h4>
+					<span v-if="(order.status == 'WAITING_FOR_DELIVERY')" v-on:click="requestToOrder(order)" style="position:relative; top:5%; left:35%; font-size:20px"  class="cancelOrderBtn">DOSTAVI</span>                   
+					<span v-if="(order.status == 'WAITING_FOR_MANAGER')"  style="position:relative; top:5%; left:35%; font-size:20px"  class="cancelOrderBtn">NA ČEKANJU</span>
+					
+					<h4 style="position: relative; left: -25%; top: 2%;">{{order.status}}</h4>
                     <img src="https://promenadanovisad.rs/wp-content/uploads/2018/10/TortillaCasa-logo.jpg" alt="" class="restaurant-logo-order">
                     <h1>{{order.restaurant}}</h1> 
                     <h4>{{order.dateAndTime}} </h4> 
@@ -240,7 +240,6 @@ Vue.component("deliverer-orders", {
 		
 		
 		changeOrderStatusToDelivered : function (order) {
-			//alert(order.status + ' ' + order.id)
 			axios
 			.post('/deliverer/changeOrderStatusToDelivered', JSON.stringify(order))
 			.then(response => {
@@ -251,8 +250,20 @@ Vue.component("deliverer-orders", {
 						.then();
 				}
 			});
-			
-			
+						
+		},
+		
+		requestToOrder : function(order){
+			axios
+			.post('/deliverer/changeOrderStatusToWaitingForManager', JSON.stringify(order))
+			.then(response => {
+				if (response.data != null) {
+					this.orders = response.data;
+					axios
+						.post('/customer/changeOrderStatusToWaitingForManager', JSON.stringify(order))
+						.then();
+				}
+			});			
 		},
 		
 		searchOrders : function (event) {
