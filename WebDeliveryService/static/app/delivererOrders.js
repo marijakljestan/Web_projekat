@@ -106,7 +106,7 @@ Vue.component("deliverer-orders", {
                 <div class="restaurant-info-orders"  v-for="order in orders">
                 	<span v-if="(order.status == 'IN_TRANSPORT')" v-on:click="changeOrderStatusToDelivered(order)" style="position:relative; top:5%"  class="cancelOrderBtn">&check;</span>
 					<span v-if="(order.status == 'WAITING_FOR_DELIVERY')" v-on:click="requestToOrder(order)" style="position:relative; top:5%; left:35%; font-size:20px"  class="cancelOrderBtn">DOSTAVI</span>                   
-					<span v-if="(order.status == 'WAITING_FOR_MANAGER')" v-on:click="requestToOrder(order)" style="position:relative; top:5%; left:35%; font-size:20px"  class="cancelOrderBtn">NA ČEKANJU</span>
+					<span v-if="(order.status == 'WAITING_FOR_MANAGER')"  style="position:relative; top:5%; left:35%; font-size:20px"  class="cancelOrderBtn">NA ČEKANJU</span>
 					
 					<h4 style="position: relative; left: -25%; top: 2%;">{{order.status}}</h4>
                     <img src="https://promenadanovisad.rs/wp-content/uploads/2018/10/TortillaCasa-logo.jpg" alt="" class="restaurant-logo-order">
@@ -240,7 +240,6 @@ Vue.component("deliverer-orders", {
 		
 		
 		changeOrderStatusToDelivered : function (order) {
-			//alert(order.status + ' ' + order.id)
 			axios
 			.post('/deliverer/changeOrderStatusToDelivered', JSON.stringify(order))
 			.then(response => {
@@ -251,8 +250,7 @@ Vue.component("deliverer-orders", {
 						.then();
 				}
 			});
-			
-			
+						
 		},
 		
 		requestToOrder : function(order){

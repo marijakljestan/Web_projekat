@@ -360,6 +360,42 @@ public class CustomerController {
 			}
 		});
 		
+		post("/customer/changeOrderStatusToInPreparation", (req,res) -> {
+			res.type("application/json");
+			try {
+				Order order = gson.fromJson(req.body(), Order.class);
+				customerService.changeOrderStatusToInPreparation(order);
+				return true;
+			} catch (Exception e) {
+				e.printStackTrace();
+				return null;
+			}
+		});
+		
+		post("/customer/changeOrderStatusToWaitingForDelivery", (req,res) -> {
+			res.type("application/json");
+			try {
+				Order order = gson.fromJson(req.body(), Order.class);
+				customerService.changeOrderStatusToWaitingForDelivery(order);
+				return true;
+			} catch (Exception e) {
+				e.printStackTrace();
+				return null;
+			}
+		});
+		
+		post("/customer/changeOrderStatusToInTransport", (req,res) -> {
+			res.type("application/json");
+			try {
+				Order order = gson.fromJson(req.body(), Order.class);
+				customerService.changeOrderStatusToInTransport(order);
+				return true;
+			} catch (Exception e) {
+				e.printStackTrace();
+				return null;
+			}
+		});
+		
 		post("/customer/searchOrdersForManager", (req,res) -> {
 			res.type("application/json");
 			

@@ -609,4 +609,43 @@ public class CustomerService {
 		
 		return canceledOrders;
 	}
+
+	public void changeOrderStatusToInPreparation(Order order) throws JsonSyntaxException, IOException {
+		// TODO Auto-generated method stub
+		for(Customer customer: customerDAO.getAll()) {
+			for(Order o : customer.getOrders()) {
+				if(o.getId().equals(order.getId())) {
+					o.setStatus(OrderStatus.IN_PREPARATION);
+					updateCustomer(customer);
+					break;
+				}
+			}
+		}	
+	}
+
+	public void changeOrderStatusToWaitingForDelivery(Order order) throws JsonSyntaxException, IOException {
+		// TODO Auto-generated method stub
+		for(Customer customer: customerDAO.getAll()) {
+			for(Order o : customer.getOrders()) {
+				if(o.getId().equals(order.getId())) {
+					o.setStatus(OrderStatus.WAITING_FOR_DELIVERY);
+					updateCustomer(customer);
+					break;
+				}
+			}
+		}	
+	}
+
+	public void changeOrderStatusToInTransport(Order order) throws JsonSyntaxException, IOException {
+		// TODO Auto-generated method stub
+		for(Customer customer: customerDAO.getAll()) {
+			for(Order o : customer.getOrders()) {
+				if(o.getId().equals(order.getId())) {
+					o.setStatus(OrderStatus.IN_TRANSPORT);
+					updateCustomer(customer);
+					break;
+				}
+			}
+		}	
+	}
 }

@@ -219,4 +219,27 @@ public class DelivererService {
 		}
 		updateDeliverer(deliverer);
 	}
+
+
+	public void changeOrderStatusToWaitingForDelivery(Deliverer deliverer, Order order) throws JsonSyntaxException, IOException {
+		// TODO Auto-generated method stub
+		for (Order o : deliverer.getOrders()) {
+			if(order.getId().equals(o.getId())) {
+				o.setStatus(OrderStatus.WAITING_FOR_DELIVERY);
+				break;
+			}
+		}
+		updateDeliverer(deliverer);
+	}
+
+	public void changeOrderStatusToInTransport(Deliverer deliverer, Order order) throws JsonSyntaxException, IOException {
+		// TODO Auto-generated method stub
+		for (Order o : deliverer.getOrders()) {
+			if(order.getId().equals(o.getId())) {
+				o.setStatus(OrderStatus.IN_TRANSPORT);
+				break;
+			}
+		}
+		updateDeliverer(deliverer);
+	}
 }

@@ -100,6 +100,11 @@ Vue.component("manager-orders", {
             <div class="orders-group">
 
                 <div v-for="order in orders" class="restaurant-info-orders">
+					<span v-if="(order.status == 'PROCESSING')"  		  v-on:click="changeOrderStatusToInPreparation(order)"		style="position:relative; top:13%; left:-28%; font-size:20px"  class="cancelOrderBtn"> &#9658 U PRIPREMI</span>                   
+					<span v-if="(order.status == 'IN_PREPARATION')"  	  v-on:click="changeOrderStatusToWaitingForDelivery(order)"	style="position:relative; top:13%; left:-30%; font-size:20px"  class="cancelOrderBtn"> &#9658 ČEKA DOSTAVLJAČA</span>   	
+                    <span v-if="(order.status == 'WAITING_FOR_MANAGER')"  v-on:click="acceptDelivererRequestForOrder(order)"		style="position:relative; top:13%; left:-30%; font-size:27px; font-weight:bolder; color:green;"  class="cancelOrderBtn">&#10003</span>                   
+					<span v-if="(order.status == 'WAITING_FOR_MANAGER')"  v-on:click="rejectDelivererRequestForOrder(order)"		style="position:relative; top:13%; left:-28%; font-size:25px; font-weight:bolder;" class="cancelOrderBtn">  X </span>   
+                    
                     <h4 style="position: relative; left: -28%; top: 2%;">{{order.status}}</h4>
                     <img v-bind:src= "restaurant.logo" alt="" class="restaurant-logo-order-manager">
                     <h1>{{order.restaurant}}</h1> 
@@ -144,6 +149,37 @@ Vue.component("manager-orders", {
 	          .then(response => {
 		    		window.location.href = "#/restaurantManager?id="+ response.data.restaurant;
 		      })
+		},
+		
+		changeOrderStatusToInPreparation : function (order) {
+		   axios
+			.post('/customer/changeOrderStatusToInPreparation', JSON.stringify(order))
+			.then(response => {
+				axios
+				.get('/customer/getRestaurantOrders/' + this.$route.query.id)
+          		.then(response => (this.orders = response.data))
+			});
+			
+		},
+		
+		changeOrderStatusToWaitingForDelivery : function (order) {
+		   axios
+			.post('/customer/changeOrderStatusToWaitingForDelivery', JSON.stringify(order))
+			.then(response => {
+				axios
+				.get('/customer/getRestaurantOrders/' + this.$route.query.id)
+          		.then(response => (this.orders = response.data))
+			});
+				
+		},
+		
+		
+		acceptDelivererRequestForOrder : function (order) {
+		
+		},
+		
+		rejectDelivererRequestForOrder : function (order) {
+		
 		},
 		
 		searchOrders: function() {

@@ -103,6 +103,37 @@ public class DelivererController {
 			}
 		});
 		
+	
+		post("/deliverer/changeOrderStatusToWaitingForDelivery", (req,res) -> {
+			res.type("application/json");
+			try {
+				Order order = gson.fromJson(req.body(), Order.class);
+				Session session = req.session(true);
+				User loggedUser = session.attribute("user");
+				Deliverer deliverer = delivererService.getDelivererByUsername(loggedUser.getUsername());
+				delivererService.changeOrderStatusToWaitingForDelivery(deliverer, order);
+				return gson.toJson(deliverer.getOrders());
+			} catch (Exception e) {
+				e.printStackTrace();
+				return null;
+			}
+		});
+		
+		post("/deliverer/changeOrderStatusToInTransport", (req,res) -> {
+			res.type("application/json");
+			try {
+				Order order = gson.fromJson(req.body(), Order.class);
+				Session session = req.session(true);
+				User loggedUser = session.attribute("user");
+				Deliverer deliverer = delivererService.getDelivererByUsername(loggedUser.getUsername());
+				delivererService.changeOrderStatusToInTransport(deliverer, order);
+				return gson.toJson(deliverer.getOrders());
+			} catch (Exception e) {
+				e.printStackTrace();
+				return null;
+			}
+		});
+		
 		get("/deliverer/getOrdersByRestaurantType/:id", (req, res) -> {
 			res.type("application/json");
 			try {
