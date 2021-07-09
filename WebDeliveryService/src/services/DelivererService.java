@@ -211,12 +211,10 @@ public class DelivererService {
 
 	public void changeOrderStatusToWaitingForManager(Deliverer deliverer, Order order) throws JsonSyntaxException, IOException {
 		// TODO Auto-generated method stub
-		for (Order o : deliverer.getOrders()) {
-			if(order.getId().equals(o.getId())) {
-				o.setStatus(OrderStatus.WAITING_FOR_MANAGER);
-				break;
-			}
-		}
+		order.setStatus(OrderStatus.WAITING_FOR_MANAGER);
+		ArrayList<Order> orders = deliverer.getOrders();
+		orders.add(order);
+		deliverer.setOrders(orders);
 		updateDeliverer(deliverer);
 	}
 
