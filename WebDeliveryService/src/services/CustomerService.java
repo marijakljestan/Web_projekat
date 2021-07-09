@@ -6,6 +6,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import com.google.gson.JsonElement;
 import com.google.gson.JsonSyntaxException;
 
 import beans.Customer;
@@ -670,5 +671,38 @@ public class CustomerService {
 				suspiciousCustomers.add(customer);
 				
 		return suspiciousCustomers;
+	}
+
+	public ArrayList<User> getAllGoldenCustomers() throws JsonSyntaxException, IOException {
+		// TODO Auto-generated method stub
+		ArrayList<User> goldenCustomers = new ArrayList<User>();
+		
+		for (Customer customer : customerDAO.getAllNonDeleted()) 
+			if(customer.getCustomerType().getName().equals("GOLDEN"))
+				goldenCustomers.add(customer);
+				
+		return goldenCustomers;
+	}
+	
+	public ArrayList<User> getAllSilverCustomers() throws JsonSyntaxException, IOException {
+		// TODO Auto-generated method stub
+		ArrayList<User> silverCustomers = new ArrayList<User>();
+		
+		for (Customer customer : customerDAO.getAllNonDeleted()) 
+			if(customer.getCustomerType().getName().equals("SILVER"))
+				silverCustomers.add(customer);
+				
+		return silverCustomers;
+	}
+	
+	public ArrayList<User> getAllBronzedCustomers() throws JsonSyntaxException, IOException {
+		// TODO Auto-generated method stub
+		ArrayList<User> bronzedCustomers = new ArrayList<User>();
+		
+		for (Customer customer : customerDAO.getAllNonDeleted()) 
+			if(customer.getCustomerType().getName().equals("BRONZED"))
+				bronzedCustomers.add(customer);
+				
+		return bronzedCustomers;
 	}
 }

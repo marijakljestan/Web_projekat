@@ -543,6 +543,36 @@ public class CustomerController {
 				return "";
 			}
 		});
+		
+		get("/customer/getAllGoldenCustomers", (req, res) -> {
+			res.type("application/json");
+			try {
+				return gson.toJson(customerService.getAllGoldenCustomers());
+			} catch (Exception e) {
+				e.printStackTrace();
+				return "";
+			}
+		});
+		
+		get("/customer/getAllSilverCustomers", (req, res) -> {
+			res.type("application/json");
+			try {
+				return gson.toJson(customerService.getAllSilverCustomers());
+			} catch (Exception e) {
+				e.printStackTrace();
+				return "";
+			}
+		});
+		
+		get("/customer/getAllBronzedCustomers", (req, res) -> {
+			res.type("application/json");
+			try {
+				return gson.toJson(customerService.getAllBronzedCustomers());
+			} catch (Exception e) {
+				e.printStackTrace();
+				return "";
+			}
+		});
 	}
 
 	private Customer findCustomer(Request req) throws JsonSyntaxException, IOException {

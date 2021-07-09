@@ -118,6 +118,7 @@ Vue.component("user-profiles-page", {
                             <div style="margin-top: 40px; margin-left: -150px;">                      
                                 <span style="margin-left: -31px;"><label>Ime: </label> {{user.name}}</span><br/>
                                 <span><label>Prezime:</label> {{user.surname}}</span><br/>
+                                <!--span v-if="(user.role == 'CUSTOMER')" style="position:relative; top:13%; left:-28%; font-size:20px"> {{ }}</span-->
                                 <h4 style="color: rgb(30, 31, 104); margin-left: 90px; font-weight: bolder;">{{user.role}}</h4>
                             </div>
                             <button v-on:click="blockUser(user)" class="block-user-button" v-if="!(user.isBlocked === true || user.role == 'ADMIN')">BLOKIRAJ</button>           
@@ -371,7 +372,7 @@ Vue.component("user-profiles-page", {
 		
 		showOnlyGoldenCustomers : function (event) {
 			axios
-          		.get('/user/getAllCustomers')
+          		.get('/customer/getAllGoldenCustomers')
           		.then(response => {
 				if (response.data != null) {
 					this.users = response.data;
@@ -381,7 +382,7 @@ Vue.component("user-profiles-page", {
 		
 		showOnlySilverCustomers : function (event) {
 			axios
-          		.get('/user/getAllCustomers')
+          		.get('/customer/getAllSilverCustomers')
           		.then(response => {
 				if (response.data != null) {
 					this.users = response.data;
@@ -391,7 +392,7 @@ Vue.component("user-profiles-page", {
 		
 		showOnlyBronzedCustomers : function (event) {
 			axios
-          		.get('/user/getAllCustomers')
+          		.get('/customer/getAllBronzedCustomers')
           		.then(response => {
 				if (response.data != null) {
 					this.users = response.data;
