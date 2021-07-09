@@ -175,7 +175,19 @@ Vue.component("manager-orders", {
 		
 		
 		acceptDelivererRequestForOrder : function (order) {
-		
+			axios
+			.post('/deliverer/changeOrderStatusToInTransport', JSON.stringify(order))
+			.then(response => {
+				if (response.data != null) {;
+					axios
+						.post('/customer/changeOrderStatusToInTransport', JSON.stringify(order))
+						.then(response => {
+							axios
+							.get('/customer/getRestaurantOrders/' + this.$route.query.id)
+			          		.then(response => (this.orders = response.data))
+						});
+				}
+			});
 		},
 		
 		rejectDelivererRequestForOrder : function (order) {

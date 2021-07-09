@@ -108,8 +108,6 @@ public class DelivererController {
 			res.type("application/json");
 			try {
 				Order order = gson.fromJson(req.body(), Order.class);
-				Session session = req.session(true);
-				User loggedUser = session.attribute("user");
 				Deliverer deliverer = delivererService.findDelivererByOrderId(order.getId());
 				delivererService.changeOrderStatusToWaitingForDelivery(deliverer, order);
 				return gson.toJson(deliverer.getOrders());
@@ -123,9 +121,7 @@ public class DelivererController {
 			res.type("application/json");
 			try {
 				Order order = gson.fromJson(req.body(), Order.class);
-				Session session = req.session(true);
-				User loggedUser = session.attribute("user");
-				Deliverer deliverer = delivererService.getDelivererByUsername(loggedUser.getUsername());
+				Deliverer deliverer = delivererService.findDelivererByOrderId(order.getId());
 				delivererService.changeOrderStatusToInTransport(deliverer, order);
 				return gson.toJson(deliverer.getOrders());
 			} catch (Exception e) {
