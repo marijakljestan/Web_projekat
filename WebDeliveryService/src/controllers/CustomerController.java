@@ -533,6 +533,16 @@ public class CustomerController {
 				return "";
 			}
 		});
+		
+		get("/customer/getSuspiciousCustomers", (req, res) -> {
+			res.type("application/json");
+			try {
+				return gson.toJson(customerService.getAllSuspiciousCustomers());
+			} catch (Exception e) {
+				e.printStackTrace();
+				return "";
+			}
+		});
 	}
 
 	private Customer findCustomer(Request req) throws JsonSyntaxException, IOException {

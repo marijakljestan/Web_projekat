@@ -92,7 +92,7 @@ Vue.component("user-profiles-page", {
         </div>
 		
         <div class="show-suspect-users">
-            <input type="checkbox" id="suspect-users" value="user">
+            <input type="checkbox" @change="showSuspiciousCustomers($event)" id="suspect-users" value="user">
             <label style="color: rgb(30, 31, 104);"> Sumnjivi korisnici</label><br>   
         </div>
 
@@ -317,6 +317,16 @@ Vue.component("user-profiles-page", {
 			 	element.style.display = 'hidden';
 			 }
 			 document.querySelector('.registration-manager-deliverer').style.display = 'none';
+		},
+		
+		showSuspiciousCustomers : function (event) {
+			axios
+          		.get('/customer/getSuspiciousCustomers')
+          		.then(response => {
+				if (response.data != null) {
+					this.users = response.data;
+				}
+			});
 		},
 		
 		showOnlyAdmins : function (event) {

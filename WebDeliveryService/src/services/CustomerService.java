@@ -5,7 +5,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.concurrent.TimeUnit;
 
 import com.google.gson.JsonSyntaxException;
 
@@ -17,6 +16,7 @@ import beans.OrderStatus;
 import beans.Product;
 import beans.Restaurant;
 import beans.ShoppingCartItem;
+import beans.User;
 import dao.CustomerDAO;
 import dao.ManagersDAO;
 import dao.RestaurantDAO;
@@ -660,5 +660,15 @@ public class CustomerService {
 				}
 			}
 		}	
+	}
+	
+	public ArrayList<User> getAllSuspiciousCustomers() throws JsonSyntaxException, IOException{
+		ArrayList<User> suspiciousCustomers = new ArrayList<User>();
+		
+		for (Customer customer : customerDAO.getAllNonDeleted()) 
+			if(customer.getIsSuspicious())
+				suspiciousCustomers.add(customer);
+				
+		return suspiciousCustomers;
 	}
 }
