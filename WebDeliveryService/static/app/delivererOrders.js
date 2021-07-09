@@ -254,7 +254,7 @@ Vue.component("deliverer-orders", {
 		},
 		
 		requestToOrder : function(order){
-				axios
+			axios
 			.post('/deliverer/changeOrderStatusToWaitingForManager', JSON.stringify(order))
 			.then(response => {
 				if (response.data != null) {
@@ -263,8 +263,7 @@ Vue.component("deliverer-orders", {
 						.post('/customer/changeOrderStatusToWaitingForManager', JSON.stringify(order))
 						.then();
 				}
-			});
-			
+			});			
 		},
 		
 		searchOrders : function (event) {

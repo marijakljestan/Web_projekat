@@ -179,7 +179,21 @@ Vue.component("manager-orders", {
 		},
 		
 		rejectDelivererRequestForOrder : function (order) {
-		
+			
+			axios
+			.post('/deliverer/changeOrderStatusToWaitingForDelivery', JSON.stringify(order))
+			.then(response => {
+				if (response.data != null) {;
+					axios
+						.post('/customer/changeOrderStatusToWaitingForDelivery', JSON.stringify(order))
+						.then(response => {
+							axios
+							.get('/customer/getRestaurantOrders/' + this.$route.query.id)
+			          		.then(response => (this.orders = response.data))
+						});
+				}
+			});
+			
 		},
 		
 		searchOrders: function() {

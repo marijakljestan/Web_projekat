@@ -242,4 +242,16 @@ public class DelivererService {
 		}
 		updateDeliverer(deliverer);
 	}
+
+	public Deliverer findDelivererByOrderId(String id) throws JsonSyntaxException, IOException {
+		// TODO Auto-generated method stub
+		for(Deliverer deliverer : delivererDAO.getAll()) {
+			for(Order order : deliverer.getOrders()) {
+				if(order.getId().equals(id)) {
+					return deliverer;
+				}
+			}
+		}
+		return null;
+	}
 }
