@@ -5,6 +5,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 import com.google.gson.JsonSyntaxException;
 
@@ -207,6 +208,18 @@ public class CustomerService {
 				o.setStatus(OrderStatus.CANCELED);
 				break;
 			}
+		}
+		
+		ArrayList<Date> canceledOrders = customer.getCanceledOrders();
+		canceledOrders.add(new Date());
+		customer.setCanceledOrders(canceledOrders);
+		
+		int numberOfCanceledOrders = customer.getCanceledOrders().size();
+		if(numberOfCanceledOrders > 5) {
+		   long diff = customer.getCanceledOrders().get(numberOfCanceledOrders-1).getTime() - customer.getCanceledOrders().get(numberOfCanceledOrders-6).getTime();
+		    if(diff > 30) {
+		    	customer.setIsSuspicious(true);
+		    }
 		}
 		
 		double points = customer.getPoints();
