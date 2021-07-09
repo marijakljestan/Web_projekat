@@ -1,14 +1,16 @@
 package controllers;
 
 import static spark.Spark.get;
+import static spark.Spark.post;
 
 import java.util.ArrayList;
 
 import com.google.gson.Gson;
 
 import beans.Comment;
+import beans.Order;
+import dto.CommentDTO;
 import services.CommentService;
-import spark.Session;
 
 public class CommentController {
 	
@@ -50,6 +52,22 @@ public class CommentController {
 				e.printStackTrace();
 				return "";
 			}
+		});
+		
+		post("/comment/add/", (req,res) -> {
+			res.type("application/json");
+			
+			try {
+				CommentDTO commentParams = gson.fromJson(req.body(), CommentDTO.class);
+				Comment newComment = commentService.createNewComment(commentParams);	
+				
+				return newComment;
+				
+			} catch(Exception e) {
+				e.printStackTrace();
+				return null;
+			}
+			
 		});
 	}
 }
