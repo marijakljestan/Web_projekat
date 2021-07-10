@@ -19,7 +19,8 @@ Vue.component("addNewRestaurant-page", {
 			  surnameRegister: '',
 			  genderRegister:'',
 		      dateOfBirthRegister: '',
-		      roleRegister : ''
+		      roleRegister : '',
+		      previewMap: false,
 		    }
 	},
 	template: ` 
@@ -62,7 +63,7 @@ Vue.component("addNewRestaurant-page", {
   
         <div  class="col-lg-12"> 
         
-            <div class="col-lg-6" style="margin-left: 120px; margin-top: 95px;">
+            <div class="col-lg-6" style="margin-left: -50px; margin-top: 95px;">
                 <input type="text" class="input-fields" v-model="name" placeholder="Naziv restorana"><br/><br/>
                 <input type="text" class="input-fields" v-model="type" placeholder="Tip restorana"><br/><br/>
                 <label style="color: rgb(30, 31, 104);">Logo:</label><br/>
@@ -76,16 +77,19 @@ Vue.component("addNewRestaurant-page", {
 				</select>
                              
             </div>
-			<button v-on:click="registerNewManager" class="add-manager" :disabled="addBtnDisabled == true" style="text-align: center; align-items:center; position: absolute; top: 322px; left: 336px; width: 50px;">+</button>
+			<button v-on:click="registerNewManager" class="add-manager" :disabled="addBtnDisabled == true" style="text-align: center; align-items:center; position: absolute; top: 322px; left: 170px; width: 50px;">+</button>
 
-
-            <div class="col-lg-6"  style="margin-left: 560px; margin-top: -260px;">
+            <div class="col-lg-6"  style="margin-left: 395px; margin-top: -255px;">
                 <input type="text"   class="input-fields" v-model="street" placeholder="Ulica i broj"><br/><br/>
                 <input type="text"   class="input-fields" v-model="city"  style="width:27%" placeholder="Grad">
                 <input type="number" class="input-fields" v-model="postalcode" style="width:23%" placeholder="Poštanski broj"><br/><br/>
                 <input type="text"   class="input-fields" v-model="country"   placeholder="Država"><br/><br/>
                 <input type="number" class="input-fields" v-model="latitude"  placeholder="Geografska širina"><br/><br/>
                 <input type="number" class="input-fields" v-model="longitude" placeholder="Geografska dužina"><br/><br/>
+            </div>  
+            
+            <div id="map" class="col-lg-6"  style="position:relative; right:-68%; margin-right: 0px; margin-top: -360px; height:400px; width:400px; clear:both;">
+
             </div>                
         </div>  
         
@@ -124,15 +128,36 @@ Vue.component("addNewRestaurant-page", {
           </div>
         </div>
       </div>
+      
+   
 
       <footer class="container-fluid text-center">
         <p>Online Food Delivery Copyright</p>  
       </footer>
       </div>
+
 `
 	, 
 	
 	mounted () {
+	
+		var center = ol.proj.fromLonLat([19.41, 45.82]);
+	
+		var view = new ol.View({
+		  center: center,
+		  zoom: 6
+		});
+		
+		var layer = new ol.layer.Tile({
+		  source: new ol.source.OSM()
+		});
+		
+		var map = new ol.Map({
+		  target: 'map',
+		  layers: [layer],
+		  view: view
+		});	
+		
         axios
           .get('/managers/getAllManagersWithoutRestaurant')
           .then(response => {
@@ -151,7 +176,7 @@ Vue.component("addNewRestaurant-page", {
 			.post('rest/proizvodi/add', {"id":''+product.id, "count":parseInt(product.count)})
 			.then(response => (toast('Product ' + product.name + " added to the Shopping Cart")))
 		}*/
-		
+			
 		logoAdded(e) 
         {
             const file = e.target.files[0];
