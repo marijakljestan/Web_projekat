@@ -35,7 +35,6 @@ Vue.component("administrator-page", {
             <li class="active"><a href="#/admin"><span class="glyphicon glyphicon-home"></span> Početna</a></li>
             <li><a href="#/adminProfile"><span class="glyphicon glyphicon-user"></span> Moj Profil</a></li>
             <li><a href="#/userProfilesView"><span class="glyphicon glyphicon-folder-open"></span> Korisnici</a></li>
-            <li><a href="#/commentsAdmin"><span class="glyphicon glyphicon-comment"></span> Komentari</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
             <li> <a href="#/"><span class="glyphicon glyphicon-log-out"></span> Odjavite se</a> </li>
@@ -179,7 +178,7 @@ Vue.component("administrator-page", {
 		},
 		
 		showRestaurant : function (restaurant) {
-			window.location.href = "#/restaurant?id=" + restaurant.name;
+			window.location.href = "#/adminRestaurant?id=" + restaurant.name;
 		},
 		
 		showOnlyOpenRestaurants : function (event) {

@@ -43,10 +43,10 @@ public class CommentController {
 			}
 		});
 		
-		get("/comments/getAllComments/", (req, res) -> {
+		get("/comments/getAllRestaurantComments/:id", (req, res) -> {
 			res.type("application/json");
 			try {
-				ArrayList<Comment> comments = commentService.getAllComments();
+				ArrayList<Comment> comments = commentService.getRestaurantComments(req.params("id"));
 				return gson.toJson(comments);
 			} catch (Exception e) {
 				e.printStackTrace();

@@ -4,6 +4,7 @@ const RestaurantPage = { template: '<restaurant-page></restaurant-page>' }
 const AdministratorPage = { template: '<administrator-page></administrator-page>' }
 const AddNewRestaurant = { template: '<addNewRestaurant-page></addNewRestaurant-page>' }
 const AdminProfile = { template: '<admin-profile-page></admin-profile-page>' }
+const AdminRestaurant = {template: '<admin-restaurant></admin-restaurant>'}
 const UserProfilesView = {template: '<user-profiles-page></user-profiles-page>'}
 const CommentsViewAdmin = {template: '<comments-admin></comments-admin>'}
 const ManagerPage = { template: '<manager-page></manager-page>' }
@@ -37,6 +38,7 @@ const router = new VueRouter({
 	    { path: '/restaurant', component: RestaurantPage },
 	    { path: '/addNewRestaurant', component: AddNewRestaurant },
 	    { path: '/adminProfile', component: AdminProfile },
+	    { path: '/adminRestaurant', component:AdminRestaurant},
 	    { path: '/userProfilesView', component: UserProfilesView },
 	    { path: '/commentsAdmin', component: CommentsViewAdmin },
 	    { path: '/managerProfile', component: ManagerProfile },

@@ -169,7 +169,6 @@ Vue.component("customer-comments", {
 	
 		viewComments : function (product) {
 		    window.location.href = "#/customerComments?id="+ this.restaurant.name;
-			
 		},
 			
 		logout : function (event) {
