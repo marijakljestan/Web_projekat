@@ -7,6 +7,7 @@ import com.google.gson.JsonSyntaxException;
 
 import beans.Comment;
 import beans.CommentStatus;
+import controllers.RestaurantController;
 import dao.CommentDAO;
 import dto.CommentDTO;
 
@@ -86,6 +87,16 @@ public class CommentService {
 		Comment comment = commentDAO.getByID(id);
 		comment.setStatus(CommentStatus.APPROVED);
 		commentDAO.update(comment);
+		double commentCount = 0.0;
+		double grades = 0.0;
+		for(Comment c : commentDAO.getAll()) {
+			if(c.getRestaurant().equals(comment.getRestaurant()) && c.getStatus().equals(CommentStatus.APPROVED)) {
+				commentCount++;
+				grades += c.getGrade();
+			}
+		}
+		double newGrade = grades/commentCount;
+		RestaurantController.restaurantService.updateRestaurantGrade(comment.getRestaurant(), newGrade);
 	}
 
 	public void rejectComment(int id) throws JsonSyntaxException, IOException {

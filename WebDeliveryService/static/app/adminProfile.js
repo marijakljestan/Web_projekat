@@ -2,7 +2,9 @@ Vue.component("admin-profile-page", {
 	data: function () {
 		    return {
 		      user: null,
-		      errorMessage: ''
+		      valid : true,
+		      errorMessage: '',
+		      successMessage: ''
 		    }
 	},
 	template: ` 
@@ -42,9 +44,7 @@ Vue.component("admin-profile-page", {
         <h1 style="position: absolute; margin-top: 20px; margin-left: 650px; font-weight: bolder; color: rgb(30, 31, 104);">MOJ PROFIL</h1>
   
         <div  class="col-lg-12"> 
-        
             <div class="col-lg-6" style="margin-left: 120px; margin-top: 150px;">
-            
                 <label style="color: rgb(30, 31, 104);">Ime:</label><br/>
                 <input type="text" v-model="user.name" class="input-fields"><br/><br/>
                 <label style="color: rgb(30, 31, 104);">Prezime:</label><br/>
@@ -59,14 +59,15 @@ Vue.component("admin-profile-page", {
                 <input id="date-of-birth" type="date" v-model="user.dateOfBirth" class="input-fields" style="margin-left: 0px;"><br/><br/>
                 <label style="color: rgb(30, 31, 104);">Pol:</label><br/>
                 <select id="gender" v-model="user.gender" class="input-fields" style="margin-top: 0px;">
-                  <option>MALE</option>
-                  <option>FEMALE</option>
+                  <option>MUŠKO</option>
+                  <option>ŽENSKO</option>
               	</select><br/><br/> 
                 <label style="color: rgb(30, 31, 104);">Lozinka:</label><br/>
                 <input type="text" v-model="user.password" class="input-fields"><br/><br/> 
             </div>             
         </div>  
-        <p style="color:red; position: absolute; top: 430px; left: 630px;">{{errorMessage}}</p>
+        <p v-if="valid === false" style="color:red; position: absolute; top: 430px; left: 630px;">{{errorMessage}}</p>
+        <p v-if="valid === true" style="color:green; position: absolute; top: 430px; left: 630px;" >{{ this.successMessage }}</p>
         <button v-on:click="acceptChanges" class="edit-profile" style="position: absolute; top: 450px; left: 630px; width: 250px;">Izmeni podatke</button>
     </div>
 
@@ -79,7 +80,20 @@ Vue.component("admin-profile-page", {
 	mounted () {
      axios
           .get('/user/')
-          .then(response => (this.user = response.data))
+          .then(response => {
+          		
+          		this.user = {
+          			username : response.data.username,
+					password : response.data.password,
+					name : response.data.name,
+					surname : response.data.surname,
+					gender : response.data.gender == 'MALE'?'MUŠKO':'ŽENSKO',
+					dateOfBirth : response.data.dateOfBirth,
+					role : response.data.role,
+					isDeleted : response.data.isDeleted,
+					isBlocked : response.data.isBlocked
+          		}
+          })
     },
 	methods : {
 		acceptChanges : function (event) {
@@ -89,35 +103,46 @@ Vue.component("admin-profile-page", {
 				var dates = document.getElementById("date-of-birth").value;
        			var d=new Date(dates).toISOString().substr(0, 10);
        			
-       			var valid = true;
+       			this.valid = true;
        			     		      			
 			    if(!this.user.password){
 			       this.errorMessage="Zaboravili ste da unesete lozinku!";
-				   valid = false;
+				   this.valid = false;
 			    }
 			    else if(this.user.name[0] < 'A' || this.user.name[0] > 'Z' || !this.user.name){
 			        this.errorMessage="Morate uneti ime koje pocinje velikim slovom!";
-					valid = false;
+					this.valid = false;
 			    }
 			    else if(this.user.surname[0] < 'A' || this.user.surname[0] > 'Z' || !this.user.surname){
 			        this.errorMessage="Morate uneti prezime koje pocinje velikim slovom!";
-					valid = false;
+					this.valid = false;
 			    }
 			    
-			    if(valid == true){
+			    if(this.valid == true){
 			    	let newUser = {
 						username : this.user.username,
 						password : this.user.password,
 	    				name : this.user.name,
 	    				surname : this.user.surname,
-	    				gender : this.user.gender,
+	    				gender : this.user.gender == 'MUŠKO'?'MALE':'FEMALE',
 	    				dateOfBirth : d,
 	    				role : 'ADMIN'				
     				}
 					axios 
-		    			.put('/users/edit', JSON.stringify(newUser))
+		    			.post('/users/edit', JSON.stringify(newUser))
 		    			.then(response => {
-								this.user = response.data;
+								this.user = {
+				          			username : response.data.username,
+									password : response.data.password,
+									name : response.data.name,
+									surname : response.data.surname,
+									gender : response.data.gender == 'MALE'?'MUŠKO':'ŽENSKO',
+									dateOfBirth : response.data.dateOfBirth,
+									role : response.data.role,
+									isDeleted : response.data.isDeleted,
+									isBlocked : response.data.isBlocked
+          						}
+								this.successMessage = 'Izmene su sačuvane';
 		    			})
 		    			.catch(error => {
 						    console.log(error.response)

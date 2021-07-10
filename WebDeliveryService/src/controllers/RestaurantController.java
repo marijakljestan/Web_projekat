@@ -14,7 +14,7 @@ import services.RestaurantService;
 
 public class RestaurantController {
 	
-	private RestaurantService restaurantService;
+	public static RestaurantService restaurantService;
 	private static Gson gson = new Gson();
 	
 	public RestaurantController(RestaurantService restaurantService) {

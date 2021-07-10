@@ -17,6 +17,8 @@
         <span><label style="font-size: 16px; font-weight: lighter; font-family: sans-serif;">{{ restaurant.location.address.street }}  {{ restaurant.location.address.number }}</label></span><br/>
         <span><label style="font-size: 16px; font-weight: lighter; font-family: sans-serif;">{{ restaurant.location.address.city }}  {{ restaurant.location.address.postalcode }}</label></span><br/>
         <span><label style="font-size: 16px; font-weight: lighter; font-family: sans-serif;">{{ restaurant.location.latitude }}, {{ restaurant.location.longitude }}</label></span>
+        <span style="position: absolute; top: 35%; right: 11%;"><label style="font-size: 16px; font-weight: lighte; color:silver">{{ restaurant.grade.toFixed(1) }}</label></span>  <br/><br/>    
+        <span><label style="font-size: 16px; font-weight: lighter; font-family: sans-serif;">{{ restaurant.location.address.street }}  {{ restaurant.location.address.number }}</label></span>
       </div>
     </div>
     

@@ -47,7 +47,7 @@ public class DelivererController {
 			
 		});
 		
-		put("/deliverer/edit", (req,res) -> {
+		post("/deliverer/edit", (req,res) -> {
 			res.type("application/json");
 			
 			try {

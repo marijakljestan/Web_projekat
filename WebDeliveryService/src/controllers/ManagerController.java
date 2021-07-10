@@ -104,7 +104,7 @@ public class ManagerController {
 			}
 		});
 		
-		put("/manager/edit", (req,res) -> {
+		post("/manager/edit", (req,res) -> {
 			res.type("application/json");
 			
 			try {

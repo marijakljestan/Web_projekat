@@ -85,6 +85,12 @@
     .menu-item{
         display: flex;
     }
+    
+    .menu_item_selected {
+        display: flex;
+        background: rgb(220, 235, 240);
+        border-radius: 15px;
+    }
 
     .menu-item-image{
         width: 125px;

@@ -73,8 +73,15 @@ public class RestaurantDAO implements IDao<Restaurant, String>{
 
 	@Override
 	public void update(Restaurant entity) throws JsonSyntaxException, IOException {
-		// TODO Auto-generated method stub
-		
+		ArrayList<Restaurant> restaurants = getAll();
+		for(Restaurant r : restaurants) {
+			if(r.getName().equals(entity.getName())) {
+				restaurants.set(restaurants.indexOf(r), entity);
+				break;
+			}
+		}
+		saveAll(restaurants);	
+
 	}
 
 	@Override

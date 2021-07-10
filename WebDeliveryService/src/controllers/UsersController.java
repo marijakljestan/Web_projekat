@@ -9,7 +9,6 @@ import java.util.ArrayList;
 
 import com.google.gson.Gson;
 
-import beans.Restaurant;
 import beans.User;
 import dto.LoginDTO;
 import dto.SortDTO;
@@ -82,7 +81,7 @@ public class UsersController {
 			}
 		});
 
-		put("/users/edit", (req,res) -> {
+		post("/users/edit", (req,res) -> {
 			res.type("application/json");
 			
 			try {
