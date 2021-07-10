@@ -63,78 +63,7 @@ Vue.component("customer-restaurant", {
                     </p>
                    </div>
                    <button v-on:click="addProductToCart(product)" class="add-to-cart-button">+</button>              
-               </div>       
-
-               <div class="menu-item">
-                    <img class="menu-item-image" src="https://post.healthline.com/wp-content/uploads/2020/07/pizza-beer-1200x628-facebook-1200x628.jpg" alt="Food">
-                    <div class="menu-item-text">
-                        <h3 class="menu-item-heading">
-                            <span class="menu-item-name"> Pizza</span>
-                            <span class="menu-item-price"> $19.99</span>
-                          </h3>
-                       <p class="menu-item-description">
-                        Lorem ipsum dolor.Lorem ipsum dolor.Lorem ipsum dolor.Lorem ipsum dolor.
-                    </p>
-                   </div>
-                   <button class="add-to-cart-button">+</button>               
-               </div>
-   
-                <div class="menu-item">
-                    <img class="menu-item-image" src="https://metmunch.com/wp-content/uploads/2021/02/pexels-photo-376464-1.jpeg" alt="Food">
-                    <div class="menu-item-text">
-                        <h3 class="menu-item-heading">
-                            <span class="menu-item-name"> American pancakes</span>
-                            <span class="menu-item-price"> $5.99</span>
-                          </h3>
-                       <p class="menu-item-description">
-                        Lorem ipsum dolor.Lorem ipsum dolor.Lorem ipsum dolor.Lorem ipsum dolor.
-                    </p>
-                   </div>
-                   <button class="add-to-cart-button">+</button>               
-               </div>
-
-                <div class="menu-item">
-                    <img class="menu-item-image" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS29YsvHevLUvSigi9yb71M7VyYaQ5-eLiN-BmduywGJPkW22aRXRmsU0UL9uKalzY5Vig&usqp=CAU" alt="Food">
-                    <div class="menu-item-text">
-                        <h3 class="menu-item-heading">
-                            <span class="menu-item-name"> Pasta</span>
-                            <span class="menu-item-price"> $25.99</span>
-                        </h3>
-                       <p class="menu-item-description">
-                        Lorem ipsum dolor.Lorem ipsum dolor.Lorem ipsum dolor.Lorem ipsum dolor.
-                    </p>
-                   </div>
-                   <button class="add-to-cart-button">+</button>               
-               </div>
-
-                <div class="menu-item">
-                    <img class="menu-item-image" src="https://static.onecms.io/wp-content/uploads/sites/35/2021/01/11/med-diet-plan-fb-GettyImages-1175355677-2000.jpg" alt="Food">
-                    <div class="menu-item-text">
-                        <h3 class="menu-item-heading">
-                            <span class="menu-item-name"> Salad</span>
-                            <span class="menu-item-price"> $19.99</span>
-                        </h3>
-                       <p class="menu-item-description">
-                        Lorem ipsum dolor.Lorem ipsum dolor.Lorem ipsum dolor.Lorem ipsum dolor.
-                    </p>
-                   </div>
-                   <button class="add-to-cart-button">+</button>               
-               </div>
-
-                <div class="menu-item">
-                    <img class="menu-item-image" src="https://images.immediate.co.uk/production/volatile/sites/30/2020/08/processed-food700-350-e6d0f0f.jpg?quality=90&resize=385%2C350" alt="Food">
-                    <div class="menu-item-text">
-                        <h3 class="menu-item-heading">
-                            <span class="menu-item-name"> Hot dog</span>
-                            <span class="menu-item-price"> $6.99</span>
-                        </h3>
-                       <p class="menu-item-description">
-                        Lorem ipsum dolor.Lorem ipsum dolor.Lorem ipsum dolor.Lorem ipsum dolor.
-                    </p>
-                   </div>
-                   <button class="add-to-cart-button">+</button>               
-               </div>
-            
+               </div>                               
             </div>
            </div>
           </div>

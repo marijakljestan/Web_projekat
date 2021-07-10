@@ -123,7 +123,7 @@ Vue.component("deliverer-orders", {
                     <hr style="border-top: 1px solid rgb(77, 86, 129); margin-left: 12%; margin-right: 12%;">
                     <h3 class="menu-item-heading-orders">
                         <span class="order-name"  style="font-size: 16px;"> Total: </span>
-                        <span class="order-price" style="font-size: 16px;"> {{order.price}}</span>
+                        <span class="order-price" style="font-size: 16px;"> {{order.price.toFixed(2)}}</span>
                     </h3> 
                 </div>
 

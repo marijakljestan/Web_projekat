@@ -75,9 +75,6 @@ Vue.component("shopping-cart", {
           </div>
         </div> 
     
-    <footer class="container-fluid text-center">
-      <p>Online Food Delivery Copyright</p>  
-    </footer>
     </div>
 `
 	,

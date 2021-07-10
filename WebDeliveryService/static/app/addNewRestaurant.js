@@ -266,8 +266,7 @@ Vue.component("addNewRestaurant-page", {
 			    				} else {
 			    					axios
 									.post('/managers/setRestaurantToManager/' + this.selectedManager.username, JSON.stringify(newRestaurant))
-									.then(toast("Uspesno kreiran restoran!"));
-									window.location.href = "#/admin";
+									.then(window.location.href = "#/admin");									
 			    				}
 			    			})
 			    			.catch(error => {
