@@ -65,7 +65,7 @@ Vue.component("restaurant-page-manager", {
 
           <div class="col-lg-8"> 
            <div class="menu-group" style="position: relative; margin-left: -35px">
-               <div v-for="product in products" class="menu-item" v-on:click="setSelectedProduct(product)">
+               <div v-for="product in products" class="menu-item" v-bind:class="{menu_item_selected : selectedProduct.name === product.name}" v-on:click="setSelectedProduct(product)">
                    <img class="menu-item-image" v-bind:src= "product.picture" alt="Food">
                    <div class="menu-item-text">
                        <h3 class="menu-item-heading">
@@ -183,7 +183,7 @@ Vue.component("restaurant-page-manager", {
 			this.selectedProduct = {
 				name : product.name,
 				price : product.price,
-	    		type : product.type == 'HRANA'?'FOOD':'DRINK',
+	    		type : product.type == 'FOOD'?'HRANA':'PIĆE',
 	    		description : product.description,
 	    		picture: product.picture,
 	    		quantity : product.quantity,
