@@ -151,5 +151,11 @@ public class RestaurantService {
 					
 		return suitableRestaurants;
 	}
+	
+	public void updateRestaurantGrade(String restaurantName, double newGrade) throws JsonSyntaxException, IOException {
+		Restaurant restaurant = restaurantDAO.getByID(restaurantName);
+		restaurant.setGrade(newGrade);
+		restaurantDAO.update(restaurant);
+	}
 
 }
