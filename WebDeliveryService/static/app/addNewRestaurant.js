@@ -80,12 +80,12 @@ Vue.component("addNewRestaurant-page", {
 			<button v-on:click="registerNewManager" class="add-manager" :disabled="addBtnDisabled == true" style="text-align: center; align-items:center; position: absolute; top: 322px; left: 170px; width: 50px;">+</button>
 
             <div class="col-lg-6"  style="margin-left: 395px; margin-top: -255px;">
-                <input type="text"   class="input-fields" v-model="street" placeholder="Ulica i broj"><br/><br/>
-                <input type="text"   class="input-fields" v-model="city"  style="width:27%" placeholder="Grad">
-                <input type="number" class="input-fields" v-model="postalcode" style="width:23%" placeholder="Poštanski broj"><br/><br/>
-                <input type="text"   class="input-fields" v-model="country"   placeholder="Država"><br/><br/>
-                <input type="number" class="input-fields" v-model="latitude"  placeholder="Geografska širina"><br/><br/>
-                <input type="number" class="input-fields" v-model="longitude" placeholder="Geografska dužina"><br/><br/>
+                <input id="streetID"     type="text"   class="input-fields" v-model="street" placeholder="Ulica i broj"><br/><br/>
+                <input id="cityID" 		 type="text"   class="input-fields" v-model="city"  style="width:27%" placeholder="Grad">
+                <input id="postalcodeID" type="number" class="input-fields" v-model="postalcode" style="width:23%" placeholder="Poštanski broj"><br/><br/>
+                <input id="countryID" 	 type="text"   class="input-fields" v-model="country"   placeholder="Država"><br/><br/>
+                <input id="latitudeID"   type="number" class="input-fields" v-model="latitude"  placeholder="Geografska širina"><br/><br/>
+                <input id="longitudeID"  type="number" class="input-fields" v-model="longitude" placeholder="Geografska dužina"><br/><br/>
             </div>  
             
             <div id="map" class="col-lg-6"  style="position:relative; right:-68%; margin-right: 0px; margin-top: -360px; height:400px; width:400px; clear:both;">
@@ -152,11 +152,19 @@ Vue.component("addNewRestaurant-page", {
 		  source: new ol.source.OSM()
 		});
 		
-		var map = new ol.Map({
+		var mapSearch = new ol.Map({
 		  target: 'map',
 		  layers: [layer],
 		  view: view
 		});	
+		
+		mapSearch.on('click', function (evt) {
+            
+             var coord = ol.proj.toLonLat(evt.coordinate);
+             //alert(coord)
+              reverseGeocode(coord);
+
+        })
 		
         axios
           .get('/managers/getAllManagersWithoutRestaurant')
@@ -381,8 +389,61 @@ Vue.component("addNewRestaurant-page", {
 		
 		logout : function (event) {
 			window.location.href = "#/";
-		}
-		
+		}		
 	}
-
 });
+
+/**
+ * From coords get real address and put that value in form. 
+ * @param coords cords (x,y)
+ */
+function reverseGeocode(coords) {
+    fetch('http://nominatim.openstreetmap.org/reverse?format=json&lon=' + coords[0] + '&lat=' + coords[1])
+        .then(function (response) {
+            return response.json();
+        }).then(function (json) {
+        
+        	//LONGITUDE
+        	let elem = document.getElementById("longitudeID");
+            elem.value = coords[0].toFixed(2);
+            elem.dispatchEvent(new Event('input'));
+        
+        	//LATITUDE
+        	let el = document.getElementById("latitudeID");
+            el.value = coords[1].toFixed(2);
+            el.dispatchEvent(new Event('input'));
+            
+            //street
+            if (json.address.road) {
+                let el = document.getElementById("streetID");
+                el.value = json.address.road;
+                el.dispatchEvent(new Event('input'));
+            } 
+
+            // town
+            if (json.address.city) {
+            	console.log(json.address)
+                let el = document.getElementById("cityID");
+                el.value = json.address.city;
+                el.dispatchEvent(new Event('input'));
+            } else if (json.address.city_district) {
+                let el = document.getElementById("cityID");
+                el.value = json.address.city_district;
+                el.dispatchEvent(new Event('input'));
+            }
+            
+            //postalcode
+            if (json.address.postcode) {
+                let el = document.getElementById("postalcodeID");
+                el.value = json.address.postcode;
+                el.dispatchEvent(new Event('input'));
+            } 
+            
+            //country
+			  if (json.address.postcode) {
+                let el = document.getElementById("countryID");
+                el.value = json.address.country;
+                el.dispatchEvent(new Event('input'));
+            } 
+        });
+}
