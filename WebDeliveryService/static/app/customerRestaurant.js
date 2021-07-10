@@ -62,7 +62,7 @@ Vue.component("customer-restaurant", {
                         {{ product.description }}
                     </p>
                    </div>
-                   <button v-on:click="addProductToCart(product)" class="add-to-cart-button">+</button>              
+                   <button v-if="(restaurant.status == 'OPEN')" v-on:click="addProductToCart(product)" class="add-to-cart-button">+</button>              
                </div>                               
             </div>
            </div>
