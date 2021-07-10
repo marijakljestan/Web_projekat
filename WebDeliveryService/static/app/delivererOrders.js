@@ -16,8 +16,8 @@ Vue.component("deliverer-orders", {
 
     <div class="jumbotron">
 		<div class="container text-center">
-            <h1>donesi.com</h1>      
-            <p>Najbolja dostava u gradu</p>
+            <h1 style="color:#191970">donesi.com</h1>      
+            <p  style="color:#191970">Najbolja dostava u gradu</p>
        </div>
     </div>
     
@@ -109,7 +109,6 @@ Vue.component("deliverer-orders", {
 					<span v-if="(order.status == 'WAITING_FOR_MANAGER')"  style="position:relative; top:5%; left:35%; font-size:20px"  class="cancelOrderBtn">NA ČEKANJU</span>
 					
 					<h4 style="position: relative; left: -25%; top: 2%;">{{order.status}}</h4>
-                    <img src="https://promenadanovisad.rs/wp-content/uploads/2018/10/TortillaCasa-logo.jpg" alt="" class="restaurant-logo-order">
                     <h1>{{order.restaurant}}</h1> 
                     <h4>{{order.dateAndTime}} </h4> 
                     <h4>{{order.customer}}</h4><br/>

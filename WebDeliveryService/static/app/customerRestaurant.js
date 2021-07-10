@@ -10,13 +10,15 @@ Vue.component("customer-restaurant", {
   <div id="home">
 
     <div class="jumbotron">
-      <div class="restaurant-info" style="background-color:cornsilk; border-radius: 25px; position: relative; width: 50%; left: 25%; top:-25%; height: 200px; text-align: center; display: block;">
+      <div class="restaurant-info" style="background-color:cornsilk; border-radius: 25px; position: absolute; width: 50%; left: 25%; top:-1%; height: 250px; text-align: center; display: block;">
         <img v-bind:src= "restaurant.logo" alt="" class="restaurant-logo">
         <h1>{{ restaurant.name }}</h1> 
-        <span style="position: relative; top: -24%; right: -47%;"><label style="font-size: 14px; font-weight: light; color:silver">{{ restaurant.status }}</label></span>  
-        <span><label style="font-size: 16px; font-weight: lighter; font-family: sans-serif;">{{ restaurant.type }}</label></span>
+        <span style="position: absolute; top: 15%; right: 10%;"><label style="font-size: 14px; font-weight: lighte; color:silver">{{ restaurant.status }}</label></span>  
+        <span><label style="font-size: 16px; font-weight: lighter; font-family: sans-serif;">{{ restaurant.type }}</label></span>  <br/><br/>
+        <span><label style="font-size: 16px; font-weight: lighter; font-family: sans-serif;">{{ restaurant.location.address.street }}  {{ restaurant.location.address.number }}</label></span><br/>
+        <span><label style="font-size: 16px; font-weight: lighter; font-family: sans-serif;">{{ restaurant.location.address.city }}  {{ restaurant.location.address.postalcode }}</label></span><br/>
+        <span><label style="font-size: 16px; font-weight: lighter; font-family: sans-serif;">{{ restaurant.location.latitude }}, {{ restaurant.location.longitude }}</label></span>
         <span style="position: absolute; top: 35%; right: 11%;"><label style="font-size: 16px; font-weight: lighte; color:silver">{{ restaurant.grade.toFixed(1) }}</label></span>  <br/><br/>    
-        <span><label style="font-size: 16px; font-weight: lighter; font-family: sans-serif;">{{ restaurant.location.address.street }}  {{ restaurant.location.address.number }}</label></span>
       </div>
     </div>
     
@@ -69,9 +71,6 @@ Vue.component("customer-restaurant", {
           </div>
         </div> 
     
-    <footer class="container-fluid text-center">
-      <p>Online Food Delivery Copyright</p>  
-    </footer>
     </div>
 `
 	,

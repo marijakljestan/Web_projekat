@@ -15,8 +15,8 @@ Vue.component("manager-orders", {
 
     <div class="jumbotron">
 		<div class="container text-center">
-            <h1>donesi.com</h1>      
-            <p>Najbolja dostava u gradu</p>
+            <h1 style="color:#191970">donesi.com</h1>      
+            <p  style="color:#191970">Najbolja dostava u gradu</p>
        </div>
     </div>
     

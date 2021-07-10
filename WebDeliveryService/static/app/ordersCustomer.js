@@ -21,8 +21,8 @@ Vue.component("customer-orders", {
 
     <div class="jumbotron">
         <div class="container text-center">
-            <h1>donesi.com</h1>
-            <p>Najbolja dostava u gradu</p>
+            <h1 style="color:#191970">donesi.com</h1>
+            <p  style="color:#191970">Najbolja dostava u gradu</p>
         </div>
     </div>
 
@@ -129,14 +129,13 @@ Vue.component("customer-orders", {
                     <div class="restaurant-info-orders" v-for="order in orders">
                         <span v-if="!(order.status != 'PROCESSING')" v-on:click="removeOrder(order)"
                             style="position:relative; top:5%; transform: rotate(45deg);" class="cancelOrderBtn">x</span>
-                        <h4 style="position: relative; left: -35%; top: 2%;">{{order.status}}</h4>
+                        <h4 style="position: relative; left: -30%; top: 2%;">{{order.status}}</h4>
                         <div v-if="order.status == 'DELIVERED'">
                             <button v-on:click="openCommentForm(order)" class="add-comment"
                                 style="position: relative; left: 35%; background-color: rgb(156, 231, 156);">DODAJ
                                 KOMENTAR</button>
                         </div>
-                        <img src="https://promenadanovisad.rs/wp-content/uploads/2018/10/TortillaCasa-logo.jpg" alt=""
-                            class="restaurant-logo-order">
+                        <br/>
                         <h1>{{order.restaurant}}</h1>
                         <h4>{{order.dateAndTime}} </h4>
                         <h4>{{order.customer}}</h4><br />
