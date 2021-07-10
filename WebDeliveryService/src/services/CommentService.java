@@ -67,4 +67,10 @@ public class CommentService {
 		comment.setStatus(CommentStatus.APPROVED);
 		commentDAO.update(comment);
 	}
+
+	public void rejectComment(int id) throws JsonSyntaxException, IOException {
+		Comment comment = commentDAO.getByID(id);
+		comment.setStatus(CommentStatus.REJECTED);
+		commentDAO.update(comment);
+	}
 }

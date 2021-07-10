@@ -223,6 +223,17 @@ Vue.component("comments-manager", {
 				});
 		},
 		
+		rejectComment : function(comment) {
+			axios
+				.put('/comment/rejectComment/' + comment.id)
+				.then(response => {
+					this.comments = response.data;
+				})
+				.catch(error => {
+					console.log(error.response)
+				});
+		},
+		
 		logout : function (event) {
 			window.location.href = "#/";
 		}

@@ -83,5 +83,18 @@ public class CommentController {
 			}
 			
 		});
+		
+		put("/comment/rejectComment/:id", (req,res) -> {
+			res.type("application/json");
+			
+			try {
+				commentService.rejectComment(Integer.parseInt(req.params("id")));
+				return gson.toJson(commentService.getAllComments());
+			} catch(Exception e) {
+				e.printStackTrace();
+				return null;
+			}
+			
+		});
 	}
 }
