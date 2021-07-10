@@ -273,7 +273,8 @@ Vue.component("home-page", {
 					genderReg = 'FEMALE';
 				}
 				var dates = document.getElementById("date_input").value;
-       			var d=new Date(dates).toISOString().substr(0, 10);
+				if(dates)
+       				var d=new Date(dates).toISOString().substr(0, 10);
        			
        			var valid = true;
        			     		      			

@@ -218,7 +218,7 @@ public class CustomerService {
 		int numberOfCanceledOrders = customer.getCanceledOrders().size();
 		if(numberOfCanceledOrders > 5) {
 		   long diff = customer.getCanceledOrders().get(numberOfCanceledOrders-1).getTime() - customer.getCanceledOrders().get(numberOfCanceledOrders-6).getTime();
-		    if(diff > 30) {
+		    if(diff < 30) {
 		    	customer.setIsSuspicious(true);
 		    }
 		}

@@ -19,7 +19,8 @@ Vue.component("addNewRestaurant-page", {
 			  surnameRegister: '',
 			  genderRegister:'',
 		      dateOfBirthRegister: '',
-		      roleRegister : ''
+		      roleRegister : '',
+		      previewMap: false,
 		    }
 	},
 	template: ` 
@@ -61,7 +62,7 @@ Vue.component("addNewRestaurant-page", {
   
         <div  class="col-lg-12"> 
         
-            <div class="col-lg-6" style="margin-left: 120px; margin-top: 95px;">
+            <div class="col-lg-6" style="margin-left: -50px; margin-top: 95px;">
                 <input type="text" class="input-fields" v-model="name" placeholder="Naziv restorana"><br/><br/>
                 <input type="text" class="input-fields" v-model="type" placeholder="Tip restorana"><br/><br/>
                 <label style="color: rgb(30, 31, 104);">Logo:</label><br/>
@@ -75,16 +76,19 @@ Vue.component("addNewRestaurant-page", {
 				</select>
                              
             </div>
-			<button v-on:click="registerNewManager" class="add-manager" :disabled="addBtnDisabled == true" style="text-align: center; align-items:center; position: absolute; top: 322px; left: 336px; width: 50px;">+</button>
+			<button v-on:click="registerNewManager" class="add-manager" :disabled="addBtnDisabled == true" style="text-align: center; align-items:center; position: absolute; top: 322px; left: 170px; width: 50px;">+</button>
 
+            <div class="col-lg-6"  style="margin-left: 395px; margin-top: -255px;">
+                <input id="streetID"     type="text"   class="input-fields" v-model="street" placeholder="Ulica i broj"><br/><br/>
+                <input id="cityID" 		 type="text"   class="input-fields" v-model="city"  style="width:27%" placeholder="Grad">
+                <input id="postalcodeID" type="number" class="input-fields" v-model="postalcode" style="width:23%" placeholder="Poštanski broj"><br/><br/>
+                <input id="countryID" 	 type="text"   class="input-fields" v-model="country"   placeholder="Država"><br/><br/>
+                <input id="latitudeID"   type="number" class="input-fields" v-model="latitude"  placeholder="Geografska širina"><br/><br/>
+                <input id="longitudeID"  type="number" class="input-fields" v-model="longitude" placeholder="Geografska dužina"><br/><br/>
+            </div>  
+            
+            <div id="map" class="col-lg-6"  style="position:relative; right:-68%; margin-right: 0px; margin-top: -360px; height:400px; width:400px; clear:both;">
 
-            <div class="col-lg-6"  style="margin-left: 560px; margin-top: -260px;">
-                <input type="text"   class="input-fields" v-model="street" placeholder="Ulica i broj"><br/><br/>
-                <input type="text"   class="input-fields" v-model="city"  style="width:27%" placeholder="Grad">
-                <input type="number" class="input-fields" v-model="postalcode" style="width:23%" placeholder="Poštanski broj"><br/><br/>
-                <input type="text"   class="input-fields" v-model="country"   placeholder="Država"><br/><br/>
-                <input type="number" class="input-fields" v-model="latitude"  placeholder="Geografska širina"><br/><br/>
-                <input type="number" class="input-fields" v-model="longitude" placeholder="Geografska dužina"><br/><br/>
             </div>                
         </div>  
         
@@ -103,35 +107,64 @@ Vue.component("addNewRestaurant-page", {
           <div class = "form-div" style="margin-top: 20px;">
             <form>
               <input v-model="usernameRegister" type="text"  class="login-inputs" style="margin-top: 0px;" placeholder="korisničko ime" id = "userNameReg">
-              <label style="color : red;" id="usernameLabel" name = "labels" display="hidden"> </label>
+              <label style="color : red;" id="usernameLabel-manager" name = "labels" display="hidden"> </label>
               <input v-model="passwordRegister" type="password" class="login-inputs" style="margin-top: 0px;" placeholder="lozinka"> 
-              <label style="color : red;" id="passwordLabel" name = "labels" display="hidden"> </label>
+              <label style="color : red;" id="passwordLabel-manager" name = "labels" display="hidden"> </label>
               <input v-model="nameRegister" type="text" class="login-inputs" style="margin-top: 0px;" placeholder="ime">
-              <label style="color : red;" id="nameLabel" name = "labels" display="hidden"> </label>
+              <label style="color : red;" id="nameLabel-manager" name = "labels" display="hidden"> </label>
               <input v-model="surnameRegister" type="text" class="login-inputs" style="margin-top: 0px;" placeholder="prezime">
-              <label style="color : red;" id="surnameLabel" name = "labels" display="hidden"> </label>
+              <label style="color : red;" id="surnameLabel-manager" name = "labels" display="hidden"> </label>
               <select v-model="genderRegister" class="login-inputs" style="margin-top: 0px;">
                   <option>MUŠKO</option>
                   <option>ŽENSKO</option>
               </select>
-              <label style="color : red;" id="genderLabel" name = "labels" display="hidden"> </label>
+              <label style="color : red;" id="genderLabel-manager" name = "labels" display="hidden"> </label>
               <label>Datum rođenja:</label>
               <input type="date" class="login-inputs" style="margin-top: 1px;" id="date_input">
-                <label style="color : red;" id="dateLabel" name = "labels" display="hidden"> </label>  
+                <label style="color : red;" id="dateLabel-manager" name = "labels" display="hidden"> </label>  
               <button v-on:click="registerUser" class="button" style="background-color: rgb(224, 142, 64); color: white;"> Potvrdi</button>
             </form>
           </div>
         </div>
       </div>
+      
+   
 
       <footer class="container-fluid text-center">
         <p>Online Food Delivery Copyright</p>  
       </footer>
       </div>
+
 `
 	, 
 	
 	mounted () {
+	
+		var center = ol.proj.fromLonLat([19.41, 45.82]);
+	
+		var view = new ol.View({
+		  center: center,
+		  zoom: 6
+		});
+		
+		var layer = new ol.layer.Tile({
+		  source: new ol.source.OSM()
+		});
+		
+		var mapSearch = new ol.Map({
+		  target: 'map',
+		  layers: [layer],
+		  view: view
+		});	
+		
+		mapSearch.on('click', function (evt) {
+            
+             var coord = ol.proj.toLonLat(evt.coordinate);
+             //alert(coord)
+              reverseGeocode(coord);
+
+        })
+		
         axios
           .get('/managers/getAllManagersWithoutRestaurant')
           .then(response => {
@@ -150,7 +183,7 @@ Vue.component("addNewRestaurant-page", {
 			.post('rest/proizvodi/add', {"id":''+product.id, "count":parseInt(product.count)})
 			.then(response => (toast('Product ' + product.name + " added to the Shopping Cart")))
 		}*/
-		
+			
 		logoAdded(e) 
         {
             const file = e.target.files[0];
@@ -263,38 +296,39 @@ Vue.component("addNewRestaurant-page", {
 					genderReg = 'FEMALE';
 				}
 				var dates = document.getElementById("date_input").value;
-       			var d=new Date(dates).toISOString().substr(0, 10);
+				if(dates)
+       				var d=new Date(dates).toISOString().substr(0, 10);
        			
        			let valid = true;
        			     		      			
        			 if(!this.usernameRegister){
-			        document.getElementById('usernameLabel').innerHTML = "Morate uneti korisničko ime!";
-					document.getElementById('usernameLabel').style.display = 'block';
+			        document.getElementById('usernameLabel-manager').innerHTML = "Morate uneti korisničko ime!";
+					document.getElementById('usernameLabel-manager').style.display = 'block';
 					valid = false;
 			    }
 			     else if(!this.passwordRegister){
-			       document.getElementById('passwordLabel').innerHTML = "Morate uneti lozinku!";
-				   document.getElementById('passwordLabel').style.display = 'block';
+			       document.getElementById('passwordLabel-manager').innerHTML = "Morate uneti lozinku!";
+				   document.getElementById('passwordLabel-manager').style.display = 'block';
 				   valid = false;
 			    }
 			    else if(this.nameRegister[0] < 'A' || this.nameRegister[0] > 'Z' || !this.nameRegister){
-			        document.getElementById('nameLabel').innerHTML = "Morate uneti ime koje počinje velikim slovom!";
-					document.getElementById('nameLabel').style.display = 'block';
+			        document.getElementById('nameLabel-manager').innerHTML = "Morate uneti ime koje počinje velikim slovom!";
+					document.getElementById('nameLabel-manager').style.display = 'block';
 					valid = false;
 			    }
 			    else if(this.surnameRegister[0] < 'A' || this.surnameRegister[0] > 'Z' || !this.surnameRegister){
-			        document.getElementById('surnameLabel').innerHTML = "Morate uneti prezime koje počinje velikim slovom!";
-					document.getElementById('surnameLabel').style.display = 'block';
+			        document.getElementById('surnameLabel-manager').innerHTML = "Morate uneti prezime koje počinje velikim slovom!";
+					document.getElementById('surnameLabel-manager').style.display = 'block';
 					valid = false;
 			    }
 			    else if(!genderReg){
-			    	document.getElementById('genderLabel').innerHTML = "Morate izabrati pol!";
-					document.getElementById('genderLabel').style.display = 'block';
+			    	document.getElementById('genderLabel-manager').innerHTML = "Morate izabrati pol!";
+					document.getElementById('genderLabel-manager').style.display = 'block';
 					valid = false;
 			    }
 			    else if(!dates){
-			    	document.getElementById('dateLabel').innerHTML = "Morate izabrati datum rođenja!";
-					document.getElementById('dateLabel').style.display = 'block';
+			    	document.getElementById('dateLabel-manager').innerHTML = "Morate izabrati datum rođenja!";
+					document.getElementById('dateLabel-manager').style.display = 'block';
 					valid = false;
 			    }
 			    
@@ -324,8 +358,8 @@ Vue.component("addNewRestaurant-page", {
 	    			.post('/users/register', JSON.stringify(newUser))
 	    			.then(response => {
 	    				if (response.data == "") {
-							document.getElementById('usernameLabel').innerHTML = "Već postoji uneto korisničko ime!";
-							document.getElementById('usernameLabel').style.display = 'block';
+							document.getElementById('usernameLabel-manager').innerHTML = "Već postoji uneto korisničko ime!";
+							document.getElementById('usernameLabel-manager').style.display = 'block';
 	    				} else {
 	    					axios
 							.post('/managers/createManager', JSON.stringify(newManager))
@@ -355,8 +389,61 @@ Vue.component("addNewRestaurant-page", {
 		
 		logout : function (event) {
 			window.location.href = "#/";
-		}
-		
+		}		
 	}
-
 });
+
+/**
+ * From coords get real address and put that value in form. 
+ * @param coords cords (x,y)
+ */
+function reverseGeocode(coords) {
+    fetch('http://nominatim.openstreetmap.org/reverse?format=json&lon=' + coords[0] + '&lat=' + coords[1])
+        .then(function (response) {
+            return response.json();
+        }).then(function (json) {
+        
+        	//LONGITUDE
+        	let elem = document.getElementById("longitudeID");
+            elem.value = coords[0].toFixed(2);
+            elem.dispatchEvent(new Event('input'));
+        
+        	//LATITUDE
+        	let el = document.getElementById("latitudeID");
+            el.value = coords[1].toFixed(2);
+            el.dispatchEvent(new Event('input'));
+            
+            //street
+            if (json.address.road) {
+                let el = document.getElementById("streetID");
+                el.value = json.address.road;
+                el.dispatchEvent(new Event('input'));
+            } 
+
+            // town
+            if (json.address.city) {
+            	console.log(json.address)
+                let el = document.getElementById("cityID");
+                el.value = json.address.city;
+                el.dispatchEvent(new Event('input'));
+            } else if (json.address.city_district) {
+                let el = document.getElementById("cityID");
+                el.value = json.address.city_district;
+                el.dispatchEvent(new Event('input'));
+            }
+            
+            //postalcode
+            if (json.address.postcode) {
+                let el = document.getElementById("postalcodeID");
+                el.value = json.address.postcode;
+                el.dispatchEvent(new Event('input'));
+            } 
+            
+            //country
+			  if (json.address.postcode) {
+                let el = document.getElementById("countryID");
+                el.value = json.address.country;
+                el.dispatchEvent(new Event('input'));
+            } 
+        });
+}
