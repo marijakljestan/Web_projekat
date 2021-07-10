@@ -32,6 +32,32 @@ public class CommentController {
 			}
 		});
 		
+		get("/comment/filter/", (req, res) -> {
+			res.type("application/json");
+			try {
+				ArrayList<Comment> comments = new ArrayList<Comment>();
+				if(req.queryParams("approved").equals("true")) {
+					for(Comment c : commentService.getApprovedRestaurantComments(req.queryParams("restaurant")))
+						comments.add(c);
+				}
+				
+				if(req.queryParams("rejected").equals("true")) {
+					for(Comment c : commentService.getRejectedRestaurantComments(req.queryParams("restaurant")))
+						comments.add(c);
+				}
+				
+				if(req.queryParams("pendding").equals("true")) {
+					for(Comment c : commentService.getPenddingRestaurantComments(req.queryParams("restaurant")))
+						comments.add(c);
+				}
+				
+				return gson.toJson(comments);
+			} catch (Exception e) {
+				e.printStackTrace();
+				return "";
+			}
+		});
+		
 		get("/comments/getRestaurantComments/:id", (req, res) -> {
 			res.type("application/json");
 			try {

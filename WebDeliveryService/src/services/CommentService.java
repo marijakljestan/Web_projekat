@@ -28,6 +28,26 @@ public class CommentService {
 		
 		return approvedComments;
 	}
+	
+	public ArrayList<Comment> getRejectedRestaurantComments(String restaurant) throws JsonSyntaxException, IOException {
+		ArrayList<Comment> approvedComments = new ArrayList<Comment>();
+		for(Comment comment : commentDAO.getAll()) {
+			if(comment.getRestaurant().equals(restaurant) && comment.getStatus().equals(CommentStatus.REJECTED))
+				approvedComments.add(comment);
+		}
+		
+		return approvedComments;
+	}
+	
+	public ArrayList<Comment> getPenddingRestaurantComments(String restaurant) throws JsonSyntaxException, IOException {
+		ArrayList<Comment> approvedComments = new ArrayList<Comment>();
+		for(Comment comment : commentDAO.getAll()) {
+			if(comment.getRestaurant().equals(restaurant) && comment.getStatus().equals(CommentStatus.PENDDING))
+				approvedComments.add(comment);
+		}
+		
+		return approvedComments;
+	}
 
 	public ArrayList<Comment> getRestaurantComments(String restaurant) throws JsonSyntaxException, IOException {
 		ArrayList<Comment> restaurantComments = new ArrayList<Comment>();

@@ -1,8 +1,11 @@
 Vue.component("comments-manager", {
-	data: function () {
-		    return {
-		      comments: null
-		    }
+	data: function() {
+		return {
+			comments: null,
+			checkedApproved: true,
+			checkedRejected: true,
+			checkedPendding: true
+		}
 	},
 	template: ` 
 	 <div id="home" style="background : #fff">
@@ -44,11 +47,11 @@ Vue.component("comments-manager", {
 	        <h1 style="position: absolute; margin-top: 20px; margin-left: 600px; font-weight: bolder; color: rgb(30, 31, 104);">KOMENTARI</h1>
 	
 	        <div class="filter-comments-checkboxes">
-	            <input type="checkbox" id="approved-coments" value="comment">
+	            <input type="checkbox" id="approved-comments" v-model="checkedApproved" value="comment" @change="filterComments($event)">
 	            <label style="color: rgb(30, 31, 104);"> Odobreni komentari</label><br>
-	            <input type="checkbox" id="rejected-comments" value="comment">
+	            <input type="checkbox" id="rejected-comments" v-model="checkedRejected" value="comment" @change="filterComments($event)">
 	            <label style="color: rgb(30, 31, 104);"> Odbijeni komentari</label><br>
-	            <input type="checkbox" id="rejected-comments" value="comment">
+	            <input type="checkbox" id="pendding-comments" v-model="checkedPendding" value="comment" @change="filterComments($event)">
 	            <label style="color: rgb(30, 31, 104);"> Komentari na čekanju</label><br>
 	        </div>
 	  
@@ -168,51 +171,51 @@ Vue.component("comments-manager", {
 </div>
 `
 	,
-	mounted () {
-     	axios
-          .get('/comments/getRestaurantComments/' + this.$route.query.id)
-          .then(response => (this.comments = response.data))
-    },
-	methods : {
+	mounted() {
+		axios
+			.get('/comments/getRestaurantComments/' + this.$route.query.id)
+			.then(response => (this.comments = response.data))
+	},
+	methods: {
 		/*addToCart : function (product) {
 			axios
 			.post('rest/proizvodi/add', {"id":''+product.id, "count":parseInt(product.count)})
 			.then(response => (toast('Product ' + product.name + " added to the Shopping Cart")))
 		}*/
-		
-		showRestaurant : function() {
+
+		showRestaurant: function() {
 			axios
-	          .get('/manager/')
-	          .then(response => {
-		    		window.location.href = "#/restaurantManager?id="+ response.data.restaurant;
-		      })
-		},
-		
-		showOrders: function() {
-			axios
-	          .get('/manager/')
-	          .then(response => {
-		    		window.location.href = "#/ordersManager?id="+ response.data.restaurant;
-		      })
-		},
-		
-		showCustomers: function() {
-			axios
-	          .get('/manager/')
-	          .then(response => {
-		    		window.location.href = "#/customersManger?id="+ response.data.restaurant;
-		      })
-		},
-		
-		showComments : function (product) {
-			axios
-			  .get('/manager/')
-	          .then(response => {
-		    		window.location.href = "#/commentsManager?id="+ response.data.restaurant;
-		      })
+				.get('/manager/')
+				.then(response => {
+					window.location.href = "#/restaurantManager?id=" + response.data.restaurant;
+				})
 		},
 
-		approveComment : function(comment) {
+		showOrders: function() {
+			axios
+				.get('/manager/')
+				.then(response => {
+					window.location.href = "#/ordersManager?id=" + response.data.restaurant;
+				})
+		},
+
+		showCustomers: function() {
+			axios
+				.get('/manager/')
+				.then(response => {
+					window.location.href = "#/customersManger?id=" + response.data.restaurant;
+				})
+		},
+
+		showComments: function(product) {
+			axios
+				.get('/manager/')
+				.then(response => {
+					window.location.href = "#/commentsManager?id=" + response.data.restaurant;
+				})
+		},
+
+		approveComment: function(comment) {
 			axios
 				.put('/comment/approveComment/' + comment.id)
 				.then(response => {
@@ -222,8 +225,8 @@ Vue.component("comments-manager", {
 					console.log(error.response)
 				});
 		},
-		
-		rejectComment : function(comment) {
+
+		rejectComment: function(comment) {
 			axios
 				.put('/comment/rejectComment/' + comment.id)
 				.then(response => {
@@ -233,8 +236,19 @@ Vue.component("comments-manager", {
 					console.log(error.response)
 				});
 		},
-		
-		logout : function (event) {
+
+		filterComments: function(event) {
+			axios
+				.get('/comment/filter/', {
+					params: {
+						"restaurant": this.$route.query.id, "approved": this.checkedApproved,
+						"rejected": this.checkedRejected, "pendding":this.checkedPendding}})
+				.then(response => {
+					this.comments = response.data;
+				});
+		},
+
+		logout: function(event) {
 			window.location.href = "#/";
 		}
 	}
