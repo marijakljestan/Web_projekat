@@ -34,8 +34,7 @@ Vue.component("customer-page", {
               <ul class="nav navbar-nav">
                 <li class="active"><a href="#/customer"><span class="glyphicon glyphicon-home"></span> Početna</a></li>
                 <li><a href="#/customerProfile"><span class="glyphicon glyphicon-user"></span> Moj Profil</a></li>
-                <li><a href="#/ordersCustomer"><span class="glyphicon glyphicon-cutlery"></span> Moje porudžbine</a></li>
-                <li><a href="#/customerComments"><span class="glyphicon glyphicon-comment"></span> Komentari</a></li>   
+                <li><a href="#/ordersCustomer"><span class="glyphicon glyphicon-cutlery"></span> Moje porudžbine</a></li>   
               </ul>
               <ul class="nav navbar-nav navbar-right">
                 <li><a href="#/shoppingCart"><span class="glyphicon glyphicon-shopping-cart"></span> Korpa</a></li>

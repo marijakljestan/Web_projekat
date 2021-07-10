@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import com.google.gson.Gson;
 
 import beans.Comment;
-import beans.Manager;
 import dto.CommentDTO;
 import services.CommentService;
 

@@ -2,15 +2,20 @@ Vue.component("customer-comments", {
 	data: function () {
 		    return {
 		      comments: null,
+		      restaurant:null
 		    }
 	},
 	template: ` 
 <div id="home" style="background : #fff">
 
     <div class="jumbotron">
-      <div class="container text-center">
-        <h1>donesi.com</h1>      
-        <p>Najbolja dostava u gradu</p>
+      <div class="restaurant-info" style="background-color:cornsilk; border-radius: 25px; position: absolute; width: 50%; left: 25%; top:5%; height: 200px; text-align: center; display: block;">
+        <img v-bind:src= "restaurant.logo" alt="" class="restaurant-logo">
+        <h1>{{ restaurant.name }}</h1> 
+        <span style="position: absolute; top: 15%; right: 10%;"><label style="font-size: 14px; font-weight: lighte; color:silver">{{ restaurant.status }}</label></span>  
+        <span><label style="font-size: 16px; font-weight: lighter; font-family: sans-serif;">{{ restaurant.type }}</label></span>
+        <span style="position: absolute; top: 35%; right: 11%;"><label style="font-size: 16px; font-weight: lighte; color:silver">4.6</label></span>  <br/><br/>    
+        <span><label style="font-size: 16px; font-weight: lighter; font-family: sans-serif;">{{ restaurant.location.address.street }}  {{ restaurant.location.address.number }}</label></span>
       </div>
     </div>
     
@@ -28,7 +33,7 @@ Vue.component("customer-comments", {
              	<li class="active"><a href="#/customer"><span class="glyphicon glyphicon-home"></span> Početna</a></li>
                 <li><a href="#/customerProfile"><span class="glyphicon glyphicon-user"></span> Moj Profil</a></li>
                 <li><a href="#/ordersCustomer"><span class="glyphicon glyphicon-cutlery"></span> Moje porudžbine</a></li>
-                <li><a href="#/customerComments"><span class="glyphicon glyphicon-comment"></span> Komentari</a></li>   
+                <li><a v-on:click="viewComments"><span class="glyphicon glyphicon-comment"></span> Komentari</a></li>   
           </ul>
           <ul class="nav navbar-nav navbar-right">
             <li><a href="#/shoppingCart"><span class="glyphicon glyphicon-shopping-cart"></span> Korpa</a></li>
@@ -46,16 +51,16 @@ Vue.component("customer-comments", {
             <div class="row content">
                 <div class="col-lg-8"> 
                     <div class="comments-panel">
-                        <div class="comment-panel">
-                            <h4 style="margin-top: 10; margin-left: 90px;">peraperic</h4><br/>
-                            <div style="margin-top: 40px; margin-left: -150px;">                      
-                                <span style="margin-left: -141px;"><label>Restoran:</label> Tortilla cassa</span><br/>
-                                <span style="margin-left: -220px;"><label>Ocena: </label> 4.6</span><br/>
-                                <p class="comment-text">
-                                    Lorem ipsum dolor.Lorem ipsum dolor.Lorem ipsum dolor.Lorem ipsum dolor.Lorem ipsum dolor.
-                                </p>
-                            </div>       
-                        </div>
+                        <div v-for="comment in comments" class="comment-panel">
+	                            <h4 style="margin-top: 10; margin-left: 90px;">{{ comment.customer }}</h4><br/>
+	                            <div style="margin-top: 40px; margin-left: -150px;">                      
+	                                <span style=" position: relative; margin-left: -100px;"><label>Restoran:</label> {{ comment.restaurant }}</span><br/>
+	                                <span style="margin-left: -145px;"><label>Ocena: </label> {{ comment.grade }}</span><br/>
+	                                <p class="comment-text" style="width:280px">
+	                                    {{ comment.content }}
+	                                </p>
+	                            </div>
+	                    </div>
                         <div class="comment-panel">
                             <h4 style="margin-top: 10; margin-left: 90px;">peraperic</h4><br/>
                             <div style="margin-top: 40px; margin-left: -150px;">                      
@@ -151,21 +156,24 @@ Vue.component("customer-comments", {
     </div>
 </div>
 `
-	, 
+	,
+	mounted () {
+     	axios
+          .get('/restaurant/' + this.$route.query.id)
+          .then(response => (this.restaurant = response.data))
+        axios
+          .get('/comments/getApprovedComments/' + this.$route.query.id)
+          .then(response => (this.comments = response.data))
+    },
 	methods : {
-		/*addToCart : function (product) {
-			axios
-			.post('rest/proizvodi/add', {"id":''+product.id, "count":parseInt(product.count)})
-			.then(response => (toast('Product ' + product.name + " added to the Shopping Cart")))
-		}*/
-		
+	
+		viewComments : function (product) {
+		    window.location.href = "#/customerComments?id="+ this.restaurant.name;
+			
+		},
+			
 		logout : function (event) {
 			window.location.href = "#/";
 		}
-	},
-	mounted () {
-     /*   axios
-          .get('rest/proizvodi/getJustProducts')
-          .then(response => (this.products = response.data))*/
-    }
+	}
 });

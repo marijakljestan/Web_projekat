@@ -41,8 +41,6 @@ Vue.component("customer-orders", {
                     <li><a href="#/customerProfile"><span class="glyphicon glyphicon-user"></span> Moj Profil</a></li>
                     <li><a href="#/ordersCustomer"><span class="glyphicon glyphicon-cutlery"></span> Moje porudžbine</a>
                     </li>
-                    <li><a href="#/customerComments"><span class="glyphicon glyphicon-comment"></span> Komentari</a>
-                    </li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li><a href="#/shoppingCart"><span class="glyphicon glyphicon-shopping-cart"></span> Korpa</a></li>
