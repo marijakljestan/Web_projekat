@@ -66,8 +66,8 @@ Vue.component("comments-manager", {
 	                                </p>
 	                            </div>
 	                            <div v-if="comment.status == 'PENDDING'">
-	                            	<button class="rate-comment" style="margin-left:-80px; background-color: rgb(156, 231, 156);">+</button>
-	                            	<button class="rate-comment" style="margin-left: 5px;background-color: rgb(233, 149, 149);">-</button>
+	                            	<button v-on:click="approveComment(comment)" class="rate-comment" style="margin-left:-80px; background-color: rgb(156, 231, 156);">+</button>
+	                            	<button v-on:click="rejectComment(comment)" class="rate-comment" style="margin-left: 5px;background-color: rgb(233, 149, 149);">-</button>
 	                            </div>
 	                            <h4 v-if="comment.status == 'APPROVED'" style="margin-left:-80px; color: rgb(156, 200, 156);"><b>ODOBREN</b></h4><br/>
 	                            <h4 v-if="comment.status == 'REJECTED'" style="margin-left:-80px; margin-top: 10; color: rgb(233, 149, 149);"><b>ODBIJEN</b></h4><br/>
@@ -210,6 +210,17 @@ Vue.component("comments-manager", {
 	          .then(response => {
 		    		window.location.href = "#/commentsManager?id="+ response.data.restaurant;
 		      })
+		},
+
+		approveComment : function(comment) {
+			axios
+				.put('/comment/approveComment/' + comment.id)
+				.then(response => {
+					this.comments = response.data;
+				})
+				.catch(error => {
+					console.log(error.response)
+				});
 		},
 		
 		logout : function (event) {

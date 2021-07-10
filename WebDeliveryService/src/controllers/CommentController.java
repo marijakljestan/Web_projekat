@@ -2,13 +2,14 @@ package controllers;
 
 import static spark.Spark.get;
 import static spark.Spark.post;
+import static spark.Spark.put;
 
 import java.util.ArrayList;
 
 import com.google.gson.Gson;
 
 import beans.Comment;
-import beans.Order;
+import beans.Manager;
 import dto.CommentDTO;
 import services.CommentService;
 
@@ -63,6 +64,19 @@ public class CommentController {
 				
 				return newComment;
 				
+			} catch(Exception e) {
+				e.printStackTrace();
+				return null;
+			}
+			
+		});
+		
+		put("/comment/approveComment/:id", (req,res) -> {
+			res.type("application/json");
+			
+			try {
+				commentService.approveComment(Integer.parseInt(req.params("id")));
+				return gson.toJson(commentService.getAllComments());
 			} catch(Exception e) {
 				e.printStackTrace();
 				return null;
