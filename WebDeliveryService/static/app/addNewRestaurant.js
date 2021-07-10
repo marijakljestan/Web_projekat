@@ -108,21 +108,21 @@ Vue.component("addNewRestaurant-page", {
           <div class = "form-div" style="margin-top: 20px;">
             <form>
               <input v-model="usernameRegister" type="text"  class="login-inputs" style="margin-top: 0px;" placeholder="korisničko ime" id = "userNameReg">
-              <label style="color : red;" id="usernameLabel" name = "labels" display="hidden"> </label>
+              <label style="color : red;" id="usernameLabel-manager" name = "labels" display="hidden"> </label>
               <input v-model="passwordRegister" type="password" class="login-inputs" style="margin-top: 0px;" placeholder="lozinka"> 
-              <label style="color : red;" id="passwordLabel" name = "labels" display="hidden"> </label>
+              <label style="color : red;" id="passwordLabel-manager" name = "labels" display="hidden"> </label>
               <input v-model="nameRegister" type="text" class="login-inputs" style="margin-top: 0px;" placeholder="ime">
-              <label style="color : red;" id="nameLabel" name = "labels" display="hidden"> </label>
+              <label style="color : red;" id="nameLabel-manager" name = "labels" display="hidden"> </label>
               <input v-model="surnameRegister" type="text" class="login-inputs" style="margin-top: 0px;" placeholder="prezime">
-              <label style="color : red;" id="surnameLabel" name = "labels" display="hidden"> </label>
+              <label style="color : red;" id="surnameLabel-manager" name = "labels" display="hidden"> </label>
               <select v-model="genderRegister" class="login-inputs" style="margin-top: 0px;">
                   <option>MUŠKO</option>
                   <option>ŽENSKO</option>
               </select>
-              <label style="color : red;" id="genderLabel" name = "labels" display="hidden"> </label>
+              <label style="color : red;" id="genderLabel-manager" name = "labels" display="hidden"> </label>
               <label>Datum rođenja:</label>
               <input type="date" class="login-inputs" style="margin-top: 1px;" id="date_input">
-                <label style="color : red;" id="dateLabel" name = "labels" display="hidden"> </label>  
+                <label style="color : red;" id="dateLabel-manager" name = "labels" display="hidden"> </label>  
               <button v-on:click="registerUser" class="button" style="background-color: rgb(224, 142, 64); color: white;"> Potvrdi</button>
             </form>
           </div>
@@ -297,38 +297,39 @@ Vue.component("addNewRestaurant-page", {
 					genderReg = 'FEMALE';
 				}
 				var dates = document.getElementById("date_input").value;
-       			var d=new Date(dates).toISOString().substr(0, 10);
+				if(dates)
+       				var d=new Date(dates).toISOString().substr(0, 10);
        			
        			let valid = true;
        			     		      			
        			 if(!this.usernameRegister){
-			        document.getElementById('usernameLabel').innerHTML = "Morate uneti korisničko ime!";
-					document.getElementById('usernameLabel').style.display = 'block';
+			        document.getElementById('usernameLabel-manager').innerHTML = "Morate uneti korisničko ime!";
+					document.getElementById('usernameLabel-manager').style.display = 'block';
 					valid = false;
 			    }
 			     else if(!this.passwordRegister){
-			       document.getElementById('passwordLabel').innerHTML = "Morate uneti lozinku!";
-				   document.getElementById('passwordLabel').style.display = 'block';
+			       document.getElementById('passwordLabel-manager').innerHTML = "Morate uneti lozinku!";
+				   document.getElementById('passwordLabel-manager').style.display = 'block';
 				   valid = false;
 			    }
 			    else if(this.nameRegister[0] < 'A' || this.nameRegister[0] > 'Z' || !this.nameRegister){
-			        document.getElementById('nameLabel').innerHTML = "Morate uneti ime koje počinje velikim slovom!";
-					document.getElementById('nameLabel').style.display = 'block';
+			        document.getElementById('nameLabel-manager').innerHTML = "Morate uneti ime koje počinje velikim slovom!";
+					document.getElementById('nameLabel-manager').style.display = 'block';
 					valid = false;
 			    }
 			    else if(this.surnameRegister[0] < 'A' || this.surnameRegister[0] > 'Z' || !this.surnameRegister){
-			        document.getElementById('surnameLabel').innerHTML = "Morate uneti prezime koje počinje velikim slovom!";
-					document.getElementById('surnameLabel').style.display = 'block';
+			        document.getElementById('surnameLabel-manager').innerHTML = "Morate uneti prezime koje počinje velikim slovom!";
+					document.getElementById('surnameLabel-manager').style.display = 'block';
 					valid = false;
 			    }
 			    else if(!genderReg){
-			    	document.getElementById('genderLabel').innerHTML = "Morate izabrati pol!";
-					document.getElementById('genderLabel').style.display = 'block';
+			    	document.getElementById('genderLabel-manager').innerHTML = "Morate izabrati pol!";
+					document.getElementById('genderLabel-manager').style.display = 'block';
 					valid = false;
 			    }
 			    else if(!dates){
-			    	document.getElementById('dateLabel').innerHTML = "Morate izabrati datum rođenja!";
-					document.getElementById('dateLabel').style.display = 'block';
+			    	document.getElementById('dateLabel-manager').innerHTML = "Morate izabrati datum rođenja!";
+					document.getElementById('dateLabel-manager').style.display = 'block';
 					valid = false;
 			    }
 			    
@@ -358,8 +359,8 @@ Vue.component("addNewRestaurant-page", {
 	    			.post('/users/register', JSON.stringify(newUser))
 	    			.then(response => {
 	    				if (response.data == "") {
-							document.getElementById('usernameLabel').innerHTML = "Već postoji uneto korisničko ime!";
-							document.getElementById('usernameLabel').style.display = 'block';
+							document.getElementById('usernameLabel-manager').innerHTML = "Već postoji uneto korisničko ime!";
+							document.getElementById('usernameLabel-manager').style.display = 'block';
 	    				} else {
 	    					axios
 							.post('/managers/createManager', JSON.stringify(newManager))
