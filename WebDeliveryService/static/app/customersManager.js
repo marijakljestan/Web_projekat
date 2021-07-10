@@ -1,7 +1,11 @@
 Vue.component("customers-page", {
 	data: function () {
 		    return {
-		      customers: null
+		      customers: null,
+		      restaurant:'',
+		      checkedGolden:true,
+		      checkedSilvern:true,
+		      checkedBronzed:true
 		    }
 	},
 	template: ` 
@@ -44,11 +48,11 @@ Vue.component("customers-page", {
         <h1 style="position: absolute; margin-top: 20px; margin-left: 700px; font-weight: bolder; color: rgb(30, 31, 104);">KUPCI</h1>
 
         <div class="show-suspect-users">
-            <input type="checkbox" id="suspect-users" value="user">
+            <input type="checkbox" id="suspect-users" v-model="checkedGolden" value="user" @change="filterCustomers($event)">
             <label style="color: rgb(30, 31, 104);"> Zlatni kupci</label><br/>
-            <input type="checkbox" id="suspect-users" value="user">
+            <input type="checkbox" id="suspect-users" v-model="checkedSilvern" value="user" @change="filterCustomers($event)">
             <label style="color: rgb(30, 31, 104);"> Srebrni kupci</label><br/>
-            <input type="checkbox" id="suspect-users" value="user">
+            <input type="checkbox" id="suspect-users" v-model="checkedBronzed" value="user" @change="filterCustomers($event)">
             <label style="color: rgb(30, 31, 104);"> Bronzani kupci</label><br/>
         </div>
   
@@ -158,31 +162,24 @@ Vue.component("customers-page", {
      	axios
 	      .get('/customer/getRestaurantCustomers/' + this.$route.query.id)
           .then(response => (this.customers = response.data))
+        axios
+	          .get('/manager/')
+	          .then(response => {
+		    		this.restaurant = response.data.restaurant;
+		      })
     }, 
 	methods : {
 		
 		showRestaurant : function() {
-			axios
-	          .get('/manager/')
-	          .then(response => {
-		    		window.location.href = "#/restaurantManager?id="+ response.data.restaurant;
-		      })
+		    window.location.href = "#/restaurantManager?id="+ this.restaurant;
 		},
 		
 		showOrders: function() {
-			axios
-	          .get('/manager/')
-	          .then(response => {
-		    		window.location.href = "#/ordersManager?id="+ response.data.restaurant;
-		      })
+			window.location.href = "#/ordersManager?id="+ this.restaurant;
 		},
 		
 		showCustomers: function() {
-			axios
-	          .get('/manager/')
-	          .then(response => {
-		    		window.location.href = "#/customersManger?id="+ response.data.restaurant;
-		      })
+		    window.location.href = "#/customersManger?id="+ this.restaurant;
 		},
 		
 		showRestaurantComments : function (product) {
@@ -192,6 +189,17 @@ Vue.component("customers-page", {
 		    		window.location.href = "#/commentsManager?id="+ response.data.restaurant;
 		      })
 			
+		},
+		
+		filterCustomers: function(event) {
+			axios
+				.get('/customers/getFilteredRestaurantCustomers/', {
+					params: {
+						"restaurant": this.restaurant, "golden": this.checkedGolden,
+						"silvern": this.checkedSilvern, "bronzed":this.checkedBronzed}})
+				.then(response => {
+					this.customers = response.data;
+				});
 		},
 		
 		logout : function (event) {

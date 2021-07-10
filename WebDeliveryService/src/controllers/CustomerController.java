@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 
+import beans.Comment;
 import beans.Customer;
 import beans.Manager;
 import beans.Order;
@@ -568,6 +569,32 @@ public class CustomerController {
 			res.type("application/json");
 			try {
 				return gson.toJson(customerService.getAllBronzedCustomers());
+			} catch (Exception e) {
+				e.printStackTrace();
+				return "";
+			}
+		});
+		
+		get("/customers/getFilteredRestaurantCustomers/", (req, res) -> {
+			res.type("application/json");
+			try {
+				ArrayList<Customer> customers = new ArrayList<Customer>();
+				if(req.queryParams("golden").equals("true")) {
+					for(Customer c : customerService.getGoldenRestaurantCustomers(req.queryParams("restaurant")))
+						customers.add(c);
+				}
+				
+				if(req.queryParams("silvern").equals("true")) {
+					for(Customer c : customerService.getSilvernRestaurantCustomers(req.queryParams("restaurant")))
+						customers.add(c);
+				}
+				
+				if(req.queryParams("bronzed").equals("true")) {
+					for(Customer c : customerService.getBronzedRestaurantCustomers(req.queryParams("restaurant")))
+						customers.add(c);
+				}
+				
+				return gson.toJson(customers);
 			} catch (Exception e) {
 				e.printStackTrace();
 				return "";

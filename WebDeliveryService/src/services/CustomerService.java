@@ -705,4 +705,46 @@ public class CustomerService {
 				
 		return bronzedCustomers;
 	}
+
+	public ArrayList<Customer> getGoldenRestaurantCustomers(String restaurant) throws JsonSyntaxException, IOException {
+		ArrayList<Customer> goldenCustomers = new ArrayList<Customer>();
+		
+		for (Customer customer : customerDAO.getAllNonDeleted()) 
+			if(customer.getCustomerType().getName().equals("GOLDEN")) {
+				for(Order order : customer.getOrders()) {
+					if(order.getRestaurant().equals(restaurant))
+						goldenCustomers.add(customer);
+				}
+			}
+
+		return goldenCustomers;
+	}
+	
+	public ArrayList<Customer> getSilvernRestaurantCustomers(String restaurant) throws JsonSyntaxException, IOException {
+		ArrayList<Customer> silverCustomers = new ArrayList<Customer>();
+		
+		for (Customer customer : customerDAO.getAllNonDeleted()) 
+			if(customer.getCustomerType().getName().equals("SILVER")) {
+				for(Order order : customer.getOrders()) {
+					if(order.getRestaurant().equals(restaurant))
+						silverCustomers.add(customer);
+				}
+			}
+
+		return silverCustomers;
+	}
+	
+	public ArrayList<Customer> getBronzedRestaurantCustomers(String restaurant) throws JsonSyntaxException, IOException {
+		ArrayList<Customer> bronzedCustomers = new ArrayList<Customer>();
+		
+		for (Customer customer : customerDAO.getAllNonDeleted()) 
+			if(customer.getCustomerType().getName().equals("SILVER")) {
+				for(Order order : customer.getOrders()) {
+					if(order.getRestaurant().equals(restaurant))
+						bronzedCustomers.add(customer);
+				}
+			}
+
+		return bronzedCustomers;
+	}
 }
