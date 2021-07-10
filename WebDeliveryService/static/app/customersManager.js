@@ -2,10 +2,7 @@ Vue.component("customers-page", {
 	data: function () {
 		    return {
 		      customers: null,
-		      restaurant:'',
-		      checkedGolden:true,
-		      checkedSilvern:true,
-		      checkedBronzed:true
+		      restaurant:''
 		    }
 	},
 	template: ` 
@@ -46,15 +43,6 @@ Vue.component("customers-page", {
     <div class="registered-users">
 
         <h1 style="position: absolute; margin-top: 20px; margin-left: 700px; font-weight: bolder; color: rgb(30, 31, 104);">KUPCI</h1>
-
-        <div class="show-suspect-users">
-            <input type="checkbox" id="suspect-users" v-model="checkedGolden" value="user" @change="filterCustomers($event)">
-            <label style="color: rgb(30, 31, 104);"> Zlatni kupci</label><br/>
-            <input type="checkbox" id="suspect-users" v-model="checkedSilvern" value="user" @change="filterCustomers($event)">
-            <label style="color: rgb(30, 31, 104);"> Srebrni kupci</label><br/>
-            <input type="checkbox" id="suspect-users" v-model="checkedBronzed" value="user" @change="filterCustomers($event)">
-            <label style="color: rgb(30, 31, 104);"> Bronzani kupci</label><br/>
-        </div>
   
         <div class="container-fluid text-center" style="position: absolute; left: 300px; top: 100px;">    
             <div class="row content">
@@ -109,17 +97,6 @@ Vue.component("customers-page", {
 		    		window.location.href = "#/commentsManager?id="+ response.data.restaurant;
 		      })
 			
-		},
-		
-		filterCustomers: function(event) {
-			axios
-				.get('/customers/getFilteredRestaurantCustomers/', {
-					params: {
-						"restaurant": this.restaurant, "golden": this.checkedGolden,
-						"silvern": this.checkedSilvern, "bronzed":this.checkedBronzed}})
-				.then(response => {
-					this.customers = response.data;
-				});
 		},
 		
 		logout : function (event) {
